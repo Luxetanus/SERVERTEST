@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Dinámica de Testeo</title>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --danger: #dc2626;
+      --border: #e5e7eb;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    body.dark {
+      --bg: #111827;
+      --card: #1f2937;
+      --text: #f9fafb;
+      --muted: #d1d5db;
+      --primary: #60a5fa;
+      --primary-dark: #3b82f6;
+      --danger: #f87171;
+      --border: #374151;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    header {
+      padding: 42px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: white;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+    }
+
+    header p {
+      margin: 12px auto 0;
+      max-width: 720px;
+      line-height: 1.6;
+      opacity: 0.95;
+    }
+
+    .container {
+      width: min(1100px, 92%);
+      margin: 32px auto;
+      display: grid;
+      gap: 22px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h2, .card h3 {
+      margin-top: 0;
+    }
+
+    form {
+      display: grid;
+      gap: 12px;
+    }
+
+    label {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 700;
+      background: var(--primary);
+      color: white;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 14px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: 16px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 2rem;
+      color: var(--primary);
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .filters button.active {
+      background: var(--primary-dark);
+    }
+
+    .post {
+      padding: 18px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      margin-bottom: 14px;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+
+    .post h3 {
+      margin-bottom: 8px;
+    }
+
+    .post p {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.12);
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .post-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 24px;
+      border: 1px dashed var(--border);
+      border-radius: 16px;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 32px 20px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Web Dinámica de Testeo</h1>
+    <p>Esta página permite agregar publicaciones, filtrarlas, eliminarlas, cambiar el modo visual y guardar datos en el navegador usando JavaScript.</p>
+  </header>
+
+  <main class="container">
+    <section class="grid">
+      <article class="card">
+        <h2>Agregar contenido</h2>
+        <form id="postForm">
+          <div>
+            <label for="title">Título</label>
+            <input id="title" type="text" placeholder="Ejemplo: Primera publicación" required />
+          </div>
+
+          <div>
+            <label for="category">Categoría</label>
+            <select id="category" required>
+              <option value="">Seleccionar categoría</option>
+              <option value="Institución">Institución</option>
+              <option value="Labor social">Labor social</option>
+              <option value="Actualidad">Actualidad</option>
+              <option value="Ensayo">Ensayo</option>
+              <option value="Columna de opinión">Columna de opinión</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="content">Contenido</label>
+            <textarea id="content" placeholder="Escribe una descripción o noticia de prueba..." required></textarea>
+          </div>
+
+          <button type="submit">Agregar publicación</button>
+        </form>
+      </article>
+
+      <article class="card">
+        <h2>Panel de testeo</h2>
+        <div class="stats">
+          <div class="stat">
+            <strong id="totalPosts">0</strong>
+            <span>Publicaciones</span>
+          </div>
+          <div class="stat">
+            <strong id="totalCategories">0</strong>
+            <span>Categorías usadas</span>
+          </div>
+        </div>
+
+        <hr style="border: none; border-top: 1px solid var(--border); margin: 20px 0;" />
+
+        <div class="actions">
+          <button type="button" id="toggleTheme" class="btn-secondary">Cambiar modo</button>
+          <button type="button" id="clearAll" class="btn-danger">Borrar todo</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>Publicaciones</h2>
+      <div class="filters" id="filters"></div>
+      <div id="postList"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Proyecto de prueba para GitHub Pages, Cloudflare Pages o servidor propio.</p>
+  </footer>
+
+  <script>
+    const postForm = document.getElementById('postForm');
+    const postList = document.getElementById('postList');
+    const filters = document.getElementById('filters');
+    const totalPosts = document.getElementById('totalPosts');
+    const totalCategories = document.getElementById('totalCategories');
+    const toggleTheme = document.getElementById('toggleTheme');
+    const clearAll = document.getElementById('clearAll');
+
+    let posts = JSON.parse(localStorage.getItem('dynamic_posts')) || [
+      {
+        title: 'Publicación inicial de prueba',
+        category: 'Institución',
+        content: 'Este contenido viene cargado por defecto. Puedes eliminarlo y agregar nuevas publicaciones desde el formulario.',
+        date: new Date().toLocaleDateString('es-CL')
+      }
+    ];
+
+    let activeFilter = 'Todas';
+
+    function savePosts() {
+      localStorage.setItem('dynamic_posts', JSON.stringify(posts));
+    }
+
+    function getCategories() {
+      return [...new Set(posts.map(post => post.category))];
+    }
+
+    function renderStats() {
+      totalPosts.textContent = posts.length;
+      totalCategories.textContent = getCategories().length;
+    }
+
+    function renderFilters() {
+      const categories = ['Todas', ...getCategories()];
+      filters.innerHTML = '';
+
+      categories.forEach(category => {
+        const button = document.createElement('button');
+        button.textContent = category;
+        button.className = category === activeFilter ? 'active' : '';
+        button.addEventListener('click', () => {
+          activeFilter = category;
+          renderApp();
+        });
+        filters.appendChild(button);
+      });
+    }
+
+    function deletePost(index) {
+      posts.splice(index, 1);
+      savePosts();
+      renderApp();
+    }
+
+    function renderPosts() {
+      const visiblePosts = activeFilter === 'Todas'
+        ? posts
+        : posts.filter(post => post.category === activeFilter);
+
+      postList.innerHTML = '';
+
+      if (visiblePosts.length === 0) {
+        postList.innerHTML = '<div class="empty">No hay publicaciones para mostrar.</div>';
+        return;
+      }
+
+      visiblePosts.forEach(post => {
+        const realIndex = posts.indexOf(post);
+        const article = document.createElement('article');
+        article.className = 'post';
+        article.innerHTML = `
+          <span class="badge">${post.category}</span>
+          <h3>${post.title}</h3>
+          <p>${post.content}</p>
+          <div class="post-footer">
+            <small>Publicado: ${post.date}</small>
+            <button class="btn-danger" onclick="deletePost(${realIndex})">Eliminar</button>
+          </div>
+        `;
+        postList.appendChild(article);
+      });
+    }
+
+    function renderApp() {
+      renderStats();
+      renderFilters();
+      renderPosts();
+    }
+
+    postForm.addEventListener('submit', event => {
+      event.preventDefault();
+
+      const title = document.getElementById('title').value.trim();
+      const category = document.getElementById('category').value;
+      const content = document.getElementById('content').value.trim();
+
+      if (!title || !category || !content) return;
+
+      posts.unshift({
+        title,
+        category,
+        content,
+        date: new Date().toLocaleDateString('es-CL')
+      });
+
+      savePosts();
+      postForm.reset();
+      activeFilter = 'Todas';
+      renderApp();
+    });
+
+    toggleTheme.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      localStorage.setItem('dynamic_theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    clearAll.addEventListener('click', () => {
+      const confirmDelete = confirm('¿Seguro que quieres borrar todas las publicaciones?');
+      if (!confirmDelete) return;
+      posts = [];
+      savePosts();
+      activeFilter = 'Todas';
+      renderApp();
+    });
+
+    const savedTheme = localStorage.getItem('dynamic_theme');
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark');
+    }
+
+    savePosts();
+    renderApp();
+  </script>
+</body>
+</html>
