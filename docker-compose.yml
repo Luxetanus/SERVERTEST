@@ -1,0 +1,9 @@
+services:
+  servertest-web:
+    build: .
+    container_name: servertest-web
+    ports:
+      - "8085:80"
+    volumes:
+      - ./:/usr/share/nginx/html:ro
+    restart: unless-stopped
