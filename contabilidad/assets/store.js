@@ -1,0 +1,23 @@
+const KEY='servertest_contabilidad_v3';
+const OLD='servertest_contabilidad_v2';
+const $=id=>document.getElementById(id);
+const n=v=>Number(v||0);
+const money=v=>n(v).toLocaleString('es-CL',{style:'currency',currency:'CLP',maximumFractionDigits:0});
+const uid=()=>crypto.randomUUID?crypto.randomUUID():'id'+Date.now()+Math.random();
+const today=()=>new Date().toISOString().slice(0,10);
+const month=()=>new Date().toISOString().slice(0,7);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function seed(){return{atenciones:[],usuarios:[],profesionales:[],aranceles:[{id:uid(),servicio:'Psicología',tramo:'General',valor:0,obs:'Completar valor'},{id:uid(),servicio:'Terapia Ocupacional',tramo:'General',valor:0,obs:'Completar valor'},{id:uid(),servicio:'Fonoaudiología',tramo:'General',valor:0,obs:'Completar valor'},{id:uid(),servicio:'Psicopedagogía',tramo:'General',valor:0,obs:'Completar valor'},{id:uid(),servicio:'ADOS-2 / ADI-R',tramo:'Evaluación',valor:0,obs:'Completar valor'}],egresos:[],cierres:[]}}
+function load(){let raw=localStorage.getItem(KEY)||localStorage.getItem(OLD);let db=raw?JSON.parse(raw):seed();db.atenciones=db.atenciones||[];db.usuarios=db.usuarios||[];db.profesionales=db.profesionales||[];db.aranceles=db.aranceles||[];db.egresos=db.egresos||[];db.cierres=db.cierres||[];db.atenciones=db.atenciones.map(a=>({...a,liquidado:!!a.liquidado,boleta:a.boleta||'pendiente'}));return db}
+function save(db){localStorage.setItem(KEY,JSON.stringify(db))}
+function cob(a){if(a.estado==='pagado')return n(a.arancel);if(a.estado==='abonado')return Math.min(n(a.abono),n(a.arancel));return 0}
+function deuda(a){return Math.max(n(a.arancel)-cob(a),0)}
+function calc(a){let c=cob(a),inst=c*n(a.porcentaje||30)/100,base=Math.max(c-inst,0),ret=base*n(a.retencion||15.25)/100;return{c,inst,base,ret,liq:Math.max(base-ret,0),deuda:deuda(a)}}
+function byPeriod(db,mes='',q='todas',pro='todos'){return db.atenciones.filter(a=>{if(mes&&!(a.fecha||'').startsWith(mes))return false;let d=n((a.fecha||'').slice(8,10));if(q==='1'&&d>15)return false;if(q==='2'&&d<16)return false;if(pro!=='todos'&&a.profesional!==pro)return false;return true})}
+function egByPeriod(db,mes='',q='todas'){return db.egresos.filter(e=>{if(mes&&!(e.fecha||'').startsWith(mes))return false;let d=n((e.fecha||'').slice(8,10));if(q==='1'&&d>15)return false;if(q==='2'&&d<16)return false;return true})}
+function resumen(ats,egs=[]){let r={bruto:0,cobrado:0,inst:0,prof:0,deuda:0,pendLiq:0,n:ats.length};ats.forEach(a=>{let c=calc(a);r.bruto+=n(a.arancel);r.cobrado+=c.c;r.inst+=c.inst;r.prof+=c.liq;r.deuda+=c.deuda;if(!a.liquidado)r.pendLiq+=c.liq});r.egresos=egs.reduce((s,e)=>s+n(e.monto),0);r.saldo=r.inst-r.egresos;return r}
+function nav(prefix=''){return `<a href="${prefix}../">Panel</a><a href="${prefix}../atenciones/">Atenciones</a><a href="${prefix}../caja/">Caja diaria</a><a href="${prefix}../deudas/">Deudas</a><a href="${prefix}../liquidaciones/">Liquidaciones</a><a href="${prefix}../egresos/">Egresos</a><a href="${prefix}../usuarios/">Usuarios</a><a href="${prefix}../profesionales/">Profesionales</a><a href="${prefix}../aranceles/">Aranceles</a><a href="${prefix}../reportes/">Reportes</a>`}
+function sidebar(prefix=''){return `<aside class="side"><div class="logo">$</div><span class="tag">Panel financiero</span><h1>Contabilidad</h1><p>Gestión modular de atenciones, caja, deudas, egresos y pagos profesionales.</p>${nav(prefix)}<p><small>Solo uso administrativo.</small></p></aside>`}
+function initDates(){document.querySelectorAll('[data-today]').forEach(x=>x.value=today());document.querySelectorAll('[data-month]').forEach(x=>x.value=month())}
+function fillLists(db){document.querySelectorAll('[data-pros]').forEach(el=>{let a=[...new Set([...db.profesionales.map(x=>x.nombre),...db.atenciones.map(x=>x.profesional)].filter(Boolean))].sort();el.innerHTML=a.map(x=>`<option value="${esc(x)}">`).join('')});document.querySelectorAll('[data-users]').forEach(el=>{let a=[...new Set([...db.usuarios.map(x=>x.nombre),...db.atenciones.map(x=>x.usuario)].filter(Boolean))].sort();el.innerHTML=a.map(x=>`<option value="${esc(x)}">`).join('')});document.querySelectorAll('[data-servs]').forEach(el=>{let a=[...new Set([...db.aranceles.map(x=>x.servicio),...db.atenciones.map(x=>x.servicio)].filter(Boolean))].sort();el.innerHTML=a.map(x=>`<option value="${esc(x)}">`).join('')})}
+function download(name,txt,type){let b=new Blob([txt],{type}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;a.click();URL.revokeObjectURL(u)}
