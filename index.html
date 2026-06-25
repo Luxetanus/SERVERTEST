@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Teurgia Gestor</title>
+  <title>Gestor Teurgia</title>
   <style>
     :root{--bg:#f4f6f8;--card:#fff;--text:#1f2937;--muted:#6b7280;--primary:#2563eb;--primary-dark:#1e3a8a;--primary-soft:#dbeafe;--danger:#dc2626;--warning:#f59e0b;--border:#e5e7eb;--dark:#0f172a;--shadow:0 14px 40px rgba(15,23,42,.10)}
     body.dark{--bg:#111827;--card:#1f2937;--text:#f9fafb;--muted:#9ca3af;--primary:#60a5fa;--primary-dark:#1e40af;--primary-soft:#1e3a8a;--danger:#f87171;--warning:#fbbf24;--border:#374151;--dark:#020617;--shadow:0 14px 40px rgba(0,0,0,.30)}
@@ -20,7 +20,7 @@
   <div class="page">
     <nav class="topbar">
       <div class="topbar-inner">
-        <div class="brand"><div class="brand-mark">T</div><div>Teurgia Gestor<small>Red de gestión digital</small></div></div>
+        <div class="brand"><div class="brand-mark">T</div><div>Gestor Teurgia<small>Red de gestión digital</small></div></div>
         <div class="top-actions">
           <button class="outline" onclick="cambiarModo()">Modo visual</button>
           <button id="topAdminButton" onclick="abrirLogin('admin')">Login Admin</button>
@@ -34,7 +34,7 @@
       <div class="hero">
         <div class="hero-inner">
           <div class="hero-content">
-            <h1>Teurgia Gestor</h1>
+            <h1>Gestor Teurgia</h1>
             <p>Plataforma de inicio para una red de gestión digital. El acceso Admin abre el panel principal y el acceso Contabilidad solicita las credenciales directamente aquí, sin pasar por una página intermedia.</p>
             <div class="hero-actions">
               <button class="light" onclick="abrirLogin('admin')">Login Admin</button>
@@ -93,7 +93,7 @@
       <section class="card"><h2>Publicaciones</h2><div id="listaPublicaciones"><p class="muted">Cargando publicaciones...</p></div></section>
     </section>
 
-    <footer>Teurgia Gestor | Red de gestión digital</footer>
+    <footer>Gestor Teurgia | Red de gestión digital</footer>
   </div>
 
   <div id="loginModal" class="modal-backdrop hidden">
@@ -101,7 +101,7 @@
       <div class="login-modal-header">
         <div>
           <h2 id="loginTitle" style="margin:0;">Login Admin</h2>
-          <p id="loginSubtitle" class="muted" style="margin-bottom:0;">Acceso al panel administrativo de Teurgia Gestor.</p>
+          <p id="loginSubtitle" class="muted" style="margin-bottom:0;">Acceso al panel administrativo de Gestor Teurgia.</p>
         </div>
         <button class="close-btn" onclick="cerrarLogin()">Cerrar</button>
       </div>
@@ -144,7 +144,7 @@
         loginSubmitButton.className = "accounting";
       } else {
         loginTitle.textContent = "Login Admin";
-        loginSubtitle.textContent = "Acceso al panel administrativo de Teurgia Gestor.";
+        loginSubtitle.textContent = "Acceso al panel administrativo de Gestor Teurgia.";
         loginSubmitButton.textContent = "Ingresar como admin";
         loginSubmitButton.className = "";
       }
