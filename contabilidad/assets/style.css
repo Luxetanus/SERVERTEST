@@ -14,6 +14,22 @@
   --shadow:0 14px 40px rgba(15,23,42,.10);
   --soft-shadow:0 8px 24px rgba(15,23,42,.06);
 }
+body.dark{
+  --bg:#111827;
+  --card:#1f2937;
+  --text:#f9fafb;
+  --muted:#9ca3af;
+  --primary:#60a5fa;
+  --primary-dark:#1e40af;
+  --primary-soft:#1e3a8a;
+  --danger:#f87171;
+  --ok:#4ade80;
+  --warn:#fbbf24;
+  --border:#374151;
+  --dark:#020617;
+  --shadow:0 14px 40px rgba(0,0,0,.30);
+  --soft-shadow:0 8px 24px rgba(0,0,0,.22);
+}
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -32,6 +48,11 @@ body::before{
   background:
     radial-gradient(circle at top left,rgba(37,99,235,.16),transparent 31%),
     linear-gradient(180deg,#eef4ff 0%,#f4f6f8 45%,#f8fafc 100%);
+}
+body.dark::before{
+  background:
+    radial-gradient(circle at top left,rgba(96,165,250,.18),transparent 32%),
+    linear-gradient(180deg,#020617 0%,#111827 52%,#0f172a 100%);
 }
 body::after{
   content:"";
@@ -62,6 +83,10 @@ body::after{
   box-shadow:var(--shadow);
   backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);
+}
+body.dark .side{
+  background:rgba(31,41,55,.88);
+  border-color:rgba(55,65,81,.92);
 }
 
 .brand{
@@ -118,6 +143,7 @@ body::after{
   font-weight:900;
   transition:transform .15s ease,background .15s ease,color .15s ease,border-color .15s ease;
 }
+body.dark .side a{background:#111827;color:var(--text)}
 .side a:hover{
   background:var(--primary);
   color:#fff;
@@ -138,6 +164,7 @@ body::after{
   font-size:12px;
   font-weight:900;
 }
+body.dark .auth-mini{color:#fff;background:rgba(30,58,138,.42)}
 .auth-mini button{
   margin:0;
   padding:8px 11px;
@@ -145,6 +172,16 @@ body::after{
   background:var(--primary-dark);
   color:#fff;
   font-size:12px;
+}
+.auth-mini .visual-btn{
+  background:#fff;
+  color:var(--primary-dark);
+  border:1px solid rgba(37,99,235,.28);
+}
+body.dark .auth-mini .visual-btn{
+  background:#0f172a;
+  color:#fff;
+  border-color:#374151;
 }
 
 header{
@@ -168,6 +205,7 @@ header .eyebrow,.eyebrow{
   letter-spacing:.08em;
   text-transform:uppercase;
 }
+body.dark header .eyebrow,body.dark .eyebrow{color:#fff}
 header h2{
   font-size:clamp(2rem,4vw,3.6rem);
   line-height:1;
@@ -175,6 +213,7 @@ header h2{
   margin:0;
   color:var(--dark);
 }
+body.dark header h2{color:#fff}
 header p{
   max-width:780px;
   color:var(--muted);
@@ -197,6 +236,7 @@ main{
   margin-bottom:20px;
   box-shadow:var(--soft-shadow);
 }
+body.dark .card{background:rgba(31,41,55,.94)}
 .card h1,.card h2,.card h3{margin-top:0;letter-spacing:-.03em;color:var(--text)}
 .card h1{font-size:clamp(2rem,4vw,3rem)}
 .card h2{font-size:24px}
@@ -210,6 +250,7 @@ main{
   padding:14px 16px;
   line-height:1.55;
 }
+body.dark .alert{color:#fff}
 .muted{color:var(--muted)}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
@@ -224,6 +265,7 @@ main{
   padding:18px;
   box-shadow:0 6px 18px rgba(15,23,42,.045);
 }
+body.dark .stat{background:linear-gradient(180deg,#1f2937,#111827)}
 .stat span{
   display:block;
   color:var(--muted);
@@ -262,6 +304,7 @@ input,select,textarea{
   color:var(--text);
   transition:border-color .15s ease,box-shadow .15s ease,outline .15s ease;
 }
+body.dark input,body.dark select,body.dark textarea{background:#111827;color:#fff}
 input:focus,select:focus,textarea:focus{
   outline:none;
   border-color:rgba(37,99,235,.65);
@@ -294,6 +337,7 @@ button.small{padding:7px 10px;font-size:12px;margin:0 4px 4px 0;border-radius:10
   background:#fff;
   box-shadow:0 6px 18px rgba(15,23,42,.04);
 }
+body.dark .table{background:#111827}
 table{
   width:100%;
   border-collapse:collapse;
@@ -314,7 +358,9 @@ th{
   letter-spacing:.04em;
   font-weight:900;
 }
+body.dark th{background:#0f172a;color:#cbd5e1}
 tr:hover td{background:#f8fafc}
+body.dark tr:hover td{background:#111827}
 .right{text-align:right}
 
 .estado,.pill{
@@ -328,6 +374,7 @@ tr:hover td{background:#f8fafc}
 .deuda{background:#fee2e2;color:#991b1b}
 .abonado{background:#fef3c7;color:#92400e}
 .pill{background:var(--primary-soft);color:var(--primary-dark)}
+body.dark .pill{color:#fff}
 
 footer{
   text-align:center;
@@ -356,6 +403,7 @@ body > main:first-child h1{
   line-height:1;
   letter-spacing:-.045em;
 }
+body.dark > main:first-child h1{color:#fff!important}
 
 @media(max-width:900px){
   body::after{height:128px}
@@ -368,7 +416,7 @@ body > main:first-child h1{
   }
   .brand{min-width:0}
   .top-links{width:100%;flex:unset}
-  .auth-mini{margin-left:0}
+  .auth-mini{margin-left:0;flex-wrap:wrap;border-radius:18px}
   main{padding:14px}
   header{padding:30px 16px 8px}
   table{min-width:820px}
