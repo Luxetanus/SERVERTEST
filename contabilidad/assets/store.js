@@ -15,10 +15,11 @@ function authData(){try{return JSON.parse(localStorage.getItem('pocketbase_auth'
 function tokenExpired(t){try{let p=JSON.parse(atob(t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));return p.exp&&p.exp*1000<Date.now()}catch(e){return true}}
 function isLoginPage(){return location.pathname.includes('/contabilidad/login/')}
 function loginUrl(){let rel=(location.pathname.split('/contabilidad/')[1]||'');return rel===''||rel==='index.html'?'login/':'../login/'}
+function homeUrl(){let before=location.pathname.split('/contabilidad/')[0]||'';return (before.endsWith('/')?before:before+'/')||'/'}
 function isAuthenticated(){let a=authData();return !!(a.token&&!tokenExpired(a.token))}
 function requireAuth(){if(isLoginPage())return true;if(!isAuthenticated()){location.href=loginUrl();return false}return true}
 function userLabel(){let m=authData().model||{};return m.email||m.username||m.name||'Usuario'}
-function logoutContabilidad(){localStorage.removeItem('pocketbase_auth');location.href=loginUrl()}
+function logoutContabilidad(){localStorage.removeItem('pocketbase_auth');localStorage.removeItem(SERVER_ID_KEY);location.href=homeUrl()}
 requireAuth();
 function seed(){return{atenciones:[],usuarios:[],profesionales:[],aranceles:[{id:uid(),servicio:'Psicología',tramo:'General',valor:0,obs:'Completar valor'},{id:uid(),servicio:'Terapia Ocupacional',tramo:'General',valor:0,obs:'Completar valor'},{id:uid(),servicio:'Fonoaudiología',tramo:'General',valor:0,obs:'Completar valor'},{id:uid(),servicio:'Psicopedagogía',tramo:'General',valor:0,obs:'Completar valor'},{id:uid(),servicio:'ADOS-2 / ADI-R',tramo:'Evaluación',valor:0,obs:'Completar valor'}],egresos:[],cierres:[]}}
 function fixDb(db){db=db||seed();db.atenciones=db.atenciones||[];db.usuarios=db.usuarios||[];db.profesionales=db.profesionales||[];db.aranceles=db.aranceles||[];db.egresos=db.egresos||[];db.cierres=db.cierres||[];db.atenciones=db.atenciones.map(a=>({...a,liquidado:!!a.liquidado,boleta:a.boleta||'pendiente'}));return db}
