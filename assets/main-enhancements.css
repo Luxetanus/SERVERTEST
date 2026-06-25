@@ -1,0 +1,23 @@
+:root{--ease:cubic-bezier(.22,1,.36,1)}
+html{scroll-behavior:smooth}
+body{transition:background .28s var(--ease),color .28s var(--ease)}
+body.page-loading{opacity:0}
+body.page-ready{animation:tgPageIn .36s var(--ease) both}
+body.page-leaving{animation:tgPageOut .22s ease both}
+@keyframes tgPageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes tgPageOut{to{opacity:0;transform:translateY(6px)}}
+@keyframes tgFadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes tgModalIn{from{opacity:0;transform:scale(.98) translateY(8px)}to{opacity:1;transform:none}}
+.view{transition:opacity .28s var(--ease),transform .28s var(--ease)}
+.view.fade-out{opacity:0;transform:translateY(8px)}
+.view.fade-in{animation:tgFadeUp .35s var(--ease) both}
+.hero-content,.card,.stat,.post,.dashboard-header{animation:tgFadeUp .32s var(--ease) both}
+.card,.stat,button,input,select,textarea,.topbar{transition:background .25s var(--ease),border-color .25s var(--ease),box-shadow .2s var(--ease),transform .18s var(--ease),opacity .18s var(--ease),color .25s var(--ease)}
+.card:hover,.stat:hover{transform:translateY(-2px)}
+button:hover{transform:translateY(-1px);opacity:.96;box-shadow:0 10px 24px rgba(37,99,235,.16)}
+button:active{transform:translateY(0) scale(.99)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px rgba(37,99,235,.13)}
+.modal-backdrop{opacity:0;pointer-events:none;transition:opacity .22s var(--ease)}
+.modal-backdrop.is-open{opacity:1;pointer-events:auto}
+.modal-backdrop.is-open .login-modal{animation:tgModalIn .28s var(--ease) both}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
