@@ -1,1 +1,149 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Atenciones</title><link rel="stylesheet" href="../assets/style.css?v=20260625b"><style>.table{overflow:visible}.acciones-cell{position:relative;overflow:visible;min-width:120px}.acciones-menu{position:relative;display:inline-block}.acciones-toggle{min-width:104px;background:var(--primary);color:#fff}.acciones-dropdown{display:none;position:absolute;right:0;top:calc(100% + 8px);min-width:145px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:8px;box-shadow:var(--shadow);z-index:9999}.acciones-dropdown.open{display:grid;gap:6px}.acciones-dropdown button{width:100%;margin:0;text-align:left;border-radius:10px;padding:9px 11px}.acciones-dropdown button.secondary{background:#64748b}.acciones-dropdown button.danger{background:var(--danger)}body.dark .acciones-dropdown{background:#1f2937}</style></head><body><div class="layout"><div id="side"></div><div><header><h2>Atenciones</h2><p class="muted">Registrar, editar, duplicar y controlar estado de pago.</p></header><main><section class="card"><h2 id="title">Nueva atención</h2><input id="edit" type="hidden"><div class="grid2"><div><label>Fecha</label><input id="fecha" type="date" data-today><label>Usuario</label><input id="usuario" list="usuarios"><datalist id="usuarios" data-users></datalist><label>Profesional</label><input id="profesional" list="pros"><datalist id="pros" data-pros></datalist><label>Servicio</label><input id="servicio" list="servs"><datalist id="servs" data-servs></datalist></div><div><label>Método</label><select id="metodo"><option>Transferencia</option><option>Débito</option><option>Crédito</option><option>Efectivo</option><option>PAC</option><option>Subvención</option><option>Otro</option></select><label>Estado</label><select id="estado"><option value="pagado">Pagado</option><option value="deuda">Debe</option><option value="abonado">Abonado</option></select><label>Arancel</label><input id="arancel" type="number"><label>Abono</label><input id="abono" type="number" value="0"><div class="grid2"><div><label>% institución</label><input id="porcentaje" type="number" value="30"></div><div><label>% retención</label><input id="retencion" type="number" value="15.25"></div></div><label>Boleta/respaldo</label><select id="boleta"><option value="pendiente">Pendiente</option><option value="emitida">Emitida</option><option value="no_aplica">No aplica</option></select></div></div><label>Observación administrativa</label><textarea id="obs"></textarea><div class="toolbar"><button onclick="guardar()">Guardar</button><button class="secondary" onclick="limpiar()">Limpiar</button></div></section><section class="card"><h2>Listado</h2><div class="filters"><div><label>Buscar</label><input id="buscar" oninput="render()"></div><div><label>Estado</label><select id="fEstado" onchange="render()"><option value="todos">Todos</option><option value="pagado">Pagado</option><option value="deuda">Debe</option><option value="abonado">Abonado</option></select></div></div><div class="table" style="margin-top:12px"><table><thead><tr><th>Fecha</th><th>Usuario</th><th>Profesional</th><th>Servicio</th><th>Estado</th><th class="right">Arancel</th><th class="right">Abono</th><th class="right">Deuda</th><th>Liquidación</th><th>Acciones</th></tr></thead><tbody id="tbody"></tbody></table></div></section></main></div></div><script src="../assets/store.js?v=20260625c"></script><script>document.getElementById('side').outerHTML=sidebar('../');let db=load();initDates();fillLists(db);function cerrarAcciones(){document.querySelectorAll('.acciones-dropdown.open').forEach(m=>m.classList.remove('open'))}function toggleAcciones(id,event){event.stopPropagation();let menu=document.getElementById('acciones-'+id);if(!menu)return;let abierto=menu.classList.contains('open');cerrarAcciones();if(!abierto)menu.classList.add('open')}document.addEventListener('click',cerrarAcciones);function limpiar(){['edit','usuario','profesional','servicio','arancel','obs'].forEach(x=>$(x).value='');$('fecha').value=today();$('abono').value=0;$('porcentaje').value=30;$('retencion').value=15.25;$('estado').value='pagado';$('boleta').value='pendiente';$('title').textContent='Nueva atención'}function guardar(){let id=$('edit').value;let a={id:id||uid(),fecha:$('fecha').value||today(),usuario:$('usuario').value.trim(),profesional:$('profesional').value.trim(),servicio:$('servicio').value.trim(),metodo:$('metodo').value,estado:$('estado').value,arancel:n($('arancel').value),abono:n($('abono').value),porcentaje:n($('porcentaje').value),retencion:n($('retencion').value),boleta:$('boleta').value,obs:$('obs').value.trim(),liquidado:false};if(!a.usuario||!a.profesional||!a.servicio||!a.arancel)return alert('Completa usuario, profesional, servicio y arancel.');if(a.estado==='pagado')a.abono=a.arancel;if(id){let old=db.atenciones.find(x=>x.id===id);a.liquidado=old?.liquidado||false;db.atenciones=db.atenciones.map(x=>x.id===id?a:x)}else db.atenciones.push(a);save(db);limpiar();fillLists(db);render()}function editar(id){cerrarAcciones();let a=db.atenciones.find(x=>x.id===id);Object.keys(a).forEach(k=>{if($(k))$(k).value=a[k]});$('edit').value=id;$('title').textContent='Editar atención';location.hash='top'}function duplicar(id){cerrarAcciones();let a=db.atenciones.find(x=>x.id===id);db.atenciones.push({...a,id:uid(),fecha:today(),liquidado:false});save(db);render()}function borrar(id){cerrarAcciones();if(confirm('¿Eliminar atención?')){db.atenciones=db.atenciones.filter(x=>x.id!==id);save(db);render()}}function render(){let q=$('buscar').value.toLowerCase(),e=$('fEstado').value;let rows=db.atenciones.filter(a=>(e==='todos'||a.estado===e)&&(!q||[a.usuario,a.profesional,a.servicio].join(' ').toLowerCase().includes(q))).sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''));$('tbody').innerHTML=rows.length?rows.map(a=>`<tr><td>${a.fecha}</td><td>${esc(a.usuario)}</td><td>${esc(a.profesional)}</td><td>${esc(a.servicio)}</td><td><span class="estado ${a.estado}">${a.estado}</span></td><td class="right">${money(a.arancel)}</td><td class="right">${money(cob(a))}</td><td class="right">${money(deuda(a))}</td><td>${a.liquidado?'<span class="pill">Liquidada</span>':'<span class="pill">Pendiente</span>'}</td><td class="acciones-cell"><div class="acciones-menu"><button class="small acciones-toggle" onclick="toggleAcciones('${a.id}',event)">Acciones ▾</button><div id="acciones-${a.id}" class="acciones-dropdown"><button class="small" onclick="editar('${a.id}')">Editar</button><button class="small secondary" onclick="duplicar('${a.id}')">Duplicar</button><button class="small danger" onclick="borrar('${a.id}')">Eliminar</button></div></div></td></tr>`).join(''):'<tr><td colspan="10">Sin atenciones.</td></tr>'}document.addEventListener('change',e=>{if(e.target.id==='usuario'){let u=db.usuarios.find(x=>x.nombre.toLowerCase()===$('usuario').value.trim().toLowerCase());if(u){$('servicio').value=u.servicio;$('profesional').value=u.profesional;$('arancel').value=u.pago}}if(e.target.id==='servicio'){let a=db.aranceles.find(x=>x.servicio.toLowerCase()===$('servicio').value.trim().toLowerCase()&&n(x.valor)>0);if(a)$('arancel').value=a.valor}if(e.target.id==='estado'&&$('estado').value==='pagado')$('abono').value=$('arancel').value||0});render();</script></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Atenciones | Contabilidad</title>
+  <link rel="stylesheet" href="premium.css?v=20260625a">
+</head>
+<body class="page-enter">
+  <div class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
+
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-icon">$</div>
+        <div>
+          <div class="brand-title">Contabilidad</div>
+          <div class="brand-status"><span class="status-dot"></span>Modo local</div>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a class="menu-item" href="../"><span class="mi-icon">◻</span><span>Panel</span></a>
+        <a class="menu-item active" href="./"><span class="mi-icon">◉</span><span>Atenciones</span></a>
+        <a class="menu-item" href="../caja/"><span class="mi-icon">⌂</span><span>Caja</span></a>
+        <a class="menu-item" href="../deudas/"><span class="mi-icon">⦿</span><span>Deudas</span></a>
+        <a class="menu-item" href="../liquidaciones/"><span class="mi-icon">⇄</span><span>Pagos prof.</span></a>
+        <a class="menu-item" href="../egresos/"><span class="mi-icon">↘</span><span>Egresos</span></a>
+        <a class="menu-item" href="../usuarios/"><span class="mi-icon">☺</span><span>Usuarios</span></a>
+        <a class="menu-item" href="../profesionales/"><span class="mi-icon">★</span><span>Profesionales</span></a>
+      </nav>
+
+      <button class="collapse-btn" onclick="toggleSidebar()">Colapsar</button>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="top-left">
+          <button class="hamburger" onclick="toggleSidebar(true)">☰</button>
+        </div>
+        <div class="top-actions">
+          <button class="top-action" onclick="toggleModoVisual()"><span>◐</span><span>Modo visual</span></button>
+          <button class="top-action" type="button"><span>👤</span><span id="userLabelText">Usuario</span></button>
+          <button class="top-action" onclick="logoutContabilidad()"><span>↩</span><span>Salir</span></button>
+        </div>
+      </div>
+
+      <section class="page-head">
+        <h1>Atenciones</h1>
+        <p>Registrar, editar, duplicar y controlar estado de pago.</p>
+      </section>
+
+      <section class="top-grid">
+        <article class="panel">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title" id="title">Nueva atención</h2>
+              <div class="panel-sub">Completa los datos y conserva la lógica actual del módulo.</div>
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <input id="edit" type="hidden">
+
+            <div class="section-block">
+              <div class="section-head"><div class="step-badge">1</div><h3>Datos de atención</h3></div>
+              <div class="field-grid-3">
+                <div class="field"><label for="fecha">Fecha</label><input id="fecha" class="control" type="date" data-today></div>
+                <div class="field"><label for="usuario">Usuario</label><input id="usuario" class="control" list="usuarios" placeholder="Ingrese o seleccione"><datalist id="usuarios" data-users></datalist></div>
+                <div class="field"><label for="profesional">Profesional</label><input id="profesional" class="control" list="pros" placeholder="Ingrese o seleccione"><datalist id="pros" data-pros></datalist></div>
+              </div>
+              <div class="field-grid-3" style="margin-top:14px">
+                <div class="field"><label for="servicio">Servicio</label><input id="servicio" class="control" list="servs" placeholder="Ingrese o seleccione"><datalist id="servs" data-servs></datalist></div>
+                <div class="field"><label for="metodo">Método</label><div class="select-wrap"><select id="metodo" class="control"><option>Transferencia</option><option>Débito</option><option>Crédito</option><option>Efectivo</option><option>PAC</option><option>Subvención</option><option>Otro</option></select></div></div>
+                <div class="field"><label for="estado">Estado</label><div class="select-wrap"><select id="estado" class="control"><option value="pagado">Pagado</option><option value="abonado">Pendiente</option><option value="deuda">Deuda</option></select></div><div class="status-inline"><span id="estadoPreview" class="chip pending">Pendiente</span></div></div>
+              </div>
+            </div>
+
+            <div class="section-block">
+              <div class="section-head"><div class="step-badge">2</div><h3>Datos de pago</h3></div>
+              <div class="field-grid-2">
+                <div class="field"><label for="arancel">Arancel</label><div class="control-wrap has-prefix"><span class="prefix">$</span><input id="arancel" class="control" type="number" min="0" placeholder="0"></div></div>
+                <div class="field"><label for="abono">Abono</label><div class="control-wrap has-prefix"><span class="prefix">$</span><input id="abono" class="control" type="number" min="0" value="0" placeholder="0"></div></div>
+              </div>
+            </div>
+
+            <div class="section-block">
+              <div class="section-head"><div class="step-badge">3</div><h3>Distribución institucional</h3></div>
+              <div class="field-grid-2">
+                <div class="field"><label for="porcentaje">% institución</label><div class="control-wrap has-suffix"><input id="porcentaje" class="control" type="number" value="30"><span class="suffix">%</span></div></div>
+                <div class="field"><label for="retencion">% retención</label><div class="control-wrap has-suffix"><input id="retencion" class="control" type="number" step="0.01" value="15.25"><span class="suffix">%</span></div></div>
+              </div>
+            </div>
+
+            <div class="section-block" style="margin-bottom:0">
+              <div class="section-head"><div class="step-badge">4</div><h3>Documento y observaciones</h3></div>
+              <div class="field-grid-2">
+                <div class="field"><label for="boleta">Boleta / respaldo</label><div class="select-wrap"><select id="boleta" class="control"><option value="pendiente">Pendiente</option><option value="emitida">Emitida</option><option value="no_aplica">No aplica</option></select></div></div>
+                <div></div>
+              </div>
+              <div class="field" style="margin-top:14px"><label for="obs">Observación administrativa</label><div class="obs-wrap"><textarea id="obs" class="control-area" maxlength="300" placeholder="Escriba una observación (opcional)..."></textarea><span class="counter" id="obsCounter">0 / 300</span></div></div>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn btn-primary" onclick="guardar()"><span>✓</span><span>Guardar</span></button>
+              <button class="btn btn-secondary" onclick="limpiar()"><span>↺</span><span>Limpiar</span></button>
+            </div>
+          </div>
+        </article>
+
+        <aside class="panel">
+          <div class="panel-header"><div><h2 class="panel-title">Resumen financiero</h2><div class="panel-sub">Vista rápida del cálculo actual</div></div><div style="font-size:18px;color:#86b2ff">▥</div></div>
+          <div class="panel-body">
+            <div class="summary-list">
+              <div class="summary-row"><div class="label">Arancel</div><div class="value" id="sumArancel">$ 0</div></div>
+              <div class="summary-row"><div class="label">Abono</div><div class="value" id="sumAbono">$ 0</div></div>
+              <div class="summary-row"><div class="label">Saldo pendiente</div><div class="value primary" id="sumSaldo">$ 0</div></div>
+              <div class="summary-row"><div class="label">% institución</div><div class="value" id="sumInst">30 %</div></div>
+              <div class="summary-row"><div class="label">% retención</div><div class="value" id="sumRet">15,25 %</div></div>
+              <div class="summary-row"><div class="label">Estado</div><div class="value"><span id="sumEstado" class="chip pending">Pendiente</span></div></div>
+              <div class="summary-row"><div class="label">Boleta / respaldo</div><div class="value" id="sumBoleta">Pendiente</div></div>
+            </div>
+            <div class="mini-info"><div class="icon">ℹ</div><div>Los cálculos se actualizan automáticamente al guardar.</div></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="panel table-panel">
+        <div class="table-top">
+          <div><h2 class="panel-title" style="margin:0">Últimas atenciones</h2><div class="panel-sub">Registro reciente del módulo contable</div></div>
+          <button class="btn btn-secondary" onclick="render()">Ver todas</button>
+          <div class="table-tools">
+            <input id="buscar" class="control tool-input" placeholder="Buscar usuario, profesional o servicio" oninput="render()">
+            <div class="select-wrap" style="min-width:180px;max-width:220px"><select id="fEstado" class="control" onchange="render()"><option value="todos">Todos los estados</option><option value="pagado">Pagado</option><option value="abonado">Pendiente</option><option value="deuda">Deuda</option></select></div>
+          </div>
+        </div>
+        <div id="tableLoader" class="loader hidden"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Usuario</th><th>Profesional</th><th>Servicio</th><th>Arancel</th><th>Estado</th><th style="width:150px">Acciones</th></tr></thead><tbody id="tbody"></tbody></table></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast-wrap" id="toastWrap"></div>
+  <div class="modal-backdrop" id="detailModal"><div class="modal-card"><div class="modal-head"><div><h3 style="margin:0;font-size:20px">Detalle de atención</h3><div class="panel-sub">Vista rápida del registro</div></div><button class="top-action" onclick="cerrarDetalle()">Cerrar</button></div><div class="modal-body"><div class="detail-grid" id="detailGrid"></div></div></div></div>
+
+  <script src="../assets/store.js?v=20260625e"></script>
+  <script src="premium.js?v=20260625a"></script>
+</body>
+</html>
