@@ -17,7 +17,7 @@
       --success: #16a34a;
       --warning: #f59e0b;
       --border: #e5e7eb;
-      --sidebar: #0f172a;
+      --dark: #0f172a;
       --shadow: 0 14px 40px rgba(15, 23, 42, 0.10);
     }
 
@@ -33,68 +33,73 @@
       --success: #4ade80;
       --warning: #fbbf24;
       --border: #374151;
-      --sidebar: #020617;
+      --dark: #020617;
       --shadow: 0 14px 40px rgba(0, 0, 0, 0.30);
     }
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: var(--bg); color: var(--text); }
-    a { color: inherit; }
-
-    .page { min-height: 100vh; display: flex; flex-direction: column; }
+    .hidden { display: none !important; }
+    .muted { color: var(--muted); }
 
     .topbar {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.88);
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(12px);
       position: sticky;
       top: 0;
       z-index: 20;
+      background: rgba(255,255,255,.9);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
     }
-
-    body.dark .topbar { background: rgba(17, 24, 39, 0.88); }
-
+    body.dark .topbar { background: rgba(17,24,39,.9); }
     .topbar-inner {
       width: min(1180px, 92%);
       margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
       padding: 14px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
     }
-
-    .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -0.02em; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 900; }
     .brand-mark {
-      width: 42px; height: 42px; border-radius: 13px;
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      color: #fff;
       background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-      color: white; display: grid; place-items: center; box-shadow: var(--shadow); font-weight: 900;
+      box-shadow: var(--shadow);
     }
-    .brand small { display: block; color: var(--muted); font-weight: 600; margin-top: 2px; }
-
-    .top-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .brand small { display: block; color: var(--muted); font-weight: 700; margin-top: 2px; }
+    .top-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 
     button {
-      border: none; border-radius: 12px; padding: 11px 16px; cursor: pointer;
-      font-weight: 800; background: var(--primary); color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 11px 16px;
+      cursor: pointer;
+      font-weight: 900;
+      background: var(--primary);
+      color: #fff;
       transition: transform .15s ease, opacity .15s ease;
     }
     button:hover { transform: translateY(-1px); opacity: .95; }
+    button.outline { background: transparent; color: var(--primary); border: 1px solid var(--primary); }
     button.secondary { background: #64748b; }
     button.danger { background: var(--danger); }
     button.accounting { background: var(--warning); color: #111827; }
-    button.outline { background: transparent; color: var(--primary); border: 1px solid var(--primary); }
+    button.light { background: #fff; color: var(--primary-dark); }
+    button.ghost-light { background: rgba(255,255,255,.1); color: #fff; border: 1px solid rgba(255,255,255,.22); }
     button.small { padding: 7px 10px; font-size: 13px; }
 
     .hero {
-      flex: 1;
-      background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.22), transparent 32%), linear-gradient(135deg, var(--sidebar), var(--primary-dark));
-      color: white;
+      background: radial-gradient(circle at top left, rgba(37, 99, 235, .22), transparent 32%), linear-gradient(135deg, var(--dark), var(--primary-dark));
+      color: #fff;
       padding: 72px 0 54px;
     }
-
     .hero-inner {
       width: min(1180px, 92%);
       margin: 0 auto;
@@ -103,65 +108,74 @@
       gap: 36px;
       align-items: center;
     }
-
     .eyebrow {
-      display: inline-flex; width: fit-content; border: 1px solid rgba(255, 255, 255, 0.18);
-      background: rgba(255, 255, 255, 0.10); border-radius: 999px; padding: 7px 12px;
-      font-size: 13px; font-weight: 800; margin-bottom: 20px;
+      display: inline-flex;
+      width: fit-content;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.1);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 20px;
     }
-
-    .hero h1 { font-size: clamp(2.6rem, 6vw, 5.4rem); line-height: .95; letter-spacing: -0.06em; margin: 0; }
-    .hero p { color: rgba(255, 255, 255, 0.78); font-size: 18px; line-height: 1.7; max-width: 720px; margin: 22px 0 0; }
+    .hero h1 { font-size: clamp(2.6rem, 6vw, 5.4rem); line-height: .95; letter-spacing: -.06em; margin: 0; }
+    .hero p { color: rgba(255,255,255,.78); font-size: 18px; line-height: 1.7; max-width: 720px; margin: 22px 0 0; }
     .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
-    .hero-actions .login-main { background: white; color: var(--primary-dark); font-size: 16px; padding: 13px 22px; }
-    .hero-actions .outline-light { background: rgba(255, 255, 255, 0.10); color: white; border: 1px solid rgba(255, 255, 255, 0.22); }
 
     .status-card {
-      background: rgba(255, 255, 255, 0.10); border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 24px; padding: 24px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22); backdrop-filter: blur(14px);
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.22);
+      backdrop-filter: blur(14px);
     }
-    .status-row { display: flex; justify-content: space-between; gap: 12px; padding: 14px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.14); }
+    .status-row { display: flex; justify-content: space-between; gap: 12px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.14); }
     .status-row:last-child { border-bottom: 0; }
-    .status-row span { color: rgba(255, 255, 255, 0.72); }
+    .status-row span { color: rgba(255,255,255,.72); }
     .status-ok { color: #86efac; font-weight: 900; }
     .status-error { color: #fca5a5; font-weight: 900; }
 
-    .main-content, .dashboard { width: min(1180px, 92%); margin: 0 auto; padding: 34px 0 60px; }
-    .section-title { margin: 0 0 16px; font-size: 26px; letter-spacing: -0.03em; }
+    main, .dashboard { width: min(1180px, 92%); margin: 0 auto; padding: 34px 0 60px; }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 22px; padding: 22px; box-shadow: var(--shadow); }
-    .card h3, .card h2 { margin-top: 0; }
-    .muted { color: var(--muted); }
-    .hidden { display: none !important; }
-
-    .dashboard-header {
-      background: var(--card); border: 1px solid var(--border); border-radius: 22px; padding: 24px; box-shadow: var(--shadow);
-      display: flex; justify-content: space-between; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 20px;
+    .card, .dashboard-header, .stat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: var(--shadow);
     }
-    .role-pill { display: inline-block; padding: 6px 10px; border-radius: 999px; background: var(--primary-soft); color: var(--primary-dark); font-weight: 900; font-size: 13px; margin-top: 8px; }
-    body.dark .role-pill { color: white; }
+    .dashboard-header { display: flex; justify-content: space-between; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
     .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 20px; }
-    .stat { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 18px; box-shadow: var(--shadow); }
     .stat strong { display: block; font-size: 34px; color: var(--primary); }
-
-    label { display: block; margin-top: 12px; font-weight: 800; font-size: 14px; }
-    input, select, textarea { width: 100%; padding: 12px; margin-top: 6px; border: 1px solid var(--border); border-radius: 12px; font-size: 15px; background: var(--card); color: var(--text); }
-    textarea { min-height: 130px; resize: vertical; }
     .toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 14px; }
+    .role-pill { display: inline-block; padding: 6px 10px; border-radius: 999px; background: var(--primary-soft); color: var(--primary-dark); font-weight: 900; font-size: 13px; margin-top: 8px; }
+    body.dark .role-pill { color: #fff; }
+
+    label { display: block; margin-top: 12px; font-weight: 900; font-size: 14px; }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 15px;
+      background: var(--card);
+      color: var(--text);
+    }
+    textarea { min-height: 130px; resize: vertical; }
     .post { border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-top: 14px; background: var(--bg); }
     .badge { display: inline-block; background: var(--primary); color: white; border-radius: 999px; padding: 5px 11px; font-size: 12px; margin-bottom: 8px; font-weight: 900; }
 
-    .modal-backdrop { position: fixed; inset: 0; background: rgba(2, 6, 23, 0.70); display: grid; place-items: center; padding: 20px; z-index: 50; }
-    .login-modal { width: min(460px, 100%); background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: 24px; padding: 24px; box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35); }
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(2,6,23,.7); display: grid; place-items: center; padding: 20px; z-index: 50; }
+    .login-modal { width: min(460px, 100%); background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: 24px; padding: 24px; box-shadow: 0 28px 80px rgba(0,0,0,.35); }
     .login-modal-header { display: flex; justify-content: space-between; align-items: start; gap: 16px; margin-bottom: 8px; }
     .close-btn { background: transparent; color: var(--muted); border: 1px solid var(--border); padding: 8px 10px; }
-    .error-box { background: rgba(220, 38, 38, 0.12); color: var(--danger); border: 1px solid var(--danger); padding: 12px; border-radius: 12px; margin-top: 12px; white-space: pre-wrap; font-size: 14px; }
+    .error-box { background: rgba(220,38,38,.12); color: var(--danger); border: 1px solid var(--danger); padding: 12px; border-radius: 12px; margin-top: 12px; white-space: pre-wrap; font-size: 14px; }
     footer { text-align: center; color: var(--muted); padding: 24px; }
 
-    @media (max-width: 860px) {
-      .hero-inner { grid-template-columns: 1fr; }
-      .topbar-inner { align-items: flex-start; }
-    }
+    @media (max-width: 860px) { .hero-inner { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -174,24 +188,24 @@
         </div>
         <div class="top-actions">
           <button class="outline" onclick="cambiarModo()">Modo visual</button>
-          <button id="topAdminButton" onclick="abrirLogin('admin')">Login Admin</button>
-          <button id="topContabilidadButton" class="accounting" onclick="abrirLogin('contabilidad')">Login Contabilidad</button>
+          <button id="topAdminButton" onclick="abrirLoginAdmin()">Login Admin</button>
+          <button id="topContabilidadButton" class="accounting" onclick="irAContabilidad()">Login Contabilidad</button>
           <button id="topLogoutButton" class="danger hidden" onclick="logout()">Cerrar sesión</button>
         </div>
       </div>
     </nav>
 
-    <section id="landingView" class="landing-view">
+    <section id="landingView">
       <div class="hero">
         <div class="hero-inner">
           <div>
             <span class="eyebrow">Servidor propio + GitHub + Cloudflare + PocketBase</span>
             <h1>Teurgia Gestor</h1>
-            <p>Plataforma de inicio para una red de gestión digital. Permite validar accesos separados para administración y contabilidad, conexión con backend, publicaciones dinámicas y futuras herramientas internas.</p>
+            <p>Plataforma de inicio para una red de gestión digital. El acceso Admin abre el panel principal y el acceso Contabilidad lleva directamente al módulo contable ubicado en la carpeta <strong>contabilidad/login</strong>.</p>
             <div class="hero-actions">
-              <button class="login-main" onclick="abrirLogin('admin')">Login Admin</button>
-              <button class="accounting" onclick="abrirLogin('contabilidad')">Login Contabilidad</button>
-              <button class="outline-light" onclick="scrollAInfo()">Ver estado del sistema</button>
+              <button class="light" onclick="abrirLoginAdmin()">Login Admin</button>
+              <button class="accounting" onclick="irAContabilidad()">Login Contabilidad</button>
+              <button class="ghost-light" onclick="scrollAInfo()">Ver estado del sistema</button>
             </div>
           </div>
 
@@ -205,12 +219,12 @@
         </div>
       </div>
 
-      <main class="main-content" id="infoSistema">
-        <h2 class="section-title">Página principal</h2>
+      <main id="infoSistema">
+        <h2 style="font-size:26px;margin-top:0;">Página principal</h2>
         <div class="grid">
-          <article class="card"><h3>Acceso administrador</h3><p class="muted">Permite entrar al panel principal para crear publicaciones y administrar contenido.</p></article>
-          <article class="card"><h3>Acceso contabilidad</h3><p class="muted">Permite entrar a un espacio reservado para gestión contable. Por ahora usa la misma autenticación base de PocketBase.</p></article>
-          <article class="card"><h3>Base para módulos</h3><p class="muted">Esta estructura permite agregar después usuarios, actas, documentos, servicios, finanzas y paneles internos.</p></article>
+          <article class="card"><h3>Acceso administrador</h3><p class="muted">Abre el login interno del panel principal para crear publicaciones y administrar contenido.</p></article>
+          <article class="card"><h3>Acceso contabilidad</h3><p class="muted">Redirige a <strong>contabilidad/login/</strong>, la página específica que ya existe en el repositorio.</p></article>
+          <article class="card"><h3>Base para módulos</h3><p class="muted">Esta estructura permite agregar usuarios, actas, documentos, servicios, finanzas y paneles internos.</p></article>
         </div>
       </main>
     </section>
@@ -218,8 +232,8 @@
     <section id="dashboardView" class="dashboard hidden">
       <div class="dashboard-header">
         <div>
-          <h1 id="dashboardTitle" style="margin:0;">Panel Teurgia Gestor</h1>
-          <span id="rolePill" class="role-pill">Área: Administrador</span>
+          <h1 style="margin:0;">Panel Administrador</h1>
+          <span class="role-pill">Área: Administrador</span>
           <p class="muted" style="margin-bottom:0;">Sesión iniciada como: <strong id="currentUser">Usuario</strong></p>
         </div>
         <div class="toolbar">
@@ -234,66 +248,46 @@
       <div class="stats">
         <div class="stat"><strong id="contadorPublicaciones">0</strong><span>Publicaciones</span></div>
         <div class="stat"><strong id="contadorCategorias">0</strong><span>Categorías usadas</span></div>
-        <div class="stat"><strong id="contadorModulo">0</strong><span id="contadorModuloTexto">Registros contables</span></div>
+        <div class="stat"><strong>1</strong><span>Módulos activos</span></div>
       </div>
 
-      <section id="adminModule">
-        <div class="grid">
-          <section class="card">
-            <h2>Agregar publicación</h2>
-            <label for="titulo">Título</label>
-            <input id="titulo" type="text" placeholder="Título de la publicación" />
-            <label for="categoria">Categoría</label>
-            <select id="categoria">
-              <option value="">Seleccionar categoría</option>
-              <option value="Institución">Institución</option>
-              <option value="Labor social">Labor social</option>
-              <option value="Actualidad">Actualidad</option>
-              <option value="Ensayo">Ensayo</option>
-              <option value="Columna de opinión">Columna de opinión</option>
-              <option value="Memoria institucional">Memoria institucional</option>
-              <option value="Sistema">Sistema</option>
-            </select>
-            <label for="contenido">Contenido</label>
-            <textarea id="contenido" placeholder="Escribe el contenido de la publicación"></textarea>
-            <button onclick="agregarPublicacion()">Agregar publicación</button>
-          </section>
+      <div class="grid">
+        <section class="card">
+          <h2>Agregar publicación</h2>
+          <label for="titulo">Título</label>
+          <input id="titulo" type="text" placeholder="Título de la publicación" />
+          <label for="categoria">Categoría</label>
+          <select id="categoria">
+            <option value="">Seleccionar categoría</option>
+            <option value="Institución">Institución</option>
+            <option value="Labor social">Labor social</option>
+            <option value="Actualidad">Actualidad</option>
+            <option value="Ensayo">Ensayo</option>
+            <option value="Columna de opinión">Columna de opinión</option>
+            <option value="Memoria institucional">Memoria institucional</option>
+            <option value="Sistema">Sistema</option>
+          </select>
+          <label for="contenido">Contenido</label>
+          <textarea id="contenido" placeholder="Escribe el contenido de la publicación"></textarea>
+          <button onclick="agregarPublicacion()">Agregar publicación</button>
+        </section>
 
-          <section class="card">
-            <h2>Filtrar publicaciones</h2>
-            <label for="filtroCategoria">Categoría</label>
-            <select id="filtroCategoria" onchange="renderPublicaciones()">
-              <option value="Todas">Todas</option>
-              <option value="Institución">Institución</option>
-              <option value="Labor social">Labor social</option>
-              <option value="Actualidad">Actualidad</option>
-              <option value="Ensayo">Ensayo</option>
-              <option value="Columna de opinión">Columna de opinión</option>
-              <option value="Memoria institucional">Memoria institucional</option>
-              <option value="Sistema">Sistema</option>
-            </select>
-            <div class="toolbar"><button class="secondary" onclick="borrarTodoLocal()">Borrar respaldo local</button></div>
-          </section>
-        </div>
-      </section>
-
-      <section id="contabilidadModule" class="hidden">
-        <div class="grid">
-          <section class="card">
-            <h2>Módulo de contabilidad</h2>
-            <p class="muted">Acceso reservado para futuras herramientas contables: ingresos, egresos, comprobantes, reportes y balances.</p>
-            <label for="registroContable">Registro de prueba</label>
-            <input id="registroContable" type="text" placeholder="Ejemplo: Pago mensual, ingreso, egreso o comprobante" />
-            <button class="accounting" onclick="agregarRegistroContableDemo()">Agregar registro de prueba</button>
-          </section>
-
-          <section class="card">
-            <h2>Estado del área</h2>
-            <p class="muted">Este botón ya separa el acceso visual de contabilidad. Para permisos reales, el siguiente paso es crear roles en PocketBase.</p>
-            <div class="toolbar"><button onclick="cargarPublicaciones()">Actualizar conexión</button></div>
-          </section>
-        </div>
-      </section>
+        <section class="card">
+          <h2>Filtrar publicaciones</h2>
+          <label for="filtroCategoria">Categoría</label>
+          <select id="filtroCategoria" onchange="renderPublicaciones()">
+            <option value="Todas">Todas</option>
+            <option value="Institución">Institución</option>
+            <option value="Labor social">Labor social</option>
+            <option value="Actualidad">Actualidad</option>
+            <option value="Ensayo">Ensayo</option>
+            <option value="Columna de opinión">Columna de opinión</option>
+            <option value="Memoria institucional">Memoria institucional</option>
+            <option value="Sistema">Sistema</option>
+          </select>
+          <div class="toolbar"><button class="secondary" onclick="borrarTodoLocal()">Borrar respaldo local</button></div>
+        </section>
+      </div>
 
       <section class="card">
         <h2>Publicaciones</h2>
@@ -308,17 +302,16 @@
     <div class="login-modal">
       <div class="login-modal-header">
         <div>
-          <h2 id="loginTitle" style="margin:0;">Ingresar a Teurgia Gestor</h2>
-          <p id="loginSubtitle" class="muted" style="margin-bottom:0;">Acceso privado conectado a PocketBase.</p>
+          <h2 style="margin:0;">Login Admin</h2>
+          <p class="muted" style="margin-bottom:0;">Acceso al panel administrativo de Teurgia Gestor.</p>
         </div>
         <button class="close-btn" onclick="cerrarLogin()">Cerrar</button>
       </div>
-
       <label for="email">Correo</label>
       <input id="email" type="email" placeholder="admin@correo.cl" />
       <label for="password">Contraseña</label>
       <input id="password" type="password" placeholder="Contraseña" onkeydown="loginConEnter(event)" />
-      <button id="loginSubmitButton" style="width:100%;" onclick="login()">Ingresar</button>
+      <button style="width:100%;" onclick="loginAdmin()">Ingresar como admin</button>
       <div id="loginError" class="error-box hidden"></div>
     </div>
   </div>
@@ -327,11 +320,7 @@
   <script>
     const PB_URL = "https://pocketbase.agrupacionnothofagus.cl";
     const pb = new PocketBase(PB_URL);
-
     let publicaciones = [];
-    let selectedLoginArea = "admin";
-    let currentArea = localStorage.getItem("teurgia_area") || "admin";
-    let registrosContablesDemo = JSON.parse(localStorage.getItem("teurgia_contabilidad_demo")) || [];
 
     const pbStatus = document.getElementById("pbStatus");
     const landingView = document.getElementById("landingView");
@@ -343,39 +332,20 @@
     const topAdminButton = document.getElementById("topAdminButton");
     const topContabilidadButton = document.getElementById("topContabilidadButton");
     const topLogoutButton = document.getElementById("topLogoutButton");
-    const dashboardTitle = document.getElementById("dashboardTitle");
-    const rolePill = document.getElementById("rolePill");
-    const loginTitle = document.getElementById("loginTitle");
-    const loginSubtitle = document.getElementById("loginSubtitle");
-    const loginSubmitButton = document.getElementById("loginSubmitButton");
-    const adminModule = document.getElementById("adminModule");
-    const contabilidadModule = document.getElementById("contabilidadModule");
-    const contadorModulo = document.getElementById("contadorModulo");
-    const contadorModuloTexto = document.getElementById("contadorModuloTexto");
 
-    function abrirLogin(area) {
-      selectedLoginArea = area || "admin";
+    function irAContabilidad() {
+      window.location.href = "contabilidad/login/";
+    }
+
+    function abrirLoginAdmin() {
       loginError.classList.add("hidden");
       loginError.textContent = "";
-
-      if (selectedLoginArea === "contabilidad") {
-        loginTitle.textContent = "Login Contabilidad";
-        loginSubtitle.textContent = "Acceso al área contable de Teurgia Gestor.";
-        loginSubmitButton.textContent = "Ingresar a contabilidad";
-        loginSubmitButton.className = "accounting";
-      } else {
-        loginTitle.textContent = "Login Admin";
-        loginSubtitle.textContent = "Acceso al panel administrativo de Teurgia Gestor.";
-        loginSubmitButton.textContent = "Ingresar como admin";
-        loginSubmitButton.className = "";
-      }
-
       loginModal.classList.remove("hidden");
       setTimeout(() => document.getElementById("email").focus(), 50);
     }
 
     function cerrarLogin() { loginModal.classList.add("hidden"); }
-    function loginConEnter(event) { if (event.key === "Enter") login(); }
+    function loginConEnter(event) { if (event.key === "Enter") loginAdmin(); }
     function scrollAInfo() { document.getElementById("infoSistema").scrollIntoView({ behavior: "smooth" }); }
 
     function mostrarError(mensaje, error = null) {
@@ -398,7 +368,10 @@
       loginError.classList.remove("hidden");
     }
 
-    function limpiarError() { errorBox.textContent = ""; errorBox.classList.add("hidden"); }
+    function limpiarError() {
+      errorBox.textContent = "";
+      errorBox.classList.add("hidden");
+    }
 
     async function comprobarPocketBase() {
       try {
@@ -412,24 +385,6 @@
       }
     }
 
-    function aplicarArea() {
-      if (currentArea === "contabilidad") {
-        dashboardTitle.textContent = "Panel Contabilidad";
-        rolePill.textContent = "Área: Contabilidad";
-        adminModule.classList.add("hidden");
-        contabilidadModule.classList.remove("hidden");
-        contadorModuloTexto.textContent = "Registros contables";
-        contadorModulo.textContent = registrosContablesDemo.length;
-      } else {
-        dashboardTitle.textContent = "Panel Administrador";
-        rolePill.textContent = "Área: Administrador";
-        adminModule.classList.remove("hidden");
-        contabilidadModule.classList.add("hidden");
-        contadorModuloTexto.textContent = "Módulos activos";
-        contadorModulo.textContent = "1";
-      }
-    }
-
     function actualizarEstadoAuth() {
       if (pb.authStore.isValid) {
         const user = pb.authStore.model;
@@ -439,7 +394,6 @@
         topLogoutButton.classList.remove("hidden");
         landingView.classList.add("hidden");
         dashboardView.classList.remove("hidden");
-        aplicarArea();
       } else {
         currentUser.textContent = "";
         topAdminButton.classList.remove("hidden");
@@ -456,7 +410,7 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    async function login() {
+    async function loginAdmin() {
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value.trim();
       loginError.classList.add("hidden");
@@ -469,8 +423,6 @@
 
       try {
         await pb.collection("users").authWithPassword(email, password);
-        currentArea = selectedLoginArea;
-        localStorage.setItem("teurgia_area", currentArea);
         cerrarLogin();
         actualizarEstadoAuth();
         await cargarPublicaciones();
@@ -506,12 +458,19 @@
 
     async function agregarPublicacion() {
       limpiarError();
-      if (!pb.authStore.isValid) { abrirLogin("admin"); return; }
+      if (!pb.authStore.isValid) { abrirLoginAdmin(); return; }
+
       const titulo = document.getElementById("titulo").value.trim();
       const categoria = document.getElementById("categoria").value.trim();
       const contenido = document.getElementById("contenido").value.trim();
-      if (!titulo || !categoria || !contenido) { alert("Completa título, categoría y contenido."); return; }
+
+      if (!titulo || !categoria || !contenido) {
+        alert("Completa título, categoría y contenido.");
+        return;
+      }
+
       const data = { titulo, categoria, contenido, estado: "publicado", fecha: new Date().toISOString() };
+
       try {
         await pb.collection("publicaciones").create(data);
         document.getElementById("titulo").value = "";
@@ -524,20 +483,9 @@
       }
     }
 
-    function agregarRegistroContableDemo() {
-      const input = document.getElementById("registroContable");
-      const valor = input.value.trim();
-      if (!valor) { alert("Escribe un registro de prueba."); return; }
-      registrosContablesDemo.push({ texto: valor, fecha: new Date().toISOString() });
-      localStorage.setItem("teurgia_contabilidad_demo", JSON.stringify(registrosContablesDemo));
-      input.value = "";
-      aplicarArea();
-      alert("Registro contable de prueba agregado localmente.");
-    }
-
     async function eliminarPublicacion(id) {
       limpiarError();
-      if (!pb.authStore.isValid) { abrirLogin("admin"); return; }
+      if (!pb.authStore.isValid) { abrirLoginAdmin(); return; }
       if (!confirm("¿Seguro que quieres eliminar esta publicación?")) return;
       try {
         await pb.collection("publicaciones").delete(id);
@@ -552,14 +500,18 @@
       const filtro = document.getElementById("filtroCategoria")?.value || "Todas";
       let lista = publicaciones;
       if (filtro !== "Todas") lista = publicaciones.filter(pub => pub.categoria === filtro);
+
       document.getElementById("contadorPublicaciones").textContent = publicaciones.length;
       document.getElementById("contadorCategorias").textContent = new Set(publicaciones.map(pub => pub.categoria).filter(Boolean)).size;
-      aplicarArea();
-      if (!lista.length) { contenedor.innerHTML = '<p class="muted">No hay publicaciones para mostrar.</p>'; return; }
+
+      if (!lista.length) {
+        contenedor.innerHTML = '<p class="muted">No hay publicaciones para mostrar.</p>';
+        return;
+      }
+
       contenedor.innerHTML = lista.map(pub => {
         const fecha = pub.fecha ? new Date(pub.fecha).toLocaleDateString("es-CL") : "Sin fecha";
-        const botonEliminar = currentArea === "admin" ? `<button class="danger small" onclick="eliminarPublicacion('${pub.id}')">Eliminar</button>` : "";
-        return `<article class="post"><span class="badge">${escapeHTML(pub.categoria || "Sin categoría")}</span><h3>${escapeHTML(pub.titulo || "Sin título")}</h3><p class="muted">${fecha}</p><p>${escapeHTML(pub.contenido || "")}</p>${botonEliminar}</article>`;
+        return `<article class="post"><span class="badge">${escapeHTML(pub.categoria || "Sin categoría")}</span><h3>${escapeHTML(pub.titulo || "Sin título")}</h3><p class="muted">${fecha}</p><p>${escapeHTML(pub.contenido || "")}</p><button class="danger small" onclick="eliminarPublicacion('${pub.id}')">Eliminar</button></article>`;
       }).join("");
     }
 
