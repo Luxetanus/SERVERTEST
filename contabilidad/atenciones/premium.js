@@ -15,6 +15,31 @@ const $detailGrid=$('detailGrid');
 document.body.classList.add('page-enter');
 if(typeof userLabel==='function')$('userLabelText').textContent=userLabel();
 
+function ensureVisualModeCss(){
+  if(document.getElementById('premium-visual-mode-css'))return;
+  let link=document.createElement('link');
+  link.id='premium-visual-mode-css';
+  link.rel='stylesheet';
+  link.href='../assets/visual-mode.css?v=20260625a';
+  document.head.appendChild(link);
+}
+
+function syncVisualModeLabel(){
+  let light=document.body.classList.contains('dark');
+  document.querySelectorAll('.top-action').forEach(btn=>{
+    if(btn.getAttribute('onclick')&&btn.getAttribute('onclick').includes('toggleModoVisual'))btn.innerHTML=(light?'◑ <span>Modo oscuro</span>':'◐ <span>Modo claro</span>');
+  });
+}
+
+const originalToggleModoVisual=window.toggleModoVisual;
+window.toggleModoVisual=function(){
+  if(typeof originalToggleModoVisual==='function')originalToggleModoVisual();
+  else document.body.classList.toggle('dark');
+  syncVisualModeLabel();
+};
+ensureVisualModeCss();
+syncVisualModeLabel();
+
 function toggleSidebar(force){
   const shouldOpen=typeof force==='boolean'?force:!document.body.classList.contains('sidebar-open');
   document.body.classList.toggle('sidebar-open',shouldOpen);
@@ -205,6 +230,7 @@ window.ver=ver;
 window.cerrarDetalle=cerrarDetalle;
 window.toggleMenu=toggleMenu;
 window.render=render;
+window.ensureVisualModeCss=ensureVisualModeCss;
 
 updateCounter();
 updateSummary();
