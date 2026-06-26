@@ -15,14 +15,16 @@ const $detailGrid=$('detailGrid');
 document.body.classList.add('page-enter');
 if(typeof userLabel==='function')$('userLabelText').textContent=userLabel();
 
-function ensureVisualModeCss(){
-  if(document.getElementById('premium-visual-mode-css'))return;
+function loadCssOnce(id,href){
+  if(document.getElementById(id))return;
   let link=document.createElement('link');
-  link.id='premium-visual-mode-css';
+  link.id=id;
   link.rel='stylesheet';
-  link.href='../assets/visual-mode.css?v=20260625a';
+  link.href=href;
   document.head.appendChild(link);
 }
+function ensureVisualModeCss(){loadCssOnce('premium-visual-mode-css','../assets/visual-mode.css?v=20260625h')}
+function ensureVisualPolish(){loadCssOnce('teurgia-visual-polish-css','../assets/teurgia-visual-polish.css?v=20260625a')}
 
 function syncVisualModeLabel(){
   let light=document.body.classList.contains('dark');
@@ -38,6 +40,7 @@ window.toggleModoVisual=function(){
   syncVisualModeLabel();
 };
 ensureVisualModeCss();
+ensureVisualPolish();
 syncVisualModeLabel();
 
 function toggleSidebar(force){
@@ -231,6 +234,7 @@ window.cerrarDetalle=cerrarDetalle;
 window.toggleMenu=toggleMenu;
 window.render=render;
 window.ensureVisualModeCss=ensureVisualModeCss;
+window.ensureVisualPolish=ensureVisualPolish;
 
 updateCounter();
 updateSummary();
