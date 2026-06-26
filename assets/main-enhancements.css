@@ -1,4 +1,4 @@
-:root{--ease:cubic-bezier(.22,1,.36,1);--teurgia-font:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif}
+:root{--ease:cubic-bezier(.22,1,.36,1);--teurgia-font:Helvetica,Arial,sans-serif}
 html{scroll-behavior:smooth;font-family:var(--teurgia-font)!important}
 body,button,input,select,textarea,table,a,p,span,small,strong,label,h1,h2,h3,h4,h5,h6,div,section,article,nav,main,footer{font-family:var(--teurgia-font)!important}
 body{transition:background .28s var(--ease),color .28s var(--ease)}
