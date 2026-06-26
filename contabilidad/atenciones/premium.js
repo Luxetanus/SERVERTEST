@@ -24,7 +24,7 @@ function loadCssOnce(id,href){
   document.head.appendChild(link);
 }
 function ensureVisualModeCss(){loadCssOnce('premium-visual-mode-css','../assets/visual-mode.css?v=20260625h')}
-function ensureVisualPolish(){loadCssOnce('teurgia-visual-polish-css','../assets/teurgia-visual-polish.css?v=20260625a')}
+function ensureVisualPolish(){loadCssOnce('teurgia-visual-polish-css','../assets/teurgia-visual-polish.css?v=20260625p')}
 
 function syncVisualModeLabel(){
   let light=document.body.classList.contains('dark');
