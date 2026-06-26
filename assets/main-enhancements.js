@@ -11,6 +11,7 @@
   }
 
   loadCssOnce('teurgia-helvetica-font-css', 'assets/helvetica-font.css?v=20260625helv');
+  loadCssOnce('teurgia-responsive-zoom-css', 'assets/responsive-zoom.css?v=20260625zoom');
 
   const ready = () => {
     document.body.classList.remove('page-loading');
