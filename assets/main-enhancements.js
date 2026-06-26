@@ -10,7 +10,7 @@
     document.head.appendChild(link);
   }
 
-  loadCssOnce('teurgia-palatino-font-css', 'assets/palatino-font.css?v=20260625p');
+  loadCssOnce('teurgia-helvetica-font-css', 'assets/helvetica-font.css?v=20260625helv');
 
   const ready = () => {
     document.body.classList.remove('page-loading');
