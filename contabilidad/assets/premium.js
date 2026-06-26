@@ -6,7 +6,7 @@ function loadCssOnce(id,href){if(document.getElementById(id))return;let link=doc
 function assetPrefix(){return location.pathname.endsWith('/contabilidad/')||location.pathname.endsWith('/contabilidad/index.html')?'assets/':'../assets/'}
 function ensureVisualModeCss(){loadCssOnce('premium-visual-mode-css',assetPrefix()+'visual-mode.css?v=20260625h')}
 function ensureSymmetricTransitions(){loadCssOnce('premium-symmetric-transitions-css',assetPrefix()+'symmetric-transitions.css?v=20260625a')}
-function ensureVisualPolish(){loadCssOnce('teurgia-visual-polish-css',assetPrefix()+'teurgia-visual-polish.css?v=20260625a')}
+function ensureVisualPolish(){loadCssOnce('teurgia-visual-polish-css',assetPrefix()+'teurgia-visual-polish.css?v=20260625p')}
 function visualModeText(){return document.body.classList.contains('dark')?'◑ Modo oscuro':'◐ Modo claro'}
 function ensureVisualButton(){let top=document.querySelector('.top-actions');if(!top){let bar=document.querySelector('.topbar')||document.querySelector('header')||document.body;top=document.createElement('div');top.className='top-actions';bar.prepend(top)}let btn=[...document.querySelectorAll('button')].find(b=>(b.getAttribute('onclick')||'').includes('toggleModoVisual'));if(!btn){btn=document.createElement('button');btn.className='top-action';btn.type='button';btn.setAttribute('onclick','toggleModoVisual()');top.prepend(btn)}btn.innerHTML=visualModeText()}
 function syncVisualModeLabel(){document.querySelectorAll('button').forEach(btn=>{if((btn.getAttribute('onclick')||'').includes('toggleModoVisual'))btn.innerHTML=visualModeText()})}
