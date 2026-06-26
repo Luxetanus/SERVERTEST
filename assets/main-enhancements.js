@@ -1,5 +1,17 @@
 (() => {
   const qs = id => document.getElementById(id);
+
+  function loadCssOnce(id, href) {
+    if (document.getElementById(id)) return;
+    const link = document.createElement('link');
+    link.id = id;
+    link.rel = 'stylesheet';
+    link.href = href;
+    document.head.appendChild(link);
+  }
+
+  loadCssOnce('teurgia-palatino-font-css', 'assets/palatino-font.css?v=20260625p');
+
   const ready = () => {
     document.body.classList.remove('page-loading');
     document.body.classList.add('page-ready');
