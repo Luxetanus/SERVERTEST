@@ -4,33 +4,537 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gestor Teurgia</title>
-  <style>
-    :root{--bg:#f4f6f8;--card:#fff;--text:#1f2937;--muted:#6b7280;--primary:#2563eb;--primary-dark:#1e3a8a;--primary-soft:#dbeafe;--danger:#dc2626;--warning:#f59e0b;--border:#e5e7eb;--dark:#0f172a;--shadow:0 14px 40px rgba(15,23,42,.10)}
-    body.dark{--bg:#111827;--card:#1f2937;--text:#f9fafb;--muted:#9ca3af;--primary:#60a5fa;--primary-dark:#1e40af;--primary-soft:#1e3a8a;--danger:#f87171;--warning:#fbbf24;--border:#374151;--dark:#020617;--shadow:0 14px 40px rgba(0,0,0,.30)}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}.hidden{display:none!important}.muted{color:var(--muted)}
-    .topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.9);border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}body.dark .topbar{background:rgba(17,24,39,.9)}.topbar-inner{width:min(1180px,92%);margin:0 auto;padding:14px 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:12px;font-weight:900}.brand-mark{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--primary-dark),var(--primary));box-shadow:var(--shadow)}.brand small{display:block;color:var(--muted);font-weight:700;margin-top:2px}.top-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    button{border:none;border-radius:12px;padding:11px 16px;cursor:pointer;font-weight:900;background:var(--primary);color:#fff;transition:transform .15s ease,opacity .15s ease}button:hover{transform:translateY(-1px);opacity:.95}button.outline{background:transparent;color:var(--primary);border:1px solid var(--primary)}button.secondary{background:#64748b}button.danger{background:var(--danger)}button.accounting{background:var(--warning);color:#111827}button.light{background:#fff;color:var(--primary-dark)}button.small{padding:7px 10px;font-size:13px}
-    .hero{background:radial-gradient(circle at top left,rgba(37,99,235,.22),transparent 32%),linear-gradient(135deg,var(--dark),var(--primary-dark));color:#fff;padding:86px 0 76px}.hero-inner{width:min(1180px,92%);margin:0 auto;display:block}.hero-content{max-width:820px}.hero h1{font-size:clamp(3rem,7vw,6rem);line-height:.95;letter-spacing:-.06em;margin:0}.hero p{color:rgba(255,255,255,.78);font-size:19px;line-height:1.7;max-width:760px;margin:24px 0 0}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
-    main,.dashboard{width:min(1180px,92%);margin:0 auto;padding:34px 0 60px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}.card,.dashboard-header,.stat{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:22px;box-shadow:var(--shadow)}.dashboard-header{display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:20px}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:20px}.stat strong{display:block;font-size:34px;color:var(--primary)}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}.role-pill{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--primary-soft);color:var(--primary-dark);font-weight:900;font-size:13px;margin-top:8px}body.dark .role-pill{color:#fff}
-    label{display:block;margin-top:12px;font-weight:900;font-size:14px}input,select,textarea{width:100%;padding:12px;margin-top:6px;border:1px solid var(--border);border-radius:12px;font-size:15px;background:var(--card);color:var(--text)}textarea{min-height:130px;resize:vertical}.post{border:1px solid var(--border);border-radius:16px;padding:18px;margin-top:14px;background:var(--bg)}.badge{display:inline-block;background:var(--primary);color:#fff;border-radius:999px;padding:5px 11px;font-size:12px;margin-bottom:8px;font-weight:900}
-    .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,.7);display:grid;place-items:center;padding:20px;z-index:50}.login-modal{width:min(460px,100%);background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:24px;padding:24px;box-shadow:0 28px 80px rgba(0,0,0,.35)}.login-modal-header{display:flex;justify-content:space-between;align-items:start;gap:16px;margin-bottom:8px}.close-btn{background:transparent;color:var(--muted);border:1px solid var(--border);padding:8px 10px}.error-box{background:rgba(220,38,38,.12);color:var(--danger);border:1px solid var(--danger);padding:12px;border-radius:12px;margin-top:12px;white-space:pre-wrap;font-size:14px}footer{text-align:center;color:var(--muted);padding:24px}
-  </style>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/main-enhancements.css?v=20260625a">
+
+  <style>
+    :root{
+      --bg:#f4f6f8;
+      --surface:#ffffff;
+      --surface-soft:#f8fafc;
+      --text:#172033;
+      --muted:#64748b;
+      --muted-2:#8290a5;
+      --primary:#2563eb;
+      --primary-dark:#1e3a8a;
+      --primary-soft:#dbeafe;
+      --danger:#dc2626;
+      --warning:#f59e0b;
+      --warning-dark:#92400e;
+      --border:#e2e8f0;
+      --dark:#0f172a;
+      --shadow:0 14px 40px rgba(15,23,42,.10);
+      --shadow-soft:0 10px 24px rgba(15,23,42,.07);
+      --radius:22px;
+      --radius-md:16px;
+      --container:min(1180px,92%);
+      --ease:200ms ease;
+    }
+
+    body.dark{
+      --bg:#101827;
+      --surface:#172033;
+      --surface-soft:#111b2d;
+      --text:#f8fafc;
+      --muted:#a9b6ca;
+      --muted-2:#8ea0ba;
+      --primary:#60a5fa;
+      --primary-dark:#1d4ed8;
+      --primary-soft:#1e3a8a;
+      --danger:#f87171;
+      --warning:#fbbf24;
+      --warning-dark:#fde68a;
+      --border:#2d3b51;
+      --dark:#020617;
+      --shadow:0 14px 40px rgba(0,0,0,.30);
+      --shadow-soft:0 10px 24px rgba(0,0,0,.22);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:'Roboto',sans-serif;
+      font-weight:400;
+      background:var(--bg);
+      color:var(--text);
+      font-size:16px;
+      line-height:1.6;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+
+    button,input,select,textarea{font-family:'Roboto',sans-serif}
+    button{border:none}
+    a{color:inherit;text-decoration:none}
+    .hidden{display:none!important}
+    .muted{color:var(--muted)}
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:20;
+      background:rgba(255,255,255,.90);
+      border-bottom:1px solid var(--border);
+      backdrop-filter:blur(14px);
+    }
+    body.dark .topbar{background:rgba(16,24,39,.90)}
+
+    .topbar-inner{
+      width:var(--container);
+      margin:0 auto;
+      min-height:74px;
+      padding:14px 0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:13px;
+      font-weight:800;
+      letter-spacing:-.02em;
+      color:var(--text);
+    }
+    .brand-mark{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      background:linear-gradient(135deg,var(--primary-dark),var(--primary));
+      box-shadow:var(--shadow-soft);
+      font-weight:900;
+    }
+    .brand-name{font-size:18px;line-height:1.1}
+    .brand small{
+      display:block;
+      color:var(--muted);
+      font-weight:500;
+      margin-top:3px;
+      font-size:13px;
+      letter-spacing:0;
+    }
+
+    .top-actions,.toolbar,.hero-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    button{
+      border-radius:13px;
+      padding:11px 16px;
+      min-height:44px;
+      cursor:pointer;
+      font-size:14px;
+      line-height:1;
+      font-weight:700;
+      letter-spacing:-.01em;
+      background:var(--primary);
+      color:#fff;
+      transition:transform var(--ease),box-shadow var(--ease),opacity var(--ease),background-color var(--ease),border-color var(--ease);
+      box-shadow:0 8px 18px rgba(37,99,235,.18);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      gap:8px;
+    }
+    button:hover{transform:translateY(-1px);opacity:.96}
+    button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+      outline:3px solid rgba(37,99,235,.22);
+      outline-offset:2px;
+    }
+    button.outline{
+      background:transparent;
+      color:var(--primary);
+      border:1px solid color-mix(in srgb,var(--primary) 55%,transparent);
+      box-shadow:none;
+    }
+    button.secondary{background:#64748b;box-shadow:none}
+    button.danger{background:var(--danger);box-shadow:none}
+    button.accounting{background:var(--warning);color:#111827;box-shadow:0 8px 18px rgba(245,158,11,.18)}
+    button.light{background:#fff;color:var(--primary-dark);box-shadow:0 10px 26px rgba(15,23,42,.15)}
+    button.small{padding:8px 11px;min-height:36px;font-size:13px;border-radius:11px}
+
+    .hero{
+      background:radial-gradient(circle at top left,rgba(59,130,246,.28),transparent 34%),linear-gradient(135deg,var(--dark),var(--primary-dark));
+      color:#fff;
+      padding:92px 0 82px;
+    }
+    .hero-inner{width:var(--container);margin:0 auto}
+    .hero-content{max-width:850px}
+    .hero h1{
+      font-size:clamp(3rem,7vw,5.8rem);
+      line-height:.96;
+      letter-spacing:-.065em;
+      margin:0;
+      font-weight:900;
+    }
+    .hero p{
+      color:rgba(255,255,255,.80);
+      font-size:clamp(1rem,2vw,1.2rem);
+      line-height:1.75;
+      max-width:760px;
+      margin:24px 0 0;
+      font-weight:400;
+    }
+    .hero-actions{margin-top:32px}
+
+    main,.dashboard{
+      width:var(--container);
+      margin:0 auto;
+      padding:38px 0 64px;
+    }
+
+    .section-title{
+      font-size:clamp(1.65rem,3vw,2rem);
+      line-height:1.18;
+      margin:0 0 20px;
+      font-weight:800;
+      letter-spacing:-.035em;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:18px;
+      align-items:stretch;
+    }
+
+    .card,.dashboard-header,.stat{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:24px;
+      box-shadow:var(--shadow);
+    }
+    .card h2,.card h3,.post h3,.login-modal h2,.dashboard-header h1{
+      margin-top:0;
+      color:var(--text);
+      line-height:1.18;
+      letter-spacing:-.03em;
+    }
+    .card h2{font-size:24px;font-weight:800;margin-bottom:18px}
+    .card h3{font-size:20px;font-weight:700;margin-bottom:10px}
+    .card p{margin:0;color:var(--muted);line-height:1.65}
+
+    .dashboard-header{
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-bottom:20px;
+    }
+    .dashboard-header h1{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:900;margin-bottom:8px}
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:16px;
+      margin-bottom:20px;
+    }
+    .stat strong{
+      display:block;
+      font-size:36px;
+      line-height:1;
+      color:var(--primary);
+      font-weight:900;
+      letter-spacing:-.04em;
+      margin-bottom:8px;
+    }
+    .stat span{color:var(--muted);font-weight:500}
+
+    .toolbar{margin-top:14px}
+    .role-pill{
+      display:inline-flex;
+      align-items:center;
+      padding:7px 11px;
+      border-radius:999px;
+      background:var(--primary-soft);
+      color:var(--primary-dark);
+      font-weight:700;
+      font-size:13px;
+      margin-top:2px;
+    }
+    body.dark .role-pill{color:#fff}
+
+    label{
+      display:block;
+      margin-top:14px;
+      margin-bottom:7px;
+      font-weight:700;
+      font-size:13px;
+      color:var(--text);
+      letter-spacing:.01em;
+    }
+    input,select,textarea{
+      width:100%;
+      padding:12px 13px;
+      border:1px solid var(--border);
+      border-radius:13px;
+      font-size:15px;
+      background:var(--surface-soft);
+      color:var(--text);
+      min-height:46px;
+      transition:border-color var(--ease),box-shadow var(--ease),background-color var(--ease);
+    }
+    input::placeholder,textarea::placeholder{color:var(--muted-2)}
+    textarea{min-height:140px;resize:vertical;line-height:1.6}
+
+    .post{
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:20px;
+      margin-top:14px;
+      background:var(--surface-soft);
+    }
+    .post h3{font-size:20px;font-weight:800;margin:8px 0 8px}
+    .post p{margin:8px 0;line-height:1.65}
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      background:var(--primary);
+      color:#fff;
+      border-radius:999px;
+      padding:6px 11px;
+      font-size:12px;
+      margin-bottom:8px;
+      font-weight:700;
+    }
+
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(2,6,23,.72);
+      display:grid;
+      place-items:center;
+      padding:20px;
+      z-index:50;
+    }
+    .login-modal{
+      width:min(470px,100%);
+      background:var(--surface);
+      color:var(--text);
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:26px;
+      box-shadow:0 28px 80px rgba(0,0,0,.35);
+    }
+    .login-modal-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:16px;
+      margin-bottom:12px;
+    }
+    .login-modal h2{font-size:24px;font-weight:800;margin-bottom:6px}
+    .close-btn{background:transparent;color:var(--muted);border:1px solid var(--border);padding:8px 11px;min-height:38px;box-shadow:none}
+    .error-box{
+      background:rgba(220,38,38,.12);
+      color:var(--danger);
+      border:1px solid color-mix(in srgb,var(--danger) 60%,transparent);
+      padding:13px;
+      border-radius:13px;
+      margin-top:12px;
+      white-space:pre-wrap;
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      padding:28px 16px;
+      font-size:14px;
+      font-weight:500;
+    }
+
+    @media(max-width:760px){
+      .topbar-inner{align-items:flex-start;min-height:auto;padding:12px 0;flex-direction:column}
+      .top-actions{width:100%;display:grid;grid-template-columns:1fr;gap:8px}
+      .top-actions button{width:100%}
+      .hero{padding:64px 0 58px}
+      .hero-actions{display:grid;grid-template-columns:1fr;width:100%}
+      .hero-actions button{width:100%}
+      main,.dashboard{padding:28px 0 48px}
+      .card,.dashboard-header,.stat,.login-modal{padding:20px;border-radius:18px}
+      .dashboard-header{align-items:stretch}
+      .dashboard-header .toolbar{width:100%;display:grid;grid-template-columns:1fr}
+      .toolbar button{width:100%}
+      .grid{grid-template-columns:1fr}
+      .stats{grid-template-columns:1fr}
+    }
+  </style>
 </head>
 <body class="page-loading">
   <div class="page">
-    <nav class="topbar"><div class="topbar-inner"><div class="brand"><div class="brand-mark">T</div><div>Gestor Teurgia<small>Red de gestión digital</small></div></div><div class="top-actions"><button class="outline" onclick="cambiarModo()">Modo visual</button><button id="topAdminButton" onclick="abrirLogin('admin')">Login Admin</button><button id="topContabilidadButton" class="accounting" onclick="abrirLogin('contabilidad')">Login Contabilidad</button><button id="topLogoutButton" class="danger hidden" onclick="logout()">Cerrar sesión</button></div></div></nav>
-    <section id="landingView" class="view"><div class="hero"><div class="hero-inner"><div class="hero-content"><h1>Gestor Teurgia</h1><p>Plataforma de inicio para una red de gestión digital. El acceso Admin abre el panel principal y el acceso Contabilidad solicita las credenciales directamente aquí, sin pasar por una página intermedia.</p><div class="hero-actions"><button class="light" onclick="abrirLogin('admin')">Login Admin</button><button class="accounting" onclick="abrirLogin('contabilidad')">Login Contabilidad</button></div></div></div></div><main><h2 style="font-size:26px;margin-top:0;">Página principal</h2><div class="grid"><article class="card"><h3>Acceso administrador</h3><p class="muted">Abre el login interno del panel principal para crear publicaciones y administrar contenido.</p></article><article class="card"><h3>Acceso contabilidad</h3><p class="muted">Solicita credenciales de PocketBase en esta página y luego dirige al panel contable.</p></article><article class="card"><h3>Base para módulos</h3><p class="muted">Esta estructura permite agregar usuarios, actas, documentos, servicios, finanzas y paneles internos.</p></article></div></main></section>
-    <section id="dashboardView" class="dashboard view hidden"><div class="dashboard-header"><div><h1 style="margin:0;">Panel Administrador</h1><span class="role-pill">Área: Administrador</span><p class="muted" style="margin-bottom:0;">Sesión iniciada como: <strong id="currentUser">Usuario</strong></p></div><div class="toolbar"><button onclick="cargarPublicaciones()">Actualizar</button><button class="secondary" onclick="mostrarInicio()">Ver inicio</button><button class="danger" onclick="logout()">Cerrar sesión</button></div></div><div id="errorBox" class="error-box hidden"></div><div class="stats"><div class="stat"><strong id="contadorPublicaciones">0</strong><span>Publicaciones</span></div><div class="stat"><strong id="contadorCategorias">0</strong><span>Categorías usadas</span></div><div class="stat"><strong>1</strong><span>Módulos activos</span></div></div><div class="grid"><section class="card"><h2>Agregar publicación</h2><label for="titulo">Título</label><input id="titulo" type="text" placeholder="Título de la publicación"><label for="categoria">Categoría</label><select id="categoria"><option value="">Seleccionar categoría</option><option value="Institución">Institución</option><option value="Labor social">Labor social</option><option value="Actualidad">Actualidad</option><option value="Ensayo">Ensayo</option><option value="Columna de opinión">Columna de opinión</option><option value="Memoria institucional">Memoria institucional</option><option value="Sistema">Sistema</option></select><label for="contenido">Contenido</label><textarea id="contenido" placeholder="Escribe el contenido de la publicación"></textarea><button onclick="agregarPublicacion()">Agregar publicación</button></section><section class="card"><h2>Filtrar publicaciones</h2><label for="filtroCategoria">Categoría</label><select id="filtroCategoria" onchange="renderPublicaciones()"><option value="Todas">Todas</option><option value="Institución">Institución</option><option value="Labor social">Labor social</option><option value="Actualidad">Actualidad</option><option value="Ensayo">Ensayo</option><option value="Columna de opinión">Columna de opinión</option><option value="Memoria institucional">Memoria institucional</option><option value="Sistema">Sistema</option></select><div class="toolbar"><button class="secondary" onclick="borrarTodoLocal()">Borrar respaldo local</button></div></section></div><section class="card"><h2>Publicaciones</h2><div id="listaPublicaciones"><p class="muted">Cargando publicaciones...</p></div></section></section>
+    <nav class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="brand-mark">T</div>
+          <div>
+            <div class="brand-name">Gestor Teurgia</div>
+            <small>Red de gestión digital</small>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button class="outline" onclick="cambiarModo()">Modo visual</button>
+          <button id="topAdminButton" onclick="abrirLogin('admin')">Login Admin</button>
+          <button id="topContabilidadButton" class="accounting" onclick="abrirLogin('contabilidad')">Login Contabilidad</button>
+          <button id="topLogoutButton" class="danger hidden" onclick="logout()">Cerrar sesión</button>
+        </div>
+      </div>
+    </nav>
+
+    <section id="landingView" class="view">
+      <div class="hero">
+        <div class="hero-inner">
+          <div class="hero-content">
+            <h1>Gestor Teurgia</h1>
+            <p>Plataforma de inicio para una red de gestión digital. El acceso Admin abre el panel principal y el acceso Contabilidad solicita las credenciales directamente aquí, sin pasar por una página intermedia.</p>
+            <div class="hero-actions">
+              <button class="light" onclick="abrirLogin('admin')">Login Admin</button>
+              <button class="accounting" onclick="abrirLogin('contabilidad')">Login Contabilidad</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <main>
+        <h2 class="section-title">Página principal</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Acceso administrador</h3>
+            <p class="muted">Abre el login interno del panel principal para crear publicaciones y administrar contenido.</p>
+          </article>
+          <article class="card">
+            <h3>Acceso contabilidad</h3>
+            <p class="muted">Solicita credenciales de PocketBase en esta página y luego dirige al panel contable.</p>
+          </article>
+          <article class="card">
+            <h3>Base para módulos</h3>
+            <p class="muted">Esta estructura permite agregar usuarios, actas, documentos, servicios, finanzas y paneles internos.</p>
+          </article>
+        </div>
+      </main>
+    </section>
+
+    <section id="dashboardView" class="dashboard view hidden">
+      <div class="dashboard-header">
+        <div>
+          <h1>Panel Administrador</h1>
+          <span class="role-pill">Área: Administrador</span>
+          <p class="muted" style="margin-bottom:0;">Sesión iniciada como: <strong id="currentUser">Usuario</strong></p>
+        </div>
+        <div class="toolbar">
+          <button onclick="cargarPublicaciones()">Actualizar</button>
+          <button class="secondary" onclick="mostrarInicio()">Ver inicio</button>
+          <button class="danger" onclick="logout()">Cerrar sesión</button>
+        </div>
+      </div>
+
+      <div id="errorBox" class="error-box hidden"></div>
+
+      <div class="stats">
+        <div class="stat"><strong id="contadorPublicaciones">0</strong><span>Publicaciones</span></div>
+        <div class="stat"><strong id="contadorCategorias">0</strong><span>Categorías usadas</span></div>
+        <div class="stat"><strong>1</strong><span>Módulos activos</span></div>
+      </div>
+
+      <div class="grid">
+        <section class="card">
+          <h2>Agregar publicación</h2>
+          <label for="titulo">Título</label>
+          <input id="titulo" type="text" placeholder="Título de la publicación">
+          <label for="categoria">Categoría</label>
+          <select id="categoria">
+            <option value="">Seleccionar categoría</option>
+            <option value="Institución">Institución</option>
+            <option value="Labor social">Labor social</option>
+            <option value="Actualidad">Actualidad</option>
+            <option value="Ensayo">Ensayo</option>
+            <option value="Columna de opinión">Columna de opinión</option>
+            <option value="Memoria institucional">Memoria institucional</option>
+            <option value="Sistema">Sistema</option>
+          </select>
+          <label for="contenido">Contenido</label>
+          <textarea id="contenido" placeholder="Escribe el contenido de la publicación"></textarea>
+          <button onclick="agregarPublicacion()">Agregar publicación</button>
+        </section>
+
+        <section class="card">
+          <h2>Filtrar publicaciones</h2>
+          <label for="filtroCategoria">Categoría</label>
+          <select id="filtroCategoria" onchange="renderPublicaciones()">
+            <option value="Todas">Todas</option>
+            <option value="Institución">Institución</option>
+            <option value="Labor social">Labor social</option>
+            <option value="Actualidad">Actualidad</option>
+            <option value="Ensayo">Ensayo</option>
+            <option value="Columna de opinión">Columna de opinión</option>
+            <option value="Memoria institucional">Memoria institucional</option>
+            <option value="Sistema">Sistema</option>
+          </select>
+          <div class="toolbar">
+            <button class="secondary" onclick="borrarTodoLocal()">Borrar respaldo local</button>
+          </div>
+        </section>
+      </div>
+
+      <section class="card" style="margin-top:20px;">
+        <h2>Publicaciones</h2>
+        <div id="listaPublicaciones"><p class="muted">Cargando publicaciones...</p></div>
+      </section>
+    </section>
+
     <footer>Gestor Teurgia | Red de gestión digital</footer>
   </div>
-  <div id="loginModal" class="modal-backdrop hidden" aria-hidden="true"><div class="login-modal"><div class="login-modal-header"><div><h2 id="loginTitle" style="margin:0;">Login Admin</h2><p id="loginSubtitle" class="muted" style="margin-bottom:0;">Acceso al panel administrativo de Gestor Teurgia.</p></div><button class="close-btn" onclick="cerrarLogin()">Cerrar</button></div><label for="email">Correo</label><input id="email" type="email" placeholder="usuario@correo.cl"><label for="password">Contraseña</label><input id="password" type="password" placeholder="Contraseña" onkeydown="loginConEnter(event)"><button id="loginSubmitButton" style="width:100%;" onclick="login()">Ingresar</button><div id="loginError" class="error-box hidden"></div></div></div>
+
+  <div id="loginModal" class="modal-backdrop hidden" aria-hidden="true">
+    <div class="login-modal">
+      <div class="login-modal-header">
+        <div>
+          <h2 id="loginTitle">Login Admin</h2>
+          <p id="loginSubtitle" class="muted" style="margin-bottom:0;">Acceso al panel administrativo de Gestor Teurgia.</p>
+        </div>
+        <button class="close-btn" onclick="cerrarLogin()">Cerrar</button>
+      </div>
+      <label for="email">Correo</label>
+      <input id="email" type="email" placeholder="usuario@correo.cl">
+      <label for="password">Contraseña</label>
+      <input id="password" type="password" placeholder="Contraseña" onkeydown="loginConEnter(event)">
+      <button id="loginSubmitButton" style="width:100%;margin-top:16px;" onclick="login()">Ingresar</button>
+      <div id="loginError" class="error-box hidden"></div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/pocketbase/dist/pocketbase.umd.js"></script>
   <script>
-    const PB_URL="https://pocketbase.agrupacionnothofagus.cl";const pb=new PocketBase(PB_URL);let publicaciones=[];let selectedLoginArea="admin";
+    const PB_URL="https://pocketbase.agrupacionnothofagus.cl";
+    const pb=new PocketBase(PB_URL);
+    let publicaciones=[];
+    let selectedLoginArea="admin";
+
     const landingView=document.getElementById("landingView"),dashboardView=document.getElementById("dashboardView"),currentUser=document.getElementById("currentUser"),loginModal=document.getElementById("loginModal"),loginError=document.getElementById("loginError"),errorBox=document.getElementById("errorBox"),topAdminButton=document.getElementById("topAdminButton"),topContabilidadButton=document.getElementById("topContabilidadButton"),topLogoutButton=document.getElementById("topLogoutButton"),loginTitle=document.getElementById("loginTitle"),loginSubtitle=document.getElementById("loginSubtitle"),loginSubmitButton=document.getElementById("loginSubmitButton");
+
     function abrirLogin(area){selectedLoginArea=area||"admin";loginError.classList.add("hidden");loginError.textContent="";if(selectedLoginArea==="contabilidad"){loginTitle.textContent="Login Contabilidad";loginSubtitle.textContent="Ingresa con credenciales de PocketBase para acceder al panel contable.";loginSubmitButton.textContent="Ingresar a contabilidad";loginSubmitButton.className="accounting"}else{loginTitle.textContent="Login Admin";loginSubtitle.textContent="Acceso al panel administrativo de Gestor Teurgia.";loginSubmitButton.textContent="Ingresar como admin";loginSubmitButton.className=""}loginModal.classList.remove("hidden");setTimeout(()=>document.getElementById("email").focus(),50)}
-    function cerrarLogin(){loginModal.classList.add("hidden")}function loginConEnter(event){if(event.key==="Enter")login()}function mostrarError(mensaje,error=null){console.error(mensaje,error);let detalle=mensaje;if(error){detalle+="\nStatus: "+(error.status||"sin status");detalle+="\nMensaje: "+(error.message||"sin mensaje")}errorBox.textContent=detalle;errorBox.classList.remove("hidden")}function mostrarLoginError(mensaje,error=null){console.error(mensaje,error);loginError.textContent=mensaje;loginError.classList.remove("hidden")}function limpiarError(){errorBox.textContent="";errorBox.classList.add("hidden")}
+    function cerrarLogin(){loginModal.classList.add("hidden")}
+    function loginConEnter(event){if(event.key==="Enter")login()}
+    function mostrarError(mensaje,error=null){console.error(mensaje,error);let detalle=mensaje;if(error){detalle+="\nStatus: "+(error.status||"sin status");detalle+="\nMensaje: "+(error.message||"sin mensaje")}errorBox.textContent=detalle;errorBox.classList.remove("hidden")}
+    function mostrarLoginError(mensaje,error=null){console.error(mensaje,error);loginError.textContent=mensaje;loginError.classList.remove("hidden")}
+    function limpiarError(){errorBox.textContent="";errorBox.classList.add("hidden")}
     function actualizarEstadoAuth(){if(pb.authStore.isValid){const user=pb.authStore.model;currentUser.textContent=user?.email||user?.username||"Usuario";topAdminButton.classList.add("hidden");topContabilidadButton.classList.add("hidden");topLogoutButton.classList.remove("hidden");landingView.classList.add("hidden");dashboardView.classList.remove("hidden")}else{currentUser.textContent="";topAdminButton.classList.remove("hidden");topContabilidadButton.classList.remove("hidden");topLogoutButton.classList.add("hidden");landingView.classList.remove("hidden");dashboardView.classList.add("hidden")}}
     function mostrarInicio(){landingView.classList.remove("hidden");dashboardView.classList.add("hidden");window.scrollTo({top:0,behavior:"smooth"})}
     async function login(){const email=document.getElementById("email").value.trim(),password=document.getElementById("password").value.trim();loginError.classList.add("hidden");loginError.textContent="";if(!email||!password){mostrarLoginError("Ingresa correo y contraseña.");return}try{await pb.collection("users").authWithPassword(email,password);if(selectedLoginArea==="contabilidad"){if(window.teurgiaFadeTo)window.teurgiaFadeTo("contabilidad/");else window.location.href="contabilidad/";return}cerrarLogin();actualizarEstadoAuth();await cargarPublicaciones()}catch(error){mostrarLoginError("No se pudo ingresar. Revisa que el usuario exista en la colección users de PocketBase.",error)}}
@@ -39,7 +543,11 @@
     async function agregarPublicacion(){limpiarError();if(!pb.authStore.isValid){abrirLogin("admin");return}const titulo=document.getElementById("titulo").value.trim(),categoria=document.getElementById("categoria").value.trim(),contenido=document.getElementById("contenido").value.trim();if(!titulo||!categoria||!contenido){alert("Completa título, categoría y contenido.");return}try{await pb.collection("publicaciones").create({titulo,categoria,contenido,estado:"publicado",fecha:new Date().toISOString()});document.getElementById("titulo").value="";document.getElementById("categoria").value="";document.getElementById("contenido").value="";await cargarPublicaciones();alert("Publicación agregada.")}catch(error){mostrarError("No se pudo guardar la publicación. Revisa campos y reglas Create.",error)}}
     async function eliminarPublicacion(id){limpiarError();if(!pb.authStore.isValid){abrirLogin("admin");return}if(!confirm("¿Seguro que quieres eliminar esta publicación?"))return;try{await pb.collection("publicaciones").delete(id);await cargarPublicaciones()}catch(error){mostrarError("No se pudo eliminar la publicación.",error)}}
     function renderPublicaciones(){const contenedor=document.getElementById("listaPublicaciones"),filtro=document.getElementById("filtroCategoria")?.value||"Todas";let lista=publicaciones;if(filtro!=="Todas")lista=publicaciones.filter(pub=>pub.categoria===filtro);document.getElementById("contadorPublicaciones").textContent=publicaciones.length;document.getElementById("contadorCategorias").textContent=new Set(publicaciones.map(pub=>pub.categoria).filter(Boolean)).size;if(!lista.length){contenedor.innerHTML='<p class="muted">No hay publicaciones para mostrar.</p>';return}contenedor.innerHTML=lista.map(pub=>{const fecha=pub.fecha?new Date(pub.fecha).toLocaleDateString("es-CL"):"Sin fecha";return `<article class="post"><span class="badge">${escapeHTML(pub.categoria||"Sin categoría")}</span><h3>${escapeHTML(pub.titulo||"Sin título")}</h3><p class="muted">${fecha}</p><p>${escapeHTML(pub.contenido||"")}</p><button class="danger small" onclick="eliminarPublicacion('${pub.id}')">Eliminar</button></article>`}).join("")}
-    function guardarRespaldoLocal(){localStorage.setItem("publicaciones_respaldo",JSON.stringify(publicaciones))}function borrarTodoLocal(){localStorage.removeItem("publicaciones_respaldo");alert("Respaldo local eliminado. No borra datos de PocketBase.")}function cambiarModo(){document.body.classList.toggle("dark");localStorage.setItem("modo_oscuro",document.body.classList.contains("dark")?"1":"0")}function cargarModo(){if(localStorage.getItem("modo_oscuro")==="1")document.body.classList.add("dark")}function escapeHTML(texto){return String(texto).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+    function guardarRespaldoLocal(){localStorage.setItem("publicaciones_respaldo",JSON.stringify(publicaciones))}
+    function borrarTodoLocal(){localStorage.removeItem("publicaciones_respaldo");alert("Respaldo local eliminado. No borra datos de PocketBase.")}
+    function cambiarModo(){document.body.classList.toggle("dark");localStorage.setItem("modo_oscuro",document.body.classList.contains("dark")?"1":"0")}
+    function cargarModo(){if(localStorage.getItem("modo_oscuro")==="1")document.body.classList.add("dark")}
+    function escapeHTML(texto){return String(texto).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
     document.addEventListener("DOMContentLoaded",async()=>{cargarModo();actualizarEstadoAuth();if(pb.authStore.isValid)await cargarPublicaciones()});
   </script>
   <script src="assets/main-enhancements.js?v=20260625a"></script>
