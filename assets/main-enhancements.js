@@ -10,12 +10,23 @@
     document.head.appendChild(link);
   }
 
+  function loadScriptOnce(id, src) {
+    if (document.getElementById(id)) return;
+    const script = document.createElement('script');
+    script.id = id;
+    script.src = src;
+    script.defer = true;
+    document.body.appendChild(script);
+  }
+
   loadCssOnce('teurgia-helvetica-font-css', 'assets/helvetica-font.css?v=20260625helv');
   loadCssOnce('teurgia-responsive-zoom-css', 'assets/responsive-zoom.css?v=20260625zoom');
+  loadCssOnce('teurgia-user-admin-css', 'assets/user-admin.css?v=20260626a');
 
   const ready = () => {
     document.body.classList.remove('page-loading');
     document.body.classList.add('page-ready');
+    loadScriptOnce('teurgia-user-admin-js', 'assets/user-admin.js?v=20260626a');
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready);
