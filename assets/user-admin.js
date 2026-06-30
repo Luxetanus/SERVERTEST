@@ -115,7 +115,7 @@
     } catch (error) {
       console.error(error);
       if (tbody) tbody.innerHTML = '<tr><td colspan="6">No se pudieron cargar usuarios desde Directus.</td></tr>';
-      showMessage("Directus bloqueo la lectura de usuarios o el token expiro.", "err");
+      showMessage(error.message || "Directus bloqueo la lectura de usuarios o el token expiro.", "err");
     }
   }
 
@@ -256,7 +256,7 @@
       showMessage(id ? "Usuario actualizado correctamente." : "Usuario creado correctamente.", "ok");
     } catch (error) {
       console.error(error);
-      showMessage("No se pudo guardar el usuario en Directus.", "err");
+      showMessage(error.message || "No se pudo guardar el usuario en Directus.", "err");
     }
   }
 
