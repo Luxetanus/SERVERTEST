@@ -5,6 +5,14 @@ const DIRECTUS_AUTH_KEY='teurgia_directus_auth';
 const SERVER_COLLECTION='contabilidad_datos';
 const SERVER_KEY='contabilidad_general';
 const SERVER_ID_KEY='servertest_contabilidad_record_id';
+const DIRECTUS_TABLES={
+  atenciones:'contabilidad_atenciones',
+  usuarios:'contabilidad_usuarios',
+  profesionales:'contabilidad_profesionales',
+  aranceles:'contabilidad_aranceles',
+  egresos:'contabilidad_egresos',
+  cierres:'contabilidad_cierres'
+};
 const THEME_KEY='teurgia_contabilidad_modo_oscuro';
 const $=id=>document.getElementById(id);
 const n=v=>Number(v||0);
@@ -45,12 +53,26 @@ function load(){let db=loadLocal();setTimeout(syncFromServer,250);return db}
 function save(db){db=fixDb(db);localStorage.setItem(KEY,JSON.stringify(db));saveToServer(db)}
 function serverHeaders(){return{'Content-Type':'application/json','Authorization':'Bearer '+authData().token}}
 async function directusJson(path,options={}){let res=await fetch(DIRECTUS_URL+path,{...options,headers:{...serverHeaders(),...(options.headers||{})}});let txt=await res.text();let data=null;try{data=txt?JSON.parse(txt):null}catch(e){data=txt}if(!res.ok){let msg=data&&data.errors&&data.errors[0]?data.errors[0].message:res.status;throw new Error('Directus: '+msg)}return data}
+function stableUid(item){if(!item.id)item.id=uid();return String(item.id)}
+function recordLabel(kind,item){if(kind==='atenciones')return [item.fecha,item.usuario,item.servicio,item.profesional].filter(Boolean).join(' | ');if(kind==='usuarios'||kind==='profesionales')return item.nombre||item.email||item.rut||item.id||'';if(kind==='aranceles')return [item.servicio,item.tramo].filter(Boolean).join(' | ');if(kind==='egresos')return [item.fecha,item.categoria,item.detalle].filter(Boolean).join(' | ');if(kind==='cierres')return [item.mes,item.quincena,item.profesional].filter(Boolean).join(' | ');return item.id||''}
+function recordDate(item){return item.fecha||item.mes||null}
+function packRecord(kind,item){item={...item};return{uid:stableUid(item),etiqueta:recordLabel(kind,item),fecha_ref:recordDate(item),datos:item}}
+function unpackRecord(rec){let item=rec&&rec.datos?rec.datos:{};if(rec&&rec.uid&&!item.id)item.id=rec.uid;return item}
+async function readCollection(kind){let col=DIRECTUS_TABLES[kind];let data=await directusJson(`/items/${col}?limit=-1&sort=fecha_ref,etiqueta`);return(data.data||[]).map(unpackRecord)}
 async function findServerRecord(){let path=`/items/${SERVER_COLLECTION}?filter[clave][_eq]=${encodeURIComponent(SERVER_KEY)}&limit=1`;let data=await directusJson(path);return data.data&&data.data[0]?data.data[0]:null}
-async function readServer(){if(!isAuthenticated()||isLoginPage())return null;let rec=await findServerRecord();if(!rec){let local=loadLocal();await createServer(local);return local}localStorage.setItem(SERVER_ID_KEY,rec.id);markServerOk();return fixDb(rec.datos||seed())}
-async function createServer(db){let data=await directusJson(`/items/${SERVER_COLLECTION}`,{method:'POST',body:JSON.stringify({clave:SERVER_KEY,datos:fixDb(db)})});let rec=data.data;localStorage.setItem(SERVER_ID_KEY,rec.id);markServerOk();return rec}
-async function saveToServer(db){if(!isAuthenticated()||isLoginPage())return;try{let id=localStorage.getItem(SERVER_ID_KEY);if(!id){let rec=await findServerRecord();if(rec){id=rec.id;localStorage.setItem(SERVER_ID_KEY,id)}}let body=JSON.stringify({clave:SERVER_KEY,datos:fixDb(db)});let data=id?await directusJson(`/items/${SERVER_COLLECTION}/${id}`,{method:'PATCH',body}):await directusJson(`/items/${SERVER_COLLECTION}`,{method:'POST',body});let rec=data.data;localStorage.setItem(SERVER_ID_KEY,rec.id);markServerOk()}catch(e){console.error(e);markServerLocal(e.message)}}
+async function readLegacyServer(){let rec=await findServerRecord();if(!rec)return null;localStorage.setItem(SERVER_ID_KEY,rec.id);return fixDb(rec.datos||seed())}
+async function hasStructuredData(){for(let kind of Object.keys(DIRECTUS_TABLES)){let col=DIRECTUS_TABLES[kind];let data=await directusJson(`/items/${col}?limit=1&fields[]=id`);if(data.data&&data.data.length)return true}return false}
+async function readServer(){if(!isAuthenticated()||isLoginPage())return null;let structured=await hasStructuredData();if(!structured){let legacy=await readLegacyServer();if(legacy){await saveStructured(legacy);markServerOk();return legacy}let local=loadLocal();await saveStructured(local);markServerOk();return local}let db=seed();for(let kind of Object.keys(DIRECTUS_TABLES))db[kind]=await readCollection(kind);markServerOk();return fixDb(db)}
+async function existingByUid(kind){let col=DIRECTUS_TABLES[kind];let data=await directusJson(`/items/${col}?limit=-1&fields[]=id&fields[]=uid`);let map=new Map();(data.data||[]).forEach(rec=>map.set(String(rec.uid),rec.id));return map}
+async function saveCollection(kind,items){let col=DIRECTUS_TABLES[kind],seen=new Set(),existing=await existingByUid(kind);for(let item of items){let payload=packRecord(kind,item);seen.add(payload.uid);let id=existing.get(payload.uid);if(id)await directusJson(`/items/${col}/${id}`,{method:'PATCH',body:JSON.stringify(payload)});else await directusJson(`/items/${col}`,{method:'POST',body:JSON.stringify(payload)})}for(let [itemUid,id]of existing.entries()){if(!seen.has(itemUid))await directusJson(`/items/${col}/${id}`,{method:'DELETE'})}}
+async function saveStructured(db){db=fixDb(db);for(let kind of Object.keys(DIRECTUS_TABLES))await saveCollection(kind,db[kind]||[])}
+async function createServer(db){await saveStructured(db);markServerOk();return{data:fixDb(db)}}
+let saveTimer=null,saveInFlight=false,savePending=null;
+function queueServerSave(db){savePending=fixDb(JSON.parse(JSON.stringify(db)));if(saveTimer)clearTimeout(saveTimer);saveTimer=setTimeout(()=>flushServerSave(),450)}
+async function flushServerSave(){if(saveInFlight)return;if(!savePending||!isAuthenticated()||isLoginPage())return;saveInFlight=true;let db=savePending;savePending=null;try{await saveStructured(db);markServerOk()}catch(e){console.error(e);markServerLocal(e.message)}finally{saveInFlight=false;if(savePending)flushServerSave()}}
+async function saveToServer(db){if(!isAuthenticated()||isLoginPage())return;queueServerSave(db)}
 async function syncFromServer(){if(!isAuthenticated()||isLoginPage())return;try{let server=await readServer();if(!server)return;let serverRaw=JSON.stringify(server),localRaw=JSON.stringify(loadLocal());if(serverRaw!==localRaw){localStorage.setItem(KEY,serverRaw);let once='contabilidad_hydrated_'+location.pathname;if(sessionStorage.getItem(once)!=='1'){sessionStorage.setItem(once,'1');location.reload()}}markServerOk()}catch(e){console.error(e);markServerLocal(e.message)}}
-async function sincronizarContabilidad(){let db=loadLocal();await saveToServer(db);await syncFromServer();return loadLocal()}
+async function sincronizarContabilidad(){let db=loadLocal();await flushServerSave();await saveStructured(db);await syncFromServer();return loadLocal()}
 function cob(a){if(a.estado==='pagado')return n(a.arancel);if(a.estado==='abonado')return Math.min(n(a.abono),n(a.arancel));return 0}
 function deuda(a){return Math.max(n(a.arancel)-cob(a),0)}
 function calc(a){let c=cob(a),inst=c*n(a.porcentaje||30)/100,base=Math.max(c-inst,0),ret=base*n(a.retencion||15.25)/100;return{c,inst,base,ret,liq:Math.max(base-ret,0),deuda:deuda(a)}}
