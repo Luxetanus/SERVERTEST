@@ -1,6 +1,7 @@
 const KEY='servertest_contabilidad_v3';
 const OLD='servertest_contabilidad_v2';
-const PB_URL='https://pocketbase.agrupacionnothofagus.cl';
+const DIRECTUS_URL='https://directus.agrupacionnothofagus.cl';
+const DIRECTUS_AUTH_KEY='teurgia_directus_auth';
 const SERVER_COLLECTION='contabilidad_datos';
 const SERVER_KEY='contabilidad_general';
 const SERVER_ID_KEY='servertest_contabilidad_record_id';
@@ -26,7 +27,7 @@ function setServerStatus(text,ok=false){document.querySelectorAll('.brand-status
 function markServerOk(){localStorage.removeItem('contabilidad_sync_error');setServerStatus('Servidor activo',true)}
 function markServerLocal(msg){if(msg)localStorage.setItem('contabilidad_sync_error',msg);setServerStatus('Modo local',false)}
 aplicarModoVisual();
-function authData(){try{return JSON.parse(localStorage.getItem('pocketbase_auth')||'null')||{}}catch(e){return{}}}
+function authData(){try{return JSON.parse(localStorage.getItem(DIRECTUS_AUTH_KEY)||localStorage.getItem('pocketbase_auth')||'null')||{}}catch(e){return{}}}
 function tokenExpired(t){try{let p=JSON.parse(atob(t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));return p.exp&&p.exp*1000<Date.now()}catch(e){return true}}
 function isLoginPage(){return location.pathname.includes('/contabilidad/login/')}
 function loginUrl(){let rel=(location.pathname.split('/contabilidad/')[1]||'');return rel===''||rel==='index.html'?'login/':'../login/'}
@@ -35,7 +36,7 @@ function isAuthenticated(){let a=authData();return !!(a.token&&!tokenExpired(a.t
 function requireAuth(){if(isLoginPage())return true;if(!isAuthenticated()){location.href=loginUrl();return false}return true}
 function userLabel(){let m=authData().model||{};return m.email||m.username||m.name||'Usuario'}
 function fadeTo(url){document.body.classList.add('page-leaving');setTimeout(()=>{location.href=url},180)}
-function logoutContabilidad(){localStorage.removeItem('pocketbase_auth');localStorage.removeItem(SERVER_ID_KEY);fadeTo(homeUrl())}
+function logoutContabilidad(){localStorage.removeItem(DIRECTUS_AUTH_KEY);localStorage.removeItem('pocketbase_auth');localStorage.removeItem(SERVER_ID_KEY);fadeTo(homeUrl())}
 requireAuth();
 function seed(){return{atenciones:[],usuarios:[],profesionales:[],aranceles:[{id:uid(),servicio:'Psicología',tramo:'General',valor:0,obs:'Completar valor'},{id:uid(),servicio:'Terapia Ocupacional',tramo:'General',valor:0,obs:'Completar valor'},{id:uid(),servicio:'Fonoaudiología',tramo:'General',valor:0,obs:'Completar valor'},{id:uid(),servicio:'Psicopedagogía',tramo:'General',valor:0,obs:'Completar valor'},{id:uid(),servicio:'ADOS-2 / ADI-R',tramo:'Evaluación',valor:0,obs:'Completar valor'}],egresos:[],cierres:[]}}
 function fixDb(db){db=db||seed();db.atenciones=db.atenciones||[];db.usuarios=db.usuarios||[];db.profesionales=db.profesionales||[];db.aranceles=db.aranceles||[];db.egresos=db.egresos||[];db.cierres=db.cierres||[];db.atenciones=db.atenciones.map(a=>({...a,liquidado:!!a.liquidado,boleta:a.boleta||'pendiente'}));return db}
@@ -43,10 +44,11 @@ function loadLocal(){let raw=localStorage.getItem(KEY)||localStorage.getItem(OLD
 function load(){let db=loadLocal();setTimeout(syncFromServer,250);return db}
 function save(db){db=fixDb(db);localStorage.setItem(KEY,JSON.stringify(db));saveToServer(db)}
 function serverHeaders(){return{'Content-Type':'application/json','Authorization':'Bearer '+authData().token}}
-async function findServerRecord(){let f=encodeURIComponent("clave='"+SERVER_KEY+"'");let res=await fetch(`${PB_URL}/api/collections/${SERVER_COLLECTION}/records?filter=${f}&perPage=1`,{headers:serverHeaders()});if(!res.ok)throw new Error('No se pudo buscar registro servidor: '+res.status);let data=await res.json();return data.items&&data.items[0]?data.items[0]:null}
+async function directusJson(path,options={}){let res=await fetch(DIRECTUS_URL+path,{...options,headers:{...serverHeaders(),...(options.headers||{})}});let txt=await res.text();let data=null;try{data=txt?JSON.parse(txt):null}catch(e){data=txt}if(!res.ok){let msg=data&&data.errors&&data.errors[0]?data.errors[0].message:res.status;throw new Error('Directus: '+msg)}return data}
+async function findServerRecord(){let path=`/items/${SERVER_COLLECTION}?filter[clave][_eq]=${encodeURIComponent(SERVER_KEY)}&limit=1`;let data=await directusJson(path);return data.data&&data.data[0]?data.data[0]:null}
 async function readServer(){if(!isAuthenticated()||isLoginPage())return null;let rec=await findServerRecord();if(!rec){let local=loadLocal();await createServer(local);return local}localStorage.setItem(SERVER_ID_KEY,rec.id);markServerOk();return fixDb(rec.datos||seed())}
-async function createServer(db){let res=await fetch(`${PB_URL}/api/collections/${SERVER_COLLECTION}/records`,{method:'POST',headers:serverHeaders(),body:JSON.stringify({clave:SERVER_KEY,datos:fixDb(db)})});if(!res.ok)throw new Error('No se pudo crear registro servidor: '+res.status);let rec=await res.json();localStorage.setItem(SERVER_ID_KEY,rec.id);markServerOk();return rec}
-async function saveToServer(db){if(!isAuthenticated()||isLoginPage())return;try{let id=localStorage.getItem(SERVER_ID_KEY);if(!id){let rec=await findServerRecord();if(rec){id=rec.id;localStorage.setItem(SERVER_ID_KEY,id)}}let body=JSON.stringify({clave:SERVER_KEY,datos:fixDb(db)});let res=id?await fetch(`${PB_URL}/api/collections/${SERVER_COLLECTION}/records/${id}`,{method:'PATCH',headers:serverHeaders(),body}):await fetch(`${PB_URL}/api/collections/${SERVER_COLLECTION}/records`,{method:'POST',headers:serverHeaders(),body});if(!res.ok)throw new Error('No se pudo guardar en servidor: '+res.status);let rec=await res.json();localStorage.setItem(SERVER_ID_KEY,rec.id);markServerOk()}catch(e){console.error(e);markServerLocal(e.message)}}
+async function createServer(db){let data=await directusJson(`/items/${SERVER_COLLECTION}`,{method:'POST',body:JSON.stringify({clave:SERVER_KEY,datos:fixDb(db)})});let rec=data.data;localStorage.setItem(SERVER_ID_KEY,rec.id);markServerOk();return rec}
+async function saveToServer(db){if(!isAuthenticated()||isLoginPage())return;try{let id=localStorage.getItem(SERVER_ID_KEY);if(!id){let rec=await findServerRecord();if(rec){id=rec.id;localStorage.setItem(SERVER_ID_KEY,id)}}let body=JSON.stringify({clave:SERVER_KEY,datos:fixDb(db)});let data=id?await directusJson(`/items/${SERVER_COLLECTION}/${id}`,{method:'PATCH',body}):await directusJson(`/items/${SERVER_COLLECTION}`,{method:'POST',body});let rec=data.data;localStorage.setItem(SERVER_ID_KEY,rec.id);markServerOk()}catch(e){console.error(e);markServerLocal(e.message)}}
 async function syncFromServer(){if(!isAuthenticated()||isLoginPage())return;try{let server=await readServer();if(!server)return;let serverRaw=JSON.stringify(server),localRaw=JSON.stringify(loadLocal());if(serverRaw!==localRaw){localStorage.setItem(KEY,serverRaw);let once='contabilidad_hydrated_'+location.pathname;if(sessionStorage.getItem(once)!=='1'){sessionStorage.setItem(once,'1');location.reload()}}markServerOk()}catch(e){console.error(e);markServerLocal(e.message)}}
 async function sincronizarContabilidad(){let db=loadLocal();await saveToServer(db);await syncFromServer();return loadLocal()}
 function cob(a){if(a.estado==='pagado')return n(a.arancel);if(a.estado==='abonado')return Math.min(n(a.abono),n(a.arancel));return 0}

@@ -1,1 +1,112 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Acceso contabilidad</title><link rel="stylesheet" href="../assets/style.css?v=20260625h"><link rel="stylesheet" href="../assets/teurgia-visual-polish.css?v=20260625p"></head><body><main style="max-width:560px;padding-top:56px"><section class="card"><div class="logo">$</div><h1 style="color:#082f75">Acceso contabilidad</h1><p class="muted">Ingresa con el usuario o correo y contraseña registrados en PocketBase.</p><div id="estado" class="alert">Comprobando conexión...</div><label>Usuario o correo</label><input id="identity" autocomplete="username" placeholder="usuario@correo.cl"><label>Contraseña</label><input id="password" type="password" autocomplete="current-password" placeholder="Contraseña"><button onclick="loginContable()">Ingresar al panel</button><p id="msg" class="muted"></p></section></main><script src="../assets/store.js?v=20260625h"></script><script src="https://cdn.jsdelivr.net/npm/pocketbase/dist/pocketbase.umd.js"></script><script>const pb=new PocketBase(PB_URL);const msg=$('msg'),estado=$('estado');async function check(){try{await pb.health.check();estado.textContent='PocketBase conectado';if(isAuthenticated())location.href='../'}catch(e){estado.textContent='No se pudo conectar a PocketBase';msg.textContent='Revisa la conexión o el servidor PocketBase.'}}async function loginContable(){msg.textContent='';let identity=$('identity').value.trim(),password=$('password').value;if(!identity||!password){msg.textContent='Ingresa usuario/correo y contraseña.';return}try{await pb.collection('users').authWithPassword(identity,password);location.href='../'}catch(e){msg.textContent='No se pudo iniciar sesión. Revisa usuario, contraseña o permisos del usuario en PocketBase.'}}document.addEventListener('keydown',e=>{if(e.key==='Enter')loginContable()});check();</script></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Acceso contabilidad</title>
+  <link rel="stylesheet" href="../assets/style.css?v=20260625h">
+  <link rel="stylesheet" href="../assets/teurgia-visual-polish.css?v=20260625p">
+</head>
+<body>
+  <main style="max-width:560px;padding-top:56px">
+    <section class="card">
+      <div class="logo">$</div>
+      <h1 style="color:#082f75">Acceso contabilidad</h1>
+      <p class="muted">Ingresa con el usuario o correo y contrasena registrados en Directus.</p>
+      <div id="estado" class="alert">Comprobando conexion...</div>
+      <label>Usuario o correo</label>
+      <input id="identity" autocomplete="username" placeholder="usuario@correo.cl">
+      <label>Contrasena</label>
+      <input id="password" type="password" autocomplete="current-password" placeholder="Contrasena">
+      <button onclick="loginContable()">Ingresar al panel</button>
+      <p id="msg" class="muted"></p>
+    </section>
+  </main>
+
+  <script src="../assets/store.js?v=20260630d"></script>
+  <script>
+    const DIRECTUS_LOGIN_URL = "https://directus.agrupacionnothofagus.cl";
+    const msg = $("msg");
+    const estado = $("estado");
+
+    async function directusRequest(path, options) {
+      const response = await fetch(DIRECTUS_LOGIN_URL + path, {
+        ...options,
+        headers: {
+          "Content-Type": "application/json",
+          ...(options && options.headers ? options.headers : {}),
+        },
+      });
+      const text = await response.text();
+      let body = null;
+      try {
+        body = text ? JSON.parse(text) : null;
+      } catch (_) {
+        body = text;
+      }
+      if (!response.ok) {
+        let message = response.statusText || "Error Directus";
+        if (body && body.errors && body.errors[0] && body.errors[0].message) message = body.errors[0].message;
+        throw new Error(message);
+      }
+      return body;
+    }
+
+    async function check() {
+      try {
+        await directusRequest("/server/health", { method: "GET" });
+        estado.textContent = "Directus conectado";
+        if (isAuthenticated()) location.href = "../";
+      } catch (e) {
+        estado.textContent = "No se pudo conectar a Directus";
+        msg.textContent = "Revisa la conexion o el servidor Directus.";
+      }
+    }
+
+    async function loginContable() {
+      msg.textContent = "";
+      const email = $("identity").value.trim();
+      const password = $("password").value;
+      if (!email || !password) {
+        msg.textContent = "Ingresa usuario/correo y contrasena.";
+        return;
+      }
+
+      try {
+        const login = await directusRequest("/auth/login", {
+          method: "POST",
+          body: JSON.stringify({ email, password }),
+        });
+        const token = login.data.access_token;
+        const me = await directusRequest("/users/me?fields=id,email,first_name,last_name,status,role.id,role.name", {
+          method: "GET",
+          headers: { Authorization: "Bearer " + token },
+        });
+        const user = me.data || {};
+        const fullName = [user.first_name, user.last_name].filter(Boolean).join(" ").trim();
+        localStorage.setItem(DIRECTUS_AUTH_KEY, JSON.stringify({
+          token,
+          model: {
+            ...user,
+            email: user.email,
+            username: user.email,
+            nombre: fullName || user.email,
+            estado: user.status === "suspended" ? "inactivo" : "activo",
+            rol: user.email === "luxetanus@teurgia.cl" ? "administrador" : ((user.role && user.role.name) || "usuario_basico"),
+            permisos: user.email === "luxetanus@teurgia.cl" ? ["ver_dashboard","administrar_usuarios","ver_contabilidad"] : ["ver_dashboard","ver_contabilidad"],
+          },
+        }));
+        location.href = "../";
+      } catch (e) {
+        msg.textContent = "No se pudo iniciar sesion. Revisa usuario, contrasena o permisos en Directus.";
+      }
+    }
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Enter") loginContable();
+    });
+
+    check();
+  </script>
+</body>
+</html>
