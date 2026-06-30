@@ -10,12 +10,25 @@
     document.head.appendChild(link);
   }
 
+  function bootUserAdmin() {
+    if (!window.teurgiaUserAdmin || !window.pb || !window.pb.authStore?.isValid) return;
+    window.teurgiaUserAdmin.load?.().catch(() => {});
+  }
+
   function loadScriptOnce(id, src) {
-    if (document.getElementById(id)) return;
+    const existing = document.getElementById(id);
+    if (existing) {
+      setTimeout(bootUserAdmin, 120);
+      return;
+    }
     const script = document.createElement('script');
     script.id = id;
     script.src = src;
     script.defer = true;
+    script.onload = () => {
+      setTimeout(bootUserAdmin, 80);
+      setTimeout(bootUserAdmin, 450);
+    };
     document.body.appendChild(script);
   }
 
@@ -26,7 +39,7 @@
   const ready = () => {
     document.body.classList.remove('page-loading');
     document.body.classList.add('page-ready');
-    loadScriptOnce('teurgia-user-admin-js', 'assets/user-admin.js?v=20260626a');
+    loadScriptOnce('teurgia-user-admin-js', 'assets/user-admin.js?v=20260626b');
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready);
@@ -59,6 +72,7 @@
     if (modal && typeof window.abrirLogin === 'function' && !window.abrirLogin.__teurgiaEnhanced) {
       const originalOpen = window.abrirLogin;
       window.abrirLogin = function(area) {
+        window.teurgiaSelectedLoginArea = area || 'admin';
         originalOpen(area);
         modal.classList.remove('hidden');
         modal.classList.add('is-open');
@@ -95,16 +109,20 @@
           if (wasLanding && !dashboard.classList.contains('hidden')) window.teurgiaShowView(dashboard, landing);
           if (wasDashboard && !landing.classList.contains('hidden')) window.teurgiaShowView(landing, dashboard);
         }
+        setTimeout(bootUserAdmin, 120);
+        setTimeout(bootUserAdmin, 500);
       };
       window.actualizarEstadoAuth.__teurgiaEnhanced = true;
     }
 
     const loginButtons = document.querySelectorAll('button[onclick*="abrirLogin"]');
     loginButtons.forEach(btn => btn.classList.add('smooth-action'));
+    setTimeout(bootUserAdmin, 180);
   }
 
   document.addEventListener('DOMContentLoaded', enhanceExistingFunctions);
   window.addEventListener('load', enhanceExistingFunctions);
+  setTimeout(enhanceExistingFunctions, 350);
 
   document.addEventListener('click', event => {
     const link = event.target.closest('a[data-fade-link]');
