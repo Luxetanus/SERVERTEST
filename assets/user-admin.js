@@ -2,7 +2,7 @@
   const USER_COLLECTION = "users";
   const BOOTSTRAP_ADMIN_EMAILS = ["luxetanus@teurgia.cl"];
   const ROLES = {
-    administracion: "Administracion",
+    administracion: "Administración",
     lectura: "Lectura",
   };
   const PERMISSIONS = {
@@ -59,15 +59,15 @@
     el._t = setTimeout(() => el.classList.add("hidden"), 4500);
   }
 
-  function deny(message = "No tienes permiso para realizar esta accion.") {
+  function deny(message = "No tienes permiso para realizar esta acción.") {
     showMessage(message, "err");
     throw new Error(message);
   }
 
   function requireAdmin() {
-    if (!window.pb?.authStore?.isValid) deny("Debes iniciar sesion.");
+    if (!window.pb?.authStore?.isValid) deny("Debes iniciar sesión.");
     if (!isActiveUser()) deny("La cuenta esta inactiva. Contacta al administrador.");
-    if (!isAdmin()) deny("Acceso restringido: solo Administracion puede administrar usuarios.");
+    if (!isAdmin()) deny("Acceso restringido: solo Administración puede administrar usuarios.");
     return true;
   }
 
@@ -77,13 +77,13 @@
     const section = document.createElement("section");
     section.id = "userAdminSection";
     section.className = "card user-admin-section only-admin-hidden";
-    section.innerHTML = `<div class="user-admin-head"><div><h2>Administracion</h2><p class="muted">Crea usuarios nuevos y asigna rol de Administracion o Lectura.</p></div><button type="button" onclick="teurgiaUserAdmin.openCreate()">Anadir usuario</button></div><div id="userAdminMessage" class="user-admin-message hidden"></div><div class="user-admin-toolbar"><div><label for="uaSearch">Buscar</label><input id="uaSearch" placeholder="Nombre, correo o rol" oninput="teurgiaUserAdmin.render()"></div><div><label for="uaRoleFilter">Rol</label><select id="uaRoleFilter" onchange="teurgiaUserAdmin.render()"><option value="todos">Todos</option>${Object.entries(ROLES).map(([key, label]) => `<option value="${key}">${label}</option>`).join("")}</select></div><div><label for="uaStatusFilter">Estado</label><select id="uaStatusFilter" onchange="teurgiaUserAdmin.render()"><option value="todos">Todos</option><option value="activo">Activo</option><option value="inactivo">Inactivo</option></select></div><button type="button" class="secondary" onclick="teurgiaUserAdmin.load()">Actualizar</button></div><div class="user-admin-table-wrap"><table class="user-admin-table"><thead><tr><th>Usuario</th><th>Correo</th><th>Rol</th><th>Estado</th><th>Permisos</th><th>Acciones</th></tr></thead><tbody id="uaTable"><tr><td colspan="6">Cargando usuarios...</td></tr></tbody></table></div>`;
+    section.innerHTML = `<div class="user-admin-head"><div><h2>Administración</h2><p class="muted">Crea usuarios nuevos y asigna rol de Administración o Lectura.</p></div><button type="button" onclick="teurgiaUserAdmin.openCreate()">Añadir usuario</button></div><div id="userAdminMessage" class="user-admin-message hidden"></div><div class="user-admin-toolbar"><div><label for="uaSearch">Buscar</label><input id="uaSearch" placeholder="Nombre, correo o rol" oninput="teurgiaUserAdmin.render()"></div><div><label for="uaRoleFilter">Rol</label><select id="uaRoleFilter" onchange="teurgiaUserAdmin.render()"><option value="todos">Todos</option>${Object.entries(ROLES).map(([key, label]) => `<option value="${key}">${label}</option>`).join("")}</select></div><div><label for="uaStatusFilter">Estado</label><select id="uaStatusFilter" onchange="teurgiaUserAdmin.render()"><option value="todos">Todos</option><option value="activo">Activo</option><option value="inactivo">Inactivo</option></select></div><button type="button" class="secondary" onclick="teurgiaUserAdmin.load()">Actualizar</button></div><div class="user-admin-table-wrap"><table class="user-admin-table"><thead><tr><th>Usuario</th><th>Correo</th><th>Rol</th><th>Estado</th><th>Permisos</th><th>Acciones</th></tr></thead><tbody id="uaTable"><tr><td colspan="6">Cargando usuarios...</td></tr></tbody></table></div>`;
     mount.appendChild(section);
 
     const modal = document.createElement("div");
     modal.id = "userAdminModal";
     modal.className = "user-admin-modal";
-    modal.innerHTML = `<div class="user-admin-panel" role="dialog" aria-modal="true" aria-labelledby="uaModalTitle"><div class="user-admin-panel-head"><div><h2 id="uaModalTitle">Anadir usuario</h2><p class="muted" id="uaModalSub" style="margin:6px 0 0">Define acceso, rol y contrasena temporal.</p></div><button type="button" class="close-btn" onclick="teurgiaUserAdmin.close()">Cerrar</button></div><div class="user-admin-panel-body"><input type="hidden" id="uaId"><div class="user-admin-grid"><div><label for="uaNombre">Nombre completo</label><input id="uaNombre" placeholder="Nombre y apellido"></div><div><label for="uaEmail">Correo electronico</label><input id="uaEmail" type="email" placeholder="usuario@correo.cl"></div><div><label for="uaRol">Rol</label><select id="uaRol" onchange="teurgiaUserAdmin.applyRoleDefaults()">${Object.entries(ROLES).map(([key, label]) => `<option value="${key}">${label}</option>`).join("")}</select></div><div><label for="uaEstado">Estado</label><select id="uaEstado"><option value="activo">Activo</option><option value="inactivo">Inactivo</option></select></div></div><label for="uaPassword" id="uaPasswordLabel">Contrasena temporal</label><div class="user-admin-password-row"><input id="uaPassword" type="password" autocomplete="new-password" placeholder="Minimo 8 caracteres"><button type="button" class="secondary" onclick="teurgiaUserAdmin.generatePassword()">Generar</button><button type="button" class="outline" onclick="teurgiaUserAdmin.copyPassword()">Copiar</button></div><div class="user-admin-warning">Directus almacena la contrasena de forma segura. En edicion solo completa este campo si necesitas restablecerla.</div><h3 style="margin:22px 0 6px">Permisos del rol</h3><div id="uaPermisos" class="user-admin-permissions">${Object.entries(PERMISSIONS).map(([key, label]) => `<label class="permission-check"><input type="checkbox" value="${key}" disabled> <span>${label}</span></label>`).join("")}</div><div class="user-admin-footer"><button type="button" class="outline" onclick="teurgiaUserAdmin.close()">Cancelar</button><button type="button" onclick="teurgiaUserAdmin.save()">Guardar usuario</button></div></div></div>`;
+    modal.innerHTML = `<div class="user-admin-panel" role="dialog" aria-modal="true" aria-labelledby="uaModalTitle"><div class="user-admin-panel-head"><div><h2 id="uaModalTitle">Añadir usuario</h2><p class="muted" id="uaModalSub" style="margin:6px 0 0">Define acceso, rol y contraseña temporal.</p></div><button type="button" class="close-btn" onclick="teurgiaUserAdmin.close()">Cerrar</button></div><div class="user-admin-panel-body"><input type="hidden" id="uaId"><div class="user-admin-grid"><div><label for="uaNombre">Nombre completo</label><input id="uaNombre" placeholder="Nombre y apellido"></div><div><label for="uaEmail">Correo electrónico</label><input id="uaEmail" type="email" placeholder="usuario@correo.cl"></div><div><label for="uaRol">Rol</label><select id="uaRol" onchange="teurgiaUserAdmin.applyRoleDefaults()">${Object.entries(ROLES).map(([key, label]) => `<option value="${key}">${label}</option>`).join("")}</select></div><div><label for="uaEstado">Estado</label><select id="uaEstado"><option value="activo">Activo</option><option value="inactivo">Inactivo</option></select></div></div><label for="uaPassword" id="uaPasswordLabel">Contraseña temporal</label><div class="user-admin-password-row"><input id="uaPassword" type="password" autocomplete="new-password" placeholder="Mínimo 8 caracteres"><button type="button" class="secondary" onclick="teurgiaUserAdmin.generatePassword()">Generar</button><button type="button" class="outline" onclick="teurgiaUserAdmin.copyPassword()">Copiar</button></div><div class="user-admin-warning">Directus almacena la contraseña de forma segura. En edición solo completa este campo si necesitas restablecerla.</div><h3 style="margin:22px 0 6px">Permisos del rol</h3><div id="uaPermisos" class="user-admin-permissions">${Object.entries(PERMISSIONS).map(([key, label]) => `<label class="permission-check"><input type="checkbox" value="${key}" disabled> <span>${label}</span></label>`).join("")}</div><div class="user-admin-footer"><button type="button" class="outline" onclick="teurgiaUserAdmin.close()">Cancelar</button><button type="button" onclick="teurgiaUserAdmin.save()">Guardar usuario</button></div></div></div>`;
     document.body.appendChild(modal);
     modal.addEventListener("click", (event) => { if (event.target === modal) close(); });
   }
@@ -154,15 +154,15 @@
 
   function openCreate() {
     requireAdmin();
-    $("uaModalTitle").textContent = "Anadir usuario";
-    $("uaModalSub").textContent = "Crea una cuenta con rol Administracion o Lectura.";
+    $("uaModalTitle").textContent = "Añadir usuario";
+    $("uaModalSub").textContent = "Crea una cuenta con rol Administración o Lectura.";
     $("uaId").value = "";
     $("uaNombre").value = "";
     $("uaEmail").value = "";
     $("uaPassword").value = "";
     $("uaRol").value = "lectura";
     $("uaEstado").value = "activo";
-    $("uaPasswordLabel").textContent = "Contrasena temporal";
+    $("uaPasswordLabel").textContent = "Contraseña temporal";
     applyRoleDefaults();
     $("userAdminModal").classList.add("open");
     setTimeout(() => $("uaNombre").focus(), 60);
@@ -180,7 +180,7 @@
     $("uaPassword").value = "";
     $("uaRol").value = normalizeRole(user.rol || user.role);
     $("uaEstado").value = norm(user.estado || "activo") === "inactivo" ? "inactivo" : "activo";
-    $("uaPasswordLabel").textContent = "Nueva contrasena temporal (opcional)";
+    $("uaPasswordLabel").textContent = "Nueva contraseña temporal (opcional)";
     applyRoleDefaults();
     $("userAdminModal").classList.add("open");
   }
@@ -201,16 +201,16 @@
     const temp = password();
     $("uaPassword").value = temp;
     navigator.clipboard?.writeText(temp).catch(() => {});
-    showMessage("Contrasena temporal generada y copiada.", "ok");
+    showMessage("Contraseña temporal generada y copiada.", "ok");
   }
 
   function copyPassword() {
     const temp = $("uaPassword")?.value;
     if (!temp) {
-      showMessage("No hay contrasena para copiar.", "err");
+      showMessage("No hay contraseña para copiar.", "err");
       return;
     }
-    navigator.clipboard?.writeText(temp).then(() => showMessage("Contrasena copiada.", "ok")).catch(() => showMessage("No se pudo copiar automaticamente.", "err"));
+    navigator.clipboard?.writeText(temp).then(() => showMessage("Contraseña copiada.", "ok")).catch(() => showMessage("No se pudo copiar automáticamente.", "err"));
   }
 
   async function save() {
@@ -227,11 +227,11 @@
       return;
     }
     if (!id && pass.length < 8) {
-      showMessage("La contrasena temporal debe tener al menos 8 caracteres.", "err");
+      showMessage("La contraseña temporal debe tener al menos 8 caracteres.", "err");
       return;
     }
     if (id === currentId() && (estado === "inactivo" || rol !== "administracion")) {
-      showMessage("No puedes quitarte el rol Administracion ni desactivar tu propia cuenta.", "err");
+      showMessage("No puedes quitarte el rol Administración ni desactivar tu propia cuenta.", "err");
       return;
     }
     const duplicate = users.find((user) => norm(user.email) === email && user.id !== id);
@@ -243,7 +243,7 @@
     if (!id) payload.password = pass;
     else if (pass) {
       if (pass.length < 8) {
-        showMessage("La nueva contrasena debe tener al menos 8 caracteres.", "err");
+        showMessage("La nueva contraseña debe tener al menos 8 caracteres.", "err");
         return;
       }
       payload.password = pass;
@@ -284,15 +284,15 @@
     requireAdmin();
     const user = users.find((item) => item.id === id);
     if (!user) return;
-    if (!confirm(`Restablecer contrasena de ${user.email}?`)) return;
+    if (!confirm(`Restablecer contraseña de ${user.email}?`)) return;
     const temp = password();
     try {
       await window.pb.collection(USER_COLLECTION).update(id, { password: temp });
       await navigator.clipboard?.writeText(temp).catch(() => {});
-      showMessage("Contrasena temporal generada y copiada.", "ok");
+      showMessage("Contraseña temporal generada y copiada.", "ok");
     } catch (error) {
       console.error(error);
-      showMessage("No se pudo restablecer la contrasena.", "err");
+      showMessage("No se pudo restablecer la contraseña.", "err");
     }
   }
 
@@ -304,7 +304,7 @@
     }
     const user = users.find((item) => item.id === id);
     if (!user) return;
-    if (!confirm(`Eliminar definitivamente a ${user.email}? Esta accion no se puede deshacer.`)) return;
+    if (!confirm(`Eliminar definitivamente a ${user.email}? Esta acción no se puede deshacer.`)) return;
     try {
       await window.pb.collection(USER_COLLECTION).delete(id);
       await load();
@@ -342,7 +342,7 @@
         $("loginError").classList.add("hidden");
         $("loginError").textContent = "";
         if (!email || !pass) {
-          window.mostrarLoginError?.("Ingresa correo y contrasena.");
+          window.mostrarLoginError?.("Ingresa correo y contraseña.");
           return;
         }
         try {
@@ -370,7 +370,7 @@
           window.cerrarLogin?.();
           window.actualizarEstadoAuth?.();
         } catch (error) {
-          window.mostrarLoginError?.("No se pudo ingresar. Revisa usuario, contrasena o permisos.", error);
+          window.mostrarLoginError?.("No se pudo ingresar. Revisa usuario, contraseña o permisos.", error);
         }
       };
       window.login.__userAdminPatched = true;
