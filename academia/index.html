@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academia Teurgia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#f5f7fb;--ink:#152033;--muted:#66758c;--panel:#fff;--line:#dce4ef;--primary:#2563eb;--green:#16a34a;--green-dark:#14532d;--danger:#dc2626;--shadow:0 18px 50px rgba(15,23,42,.10)}
+    *{box-sizing:border-box}body{margin:0;font-family:Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}.shell{min-height:100dvh;display:grid;grid-template-columns:minmax(280px,420px) 1fr}.side{background:#0f172a;color:#fff;padding:34px;display:flex;flex-direction:column;justify-content:space-between;gap:30px}.mark{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:var(--green);font-size:26px;font-weight:900;box-shadow:0 16px 40px rgba(22,163,74,.28)}h1{font-size:clamp(2.4rem,5vw,4.4rem);line-height:.98;letter-spacing:-.05em;margin:22px 0 16px}.side p{color:#cbd5e1;font-size:17px;margin:0;max-width:34rem}.status{display:flex;align-items:center;gap:10px;color:#cbd5e1;font-weight:700}.dot{width:10px;height:10px;border-radius:999px;background:#f59e0b}.dot.ok{background:#22c55e}.main{padding:34px;display:grid;align-content:center}.panel{width:min(620px,100%);background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:28px;box-shadow:var(--shadow)}.panel h2{font-size:28px;line-height:1.1;margin:0 0 8px;letter-spacing:-.03em}.muted{color:var(--muted);margin:0 0 20px}label{display:block;margin:16px 0 7px;font-size:13px;font-weight:800;color:var(--ink)}input{width:100%;min-height:48px;border:1px solid var(--line);border-radius:13px;padding:12px 14px;font:inherit;background:#f8fafc;color:var(--ink)}button,a.btn{min-height:46px;border:0;border-radius:13px;padding:12px 16px;font:inherit;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}.primary{background:var(--green);color:#fff}.secondary{background:#eaf1fb;color:#1e3a8a}.danger{background:#fee2e2;color:#991b1b}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.notice{border:1px solid #bbf7d0;background:#ecfdf5;color:var(--green-dark);border-radius:15px;padding:13px 14px;font-size:14px;margin:16px 0}.warn{border-color:#fed7aa;background:#fff7ed;color:#9a3412}.top{position:absolute;top:18px;right:20px;display:flex;gap:8px}.top a{color:#334155;text-decoration:none;font-weight:800;background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 12px}.hidden{display:none!important}@media(max-width:820px){.shell{grid-template-columns:1fr}.side{min-height:42dvh}.main{padding:22px}.top{position:static;padding:14px 18px;background:#fff;border-bottom:1px solid var(--line)}} 
+  </style>
+</head>
+<body>
+  <div class="top"><a href="../">Inicio</a><a href="#" onclick="logoutAcademia();return false;">Salir</a></div>
+  <div class="shell">
+    <aside class="side">
+      <div>
+        <div class="mark">A</div>
+        <h1>Academia Teurgia</h1>
+        <p>Entrada de formación para estudiantes, equipo docente y administración. Esta página deja preparado el puente de acceso hacia Moodle.</p>
+      </div>
+      <div class="status"><span id="statusDot" class="dot"></span><span id="statusText">Revisando Moodle</span></div>
+    </aside>
+    <main class="main">
+      <section class="panel">
+        <h2>Ingreso Moodle</h2>
+        <p class="muted">Usa tus credenciales de Academia. El formulario enviará los datos al login estándar de Moodle.</p>
+        <div id="sessionNotice" class="notice hidden"></div>
+        <div id="moodleNotice" class="notice warn hidden"></div>
+        <form id="moodleForm" method="post" autocomplete="on">
+          <input type="hidden" name="testcookies" value="1">
+          <label for="username">Usuario o correo</label>
+          <input id="username" name="username" autocomplete="username" required>
+          <label for="password">Contraseña Moodle</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+          <div class="actions">
+            <button class="primary" type="submit">Entrar a Moodle</button>
+            <a id="openMoodle" class="btn secondary" href="#" target="_blank" rel="noopener">Abrir Moodle</a>
+            <button class="danger" type="button" onclick="logoutAcademia()">Cerrar sesión</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+  <script>
+    const DIRECTUS_AUTH_KEY = "teurgia_directus_auth";
+    const MOODLE_BASE_URL = "https://academia.agrupacionnothofagus.cl";
+
+    function authData() {
+      try { return JSON.parse(localStorage.getItem(DIRECTUS_AUTH_KEY) || "null") || {}; }
+      catch (_) { return {}; }
+    }
+
+    function tokenExpired(token) {
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
+        return Boolean(payload.exp && payload.exp * 1000 < Date.now());
+      } catch (_) {
+        return true;
+      }
+    }
+
+    function logoutAcademia() {
+      localStorage.removeItem(DIRECTUS_AUTH_KEY);
+      location.href = "../";
+    }
+
+    function requireAcademiaSession() {
+      const auth = authData();
+      if (!auth.token || tokenExpired(auth.token)) {
+        location.href = "../";
+        return null;
+      }
+      const user = auth.model || {};
+      document.getElementById("sessionNotice").textContent = `Sesión Teurgia activa: ${user.email || "usuario"}.`;
+      document.getElementById("sessionNotice").classList.remove("hidden");
+      return auth;
+    }
+
+    async function checkMoodle() {
+      const dot = document.getElementById("statusDot");
+      const text = document.getElementById("statusText");
+      const notice = document.getElementById("moodleNotice");
+      document.getElementById("moodleForm").action = `${MOODLE_BASE_URL.replace(/\/$/, "")}/login/index.php`;
+      document.getElementById("openMoodle").href = MOODLE_BASE_URL;
+      try {
+        await fetch(MOODLE_BASE_URL, { method: "HEAD", mode: "no-cors", cache: "no-store" });
+        dot.classList.add("ok");
+        text.textContent = "Moodle configurado";
+      } catch (_) {
+        text.textContent = "Moodle pendiente";
+        notice.textContent = `Moodle aún debe quedar disponible en ${MOODLE_BASE_URL}. El formulario ya está preparado para ese destino.`;
+        notice.classList.remove("hidden");
+      }
+    }
+
+    requireAcademiaSession();
+    checkMoodle();
+  </script>
+</body>
+</html>

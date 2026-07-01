@@ -363,6 +363,15 @@
             window.mostrarLoginError?.("Tu usuario no tiene permiso para ver contabilidad.");
             return;
           }
+          if (area === "academia") {
+            if (role === "administracion" || role === "lectura") {
+              if (window.teurgiaFadeTo) window.teurgiaFadeTo("academia/");
+              else location.href = "academia/";
+              return;
+            }
+            window.mostrarLoginError?.("Tu usuario no tiene permiso para ver Academia Teurgia.");
+            return;
+          }
           if (role !== "administracion" && role !== "lectura") {
             window.mostrarLoginError?.("Tu usuario no tiene permiso para acceder al panel.");
             return;
