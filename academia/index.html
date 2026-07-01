@@ -1,52 +1,126 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Academia Teurgia</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
   <style>
-    :root{--bg:#f5f7fb;--ink:#152033;--muted:#66758c;--panel:#fff;--line:#dce4ef;--primary:#2563eb;--green:#16a34a;--green-dark:#14532d;--danger:#dc2626;--shadow:0 18px 50px rgba(15,23,42,.10)}
-    *{box-sizing:border-box}body{margin:0;font-family:Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}.shell{min-height:100dvh;display:grid;grid-template-columns:minmax(280px,420px) 1fr}.side{background:#0f172a;color:#fff;padding:34px;display:flex;flex-direction:column;justify-content:space-between;gap:30px}.mark{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:var(--green);font-size:26px;font-weight:900;box-shadow:0 16px 40px rgba(22,163,74,.28)}h1{font-size:clamp(2.4rem,5vw,4.4rem);line-height:.98;letter-spacing:-.05em;margin:22px 0 16px}.side p{color:#cbd5e1;font-size:17px;margin:0;max-width:34rem}.status{display:flex;align-items:center;gap:10px;color:#cbd5e1;font-weight:700}.dot{width:10px;height:10px;border-radius:999px;background:#f59e0b}.dot.ok{background:#22c55e}.main{padding:34px;display:grid;align-content:center}.panel{width:min(620px,100%);background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:28px;box-shadow:var(--shadow)}.panel h2{font-size:28px;line-height:1.1;margin:0 0 8px;letter-spacing:-.03em}.muted{color:var(--muted);margin:0 0 20px}label{display:block;margin:16px 0 7px;font-size:13px;font-weight:800;color:var(--ink)}input{width:100%;min-height:48px;border:1px solid var(--line);border-radius:13px;padding:12px 14px;font:inherit;background:#f8fafc;color:var(--ink)}button,a.btn{min-height:46px;border:0;border-radius:13px;padding:12px 16px;font:inherit;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}.primary{background:var(--green);color:#fff}.secondary{background:#eaf1fb;color:#1e3a8a}.danger{background:#fee2e2;color:#991b1b}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.notice{border:1px solid #bbf7d0;background:#ecfdf5;color:var(--green-dark);border-radius:15px;padding:13px 14px;font-size:14px;margin:16px 0}.warn{border-color:#fed7aa;background:#fff7ed;color:#9a3412}.top{position:absolute;top:18px;right:20px;display:flex;gap:8px}.top a{color:#334155;text-decoration:none;font-weight:800;background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 12px}.hidden{display:none!important}@media(max-width:820px){.shell{grid-template-columns:1fr}.side{min-height:42dvh}.main{padding:22px}.top{position:static;padding:14px 18px;background:#fff;border-bottom:1px solid var(--line)}} 
+    :root{--bg:#f4f6f8;--surface:#ffffff;--surface-soft:#f8fafc;--text:#172033;--muted:#64748b;--muted-2:#8290a5;--primary:#2563eb;--primary-dark:#1e3a8a;--primary-soft:#dbeafe;--academy:#16a34a;--academy-dark:#14532d;--academy-soft:#dcfce7;--danger:#dc2626;--warning:#f59e0b;--warning-dark:#92400e;--border:#e2e8f0;--dark:#0f172a;--shadow:0 14px 40px rgba(15,23,42,.10);--shadow-soft:0 10px 24px rgba(15,23,42,.07);--radius:22px;--radius-md:16px;--container:min(1180px,92%);--ease:200ms ease}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:'Roboto',sans-serif;font-weight:400;background:var(--bg);color:var(--text);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}button,input{font-family:'Roboto',sans-serif}button{border:none}a{color:inherit;text-decoration:none}.hidden{display:none!important}.muted{color:var(--muted)}
+    .topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.90);border-bottom:1px solid var(--border);backdrop-filter:blur(14px)}.topbar-inner{width:var(--container);margin:0 auto;min-height:74px;padding:14px 0;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:13px;font-weight:800;letter-spacing:-.02em;color:var(--text)}.brand-mark{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--primary-dark),var(--primary));box-shadow:var(--shadow-soft);font-weight:900}.brand-name{font-size:18px;line-height:1.1}.brand small{display:block;color:var(--muted);font-weight:500;margin-top:3px;font-size:13px;letter-spacing:0}.top-actions,.toolbar,.hero-actions,.form-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    button,.button{border-radius:13px;padding:11px 16px;min-height:44px;cursor:pointer;font-size:14px;line-height:1;font-weight:700;letter-spacing:-.01em;background:var(--primary);color:#fff;transition:transform var(--ease),box-shadow var(--ease),opacity var(--ease),background-color var(--ease),border-color var(--ease);box-shadow:0 8px 18px rgba(37,99,235,.18);display:inline-flex;align-items:center;justify-content:center;text-align:center;gap:8px}button:hover,.button:hover{transform:translateY(-1px);opacity:.96}button:focus-visible,.button:focus-visible,input:focus-visible{outline:3px solid rgba(37,99,235,.22);outline-offset:2px}button.outline,.button.outline{background:transparent;color:var(--primary);border:1px solid color-mix(in srgb,var(--primary) 55%,transparent);box-shadow:none}button.secondary,.button.secondary{background:#64748b;box-shadow:none}button.danger,.button.danger{background:var(--danger);box-shadow:none}button.academy,.button.academy{background:var(--academy);color:#fff;box-shadow:0 8px 18px rgba(22,163,74,.18)}button.light,.button.light{background:#fff;color:var(--primary-dark);box-shadow:0 10px 26px rgba(15,23,42,.15)}button.small,.button.small{padding:8px 11px;min-height:36px;font-size:13px;border-radius:11px}
+    .hero{background:radial-gradient(circle at top left,rgba(22,163,74,.28),transparent 34%),linear-gradient(135deg,var(--dark),var(--primary-dark));color:#fff;padding:72px 0 64px}.hero-inner{width:var(--container);margin:0 auto}.hero-content{max-width:850px}.hero h1{font-size:clamp(3rem,7vw,5.8rem);line-height:.96;letter-spacing:-.065em;margin:0;font-weight:900}.hero p{color:rgba(255,255,255,.80);font-size:clamp(1rem,2vw,1.2rem);line-height:1.75;max-width:760px;margin:24px 0 0;font-weight:400}.hero-actions{margin-top:32px}
+    main{width:var(--container);margin:0 auto;padding:38px 0 64px}.section-title{font-size:clamp(1.65rem,3vw,2rem);line-height:1.18;margin:0 0 20px;font-weight:800;letter-spacing:-.035em}.academy-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);gap:18px;align-items:start}.card,.dashboard-header,.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}.card h2,.card h3,.dashboard-header h1{margin-top:0;color:var(--text);line-height:1.18;letter-spacing:-.03em}.card h2{font-size:24px;font-weight:800;margin-bottom:10px}.card h3{font-size:20px;font-weight:700;margin-bottom:10px}.card p{margin:0;color:var(--muted);line-height:1.65}.dashboard-header{display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap;margin-bottom:20px}.dashboard-header h1{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:900;margin-bottom:8px}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:20px 0 0}.stat{box-shadow:var(--shadow-soft)}.stat strong{display:block;font-size:28px;line-height:1;color:var(--academy);font-weight:900;letter-spacing:-.04em;margin-bottom:8px}.stat span{color:var(--muted);font-weight:500}.role-pill{display:inline-flex;align-items:center;padding:7px 11px;border-radius:999px;background:var(--academy-soft);color:var(--academy-dark);font-weight:800;font-size:13px;margin-top:2px}
+    label{display:block;margin-top:14px;margin-bottom:7px;font-weight:700;font-size:13px;color:var(--text);letter-spacing:.01em}input{width:100%;padding:12px 13px;border:1px solid var(--border);border-radius:13px;font-size:15px;background:var(--surface-soft);color:var(--text);min-height:46px;transition:border-color var(--ease),box-shadow var(--ease),background-color var(--ease)}input::placeholder{color:var(--muted-2)}.notice{border:1px solid #bbf7d0;background:#ecfdf5;color:var(--academy-dark);border-radius:13px;padding:13px;margin:14px 0;white-space:pre-wrap;font-size:14px;line-height:1.5}.notice.warn{border-color:#fed7aa;background:#fff7ed;color:#9a3412}.notice.error{border-color:#fecaca;background:#fef2f2;color:#991b1b}.form-actions{margin-top:18px}.form-actions button,.form-actions .button{flex:1 1 160px}.info-list{display:grid;gap:12px;margin-top:16px}.info-item{border:1px solid var(--border);border-radius:16px;background:var(--surface-soft);padding:15px}.info-item strong{display:block;color:var(--text);line-height:1.25;margin-bottom:4px}.info-item span{color:var(--muted);font-size:14px}footer{text-align:center;color:var(--muted);padding:28px 16px;font-size:14px;font-weight:500}
+    @media(max-width:860px){.academy-layout{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.topbar-inner{align-items:flex-start;min-height:auto;padding:12px 0;flex-direction:column}.top-actions{width:100%;display:grid;grid-template-columns:1fr;gap:8px}.top-actions button,.top-actions .button{width:100%}.hero{padding:58px 0 52px}.hero-actions{display:grid;grid-template-columns:1fr;width:100%}.hero-actions button,.hero-actions .button{width:100%}main{padding:28px 0 48px}.card,.dashboard-header,.stat{padding:20px;border-radius:18px}.dashboard-header{align-items:stretch}.dashboard-header .toolbar{width:100%;display:grid;grid-template-columns:1fr}.toolbar button,.toolbar .button{width:100%}}
   </style>
 </head>
 <body>
-  <div class="top"><a href="../">Inicio</a><a href="#" onclick="logoutAcademia();return false;">Salir</a></div>
-  <div class="shell">
-    <aside class="side">
-      <div>
-        <div class="mark">A</div>
-        <h1>Academia Teurgia</h1>
-        <p>Entrada de formación para estudiantes, equipo docente y administración. Esta página deja preparado el puente de acceso hacia Moodle.</p>
+  <nav class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../">
+        <div class="brand-mark">T</div>
+        <div>
+          <div class="brand-name">Gestor Teurgia</div>
+          <small>Academia Teurgia</small>
+        </div>
+      </a>
+      <div class="top-actions">
+        <a class="button outline" href="../">Inicio</a>
+        <a id="topOpenMoodle" class="button academy" href="#" target="_blank" rel="noopener">Abrir Moodle</a>
+        <button class="danger" type="button" onclick="logoutAcademia()">Cerrar sesi&oacute;n</button>
       </div>
-      <div class="status"><span id="statusDot" class="dot"></span><span id="statusText">Revisando Moodle</span></div>
-    </aside>
-    <main class="main">
-      <section class="panel">
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <h1>Academia Teurgia</h1>
+        <p>Entrada de formaci&oacute;n para estudiantes, equipo docente y administraci&oacute;n. Este acceso conserva la sesi&oacute;n de Gestor Teurgia y conecta con el Moodle de Academia.</p>
+        <div class="hero-actions">
+          <a id="heroOpenMoodle" class="button light" href="#" target="_blank" rel="noopener">Abrir Moodle</a>
+          <a class="button academy" href="#moodle-login">Ingresar con Moodle</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section class="dashboard-header">
+      <div>
+        <h1>Panel Academia</h1>
+        <span class="role-pill">Area: Formaci&oacute;n</span>
+        <p class="muted" style="margin-bottom:0;">Sesi&oacute;n iniciada como: <strong id="currentUser">Usuario</strong></p>
+      </div>
+      <div class="toolbar">
+        <button class="academy" type="button" onclick="checkMoodle()">Actualizar estado</button>
+        <a class="button secondary" href="../">Volver al inicio</a>
+      </div>
+    </section>
+
+    <section class="academy-layout">
+      <article id="moodle-login" class="card">
         <h2>Ingreso Moodle</h2>
-        <p class="muted">Usa tus credenciales de Academia. El formulario enviará los datos al login estándar de Moodle.</p>
+        <p>Usa tus credenciales de Academia. El formulario enviar&aacute; los datos al login est&aacute;ndar de Moodle.</p>
         <div id="sessionNotice" class="notice hidden"></div>
         <div id="moodleNotice" class="notice warn hidden"></div>
+
         <form id="moodleForm" method="post" autocomplete="on">
           <input type="hidden" name="testcookies" value="1">
           <label for="username">Usuario o correo</label>
-          <input id="username" name="username" autocomplete="username" required>
-          <label for="password">Contraseña Moodle</label>
-          <input id="password" name="password" type="password" autocomplete="current-password" required>
-          <div class="actions">
-            <button class="primary" type="submit">Entrar a Moodle</button>
-            <a id="openMoodle" class="btn secondary" href="#" target="_blank" rel="noopener">Abrir Moodle</a>
-            <button class="danger" type="button" onclick="logoutAcademia()">Cerrar sesión</button>
+          <input id="username" name="username" autocomplete="username" placeholder="usuario@correo.cl" required>
+          <label for="password">Contrase&ntilde;a Moodle</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Contrase&ntilde;a" required>
+          <div class="form-actions">
+            <button class="academy" type="submit">Entrar a Moodle</button>
+            <a id="formOpenMoodle" class="button outline" href="#" target="_blank" rel="noopener">Abrir sin login</a>
+            <button class="danger" type="button" onclick="logoutAcademia()">Cerrar sesi&oacute;n</button>
           </div>
         </form>
-      </section>
-    </main>
-  </div>
+      </article>
+
+      <aside class="card">
+        <h2>Estado</h2>
+        <p id="statusText">Revisando Moodle</p>
+        <div class="stats">
+          <div class="stat">
+            <strong id="sessionState">OK</strong>
+            <span>Directus</span>
+          </div>
+          <div class="stat">
+            <strong id="moodleState">...</strong>
+            <span>Moodle</span>
+          </div>
+          <div class="stat">
+            <strong>LAN</strong>
+            <span>Servidor</span>
+          </div>
+        </div>
+        <div class="info-list">
+          <div class="info-item">
+            <strong>Destino actual</strong>
+            <span id="moodleTarget">Preparando enlace</span>
+          </div>
+          <div class="info-item">
+            <strong>Subdominio pendiente</strong>
+            <span>Cuando conectemos Cloudflare cambiaremos este acceso al dominio p&uacute;blico de Academia.</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer>Gestor Teurgia | Red de gesti&oacute;n digital</footer>
+
   <script>
     const DIRECTUS_AUTH_KEY = "teurgia_directus_auth";
-    const MOODLE_BASE_URL = "https://academia.agrupacionnothofagus.cl";
+    const MOODLE_BASE_URL = "http://192.168.1.50:8086";
 
     function authData() {
       try { return JSON.parse(localStorage.getItem(DIRECTUS_AUTH_KEY) || "null") || {}; }
@@ -62,6 +136,12 @@
       }
     }
 
+    function setNotice(element, text, type) {
+      element.textContent = text;
+      element.classList.remove("hidden", "warn", "error");
+      if (type) element.classList.add(type);
+    }
+
     function logoutAcademia() {
       localStorage.removeItem(DIRECTUS_AUTH_KEY);
       location.href = "../";
@@ -74,25 +154,29 @@
         return null;
       }
       const user = auth.model || {};
-      document.getElementById("sessionNotice").textContent = `Sesión Teurgia activa: ${user.email || "usuario"}.`;
-      document.getElementById("sessionNotice").classList.remove("hidden");
+      const label = user.email || user.nombre || "usuario";
+      document.getElementById("currentUser").textContent = label;
+      setNotice(document.getElementById("sessionNotice"), `Sesion Teurgia activa: ${label}.`, "");
       return auth;
     }
 
     async function checkMoodle() {
-      const dot = document.getElementById("statusDot");
-      const text = document.getElementById("statusText");
+      const base = MOODLE_BASE_URL.replace(/\/$/, "");
+      const links = ["topOpenMoodle", "heroOpenMoodle", "formOpenMoodle"];
       const notice = document.getElementById("moodleNotice");
-      document.getElementById("moodleForm").action = `${MOODLE_BASE_URL.replace(/\/$/, "")}/login/index.php`;
-      document.getElementById("openMoodle").href = MOODLE_BASE_URL;
+      const moodleState = document.getElementById("moodleState");
+      document.getElementById("moodleForm").action = `${base}/login/index.php`;
+      document.getElementById("moodleTarget").textContent = base;
+      links.forEach((id) => { document.getElementById(id).href = base; });
       try {
-        await fetch(MOODLE_BASE_URL, { method: "HEAD", mode: "no-cors", cache: "no-store" });
-        dot.classList.add("ok");
-        text.textContent = "Moodle configurado";
+        await fetch(base, { method: "HEAD", mode: "no-cors", cache: "no-store" });
+        moodleState.textContent = "OK";
+        document.getElementById("statusText").textContent = "Moodle responde en el servidor.";
+        notice.classList.add("hidden");
       } catch (_) {
-        text.textContent = "Moodle pendiente";
-        notice.textContent = `Moodle aún debe quedar disponible en ${MOODLE_BASE_URL}. El formulario ya está preparado para ese destino.`;
-        notice.classList.remove("hidden");
+        moodleState.textContent = "LAN";
+        document.getElementById("statusText").textContent = "Moodle esta preparado en el servidor local.";
+        setNotice(notice, `Moodle esta configurado en ${base}. Si entras desde fuera de la red, falta terminar el subdominio publico.`, "warn");
       }
     }
 
