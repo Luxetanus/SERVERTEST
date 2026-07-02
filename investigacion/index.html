@@ -14,12 +14,29 @@
     .content{min-width:0}.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.90);border-bottom:1px solid var(--border);backdrop-filter:blur(14px)}.topbar-inner{min-height:74px;padding:14px clamp(18px,4vw,42px);display:flex;align-items:center;justify-content:space-between;gap:16px}.topbar h1{margin:0;font-size:clamp(1.45rem,3vw,2rem);line-height:1.1;letter-spacing:-.04em;font-weight:900}.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.page{padding:32px clamp(18px,4vw,42px) 54px}.hero{background:radial-gradient(circle at top left,rgba(20,184,166,.22),transparent 34%),linear-gradient(135deg,var(--dark),var(--primary-dark));color:#fff;border-radius:var(--radius);padding:30px;box-shadow:var(--shadow);margin-bottom:20px}.hero h2{font-size:clamp(2rem,5vw,4rem);line-height:.98;letter-spacing:-.06em;margin:0;font-weight:900}.hero p{color:rgba(255,255,255,.78);max-width:800px;margin:18px 0 0;font-size:17px}.role-pill{display:inline-flex;align-items:center;padding:7px 11px;border-radius:999px;background:var(--accent-soft);color:#134e4a;font-weight:800;font-size:13px}
     button,.btn{border-radius:13px;padding:11px 16px;min-height:44px;cursor:pointer;font-size:14px;line-height:1;font-weight:800;background:var(--primary);color:#fff;transition:transform var(--ease),box-shadow var(--ease),opacity var(--ease),background-color var(--ease);box-shadow:0 8px 18px rgba(37,99,235,.18);display:inline-flex;align-items:center;justify-content:center;gap:8px}button:hover,.btn:hover{transform:translateY(-1px);opacity:.96}button.secondary,.btn.secondary{background:#64748b;box-shadow:none}button.outline,.btn.outline{background:transparent;color:var(--primary);border:1px solid color-mix(in srgb,var(--primary) 55%,transparent);box-shadow:none}button.danger{background:var(--danger);box-shadow:none}button.accent{background:var(--accent);box-shadow:0 8px 18px rgba(15,118,110,.18)}
     .summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:20px}.stat,.panel,.module-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}.stat strong{display:block;font-size:34px;line-height:1;color:var(--primary);font-weight:900;letter-spacing:-.04em;margin-bottom:8px}.stat span{color:var(--muted);font-weight:600}.panel-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.panel h3,.module-card h3{font-size:21px;line-height:1.18;letter-spacing:-.03em;margin:0 0 14px;font-weight:900}.list{display:grid;gap:10px}.list-item{border:1px solid var(--border);background:var(--surface-soft);border-radius:16px;padding:14px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.list-item strong{display:block;line-height:1.25}.list-item small{display:block;color:var(--muted);margin-top:4px}.badge{display:inline-flex;align-items:center;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:900;background:var(--primary-soft);color:var(--primary-dark);white-space:nowrap}.badge.ok{background:#dcfce7;color:#166534}.badge.warn{background:#fef3c7;color:#92400e}.badge.danger{background:#fee2e2;color:#991b1b}.module-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}.module-card{box-shadow:var(--shadow-soft)}.module-card p{margin:0;color:var(--muted)}.table-wrap{width:100%;overflow:auto;border:1px solid var(--border);border-radius:18px;background:var(--surface)}table{width:100%;border-collapse:collapse;min-width:760px}th,td{padding:13px 14px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);background:var(--surface-soft)}td{font-size:14px}.progress{height:9px;border-radius:999px;background:#e2e8f0;overflow:hidden;min-width:90px}.progress span{display:block;height:100%;background:var(--accent)}
-    .module-view{display:none}.module-view.active{display:block;animation:fadeIn 180ms ease}.module-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}.module-header h2{font-size:clamp(1.65rem,3vw,2.2rem);line-height:1.15;letter-spacing:-.04em;margin:0;font-weight:900}.module-header p{margin:8px 0 0;color:var(--muted);max-width:760px}.privacy-note{border:1px solid #bbf7d0;background:#ecfdf5;color:#14532d;border-radius:16px;padding:14px;margin-bottom:16px;font-weight:700}@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .module-view{display:none}.module-view.active{display:block;animation:fadeIn 180ms ease}.module-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}.module-header h2{font-size:clamp(1.65rem,3vw,2.2rem);line-height:1.15;letter-spacing:-.04em;margin:0;font-weight:900}.module-header p{margin:8px 0 0;color:var(--muted);max-width:760px}.privacy-note{border:1px solid #bbf7d0;background:#ecfdf5;color:#14532d;border-radius:16px;padding:14px;margin-bottom:16px;font-weight:700}.login-screen{min-height:100dvh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 18% 12%,rgba(37,99,235,.18),transparent 30%),linear-gradient(135deg,#081323,#102a4c 58%,#0f766e)}.login-card{width:min(460px,100%);background:rgba(255,255,255,.96);border:1px solid rgba(255,255,255,.38);border-radius:22px;box-shadow:0 24px 70px rgba(2,6,23,.28);padding:30px}.login-card h1{margin:0;font-size:clamp(2rem,6vw,3.2rem);line-height:.98;letter-spacing:-.05em;font-weight:900;color:var(--text)}.login-card p{margin:12px 0 22px;color:var(--muted);font-weight:600}.login-form{display:grid;gap:13px}.login-form label{display:grid;gap:7px;color:#334155;font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.04em}.login-form input{width:100%;border:1px solid var(--border);border-radius:14px;min-height:48px;padding:0 14px;font-size:16px;background:#fff;color:var(--text);outline:none;transition:border-color var(--ease),box-shadow var(--ease)}.login-form input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(37,99,235,.12)}.login-error{border:1px solid #fecaca;background:#fee2e2;color:#991b1b;border-radius:14px;padding:12px 14px;font-weight:800}.login-actions{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:6px}@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
     @media(max-width:980px){.app-shell{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.nav{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}.panel-grid{grid-template-columns:1fr}.topbar-inner{align-items:flex-start;flex-direction:column}.toolbar{width:100%;display:grid;grid-template-columns:1fr}.toolbar button,.toolbar .btn{width:100%}.hero{padding:24px}.list-item{display:grid}.app-shell .sidebar .side-actions{grid-template-columns:1fr 1fr;display:grid}}@media(max-width:620px){.page{padding:22px 16px 42px}.summary-grid,.module-grid{grid-template-columns:1fr}.app-shell .sidebar .side-actions{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
-  <div class="app-shell">
+  <section class="login-screen hidden" id="researchLogin">
+    <form class="login-card" onsubmit="loginInvestigacion(event)">
+      <div class="brand" style="margin-bottom:18px;"><div class="brand-mark">T</div><div><strong style="color:var(--text);">Academia interna</strong><small style="color:var(--muted);">&Aacute;rea de Investigaci&oacute;n</small></div></div>
+      <h1>Login Investigaci&oacute;n</h1>
+      <p>Ingresa con tus credenciales de Directus para acceder al panel interno de investigaci&oacute;n.</p>
+      <div class="login-form">
+        <label>Correo<input id="researchEmail" type="email" autocomplete="username" required></label>
+        <label>Contrase&ntilde;a<input id="researchPassword" type="password" autocomplete="current-password" required></label>
+        <div class="login-error hidden" id="researchLoginError"></div>
+        <div class="login-actions">
+          <a class="btn outline" href="../">Volver al inicio</a>
+          <button class="accent" id="researchLoginButton" type="submit">Entrar</button>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  <div class="app-shell hidden" id="researchApp">
     <aside class="sidebar">
       <a class="brand" href="../">
         <div class="brand-mark">T</div>
@@ -129,6 +146,7 @@
   </div>
 
   <script>
+    const DIRECTUS_URL = "https://directus.agrupacionnothofagus.cl";
     const DIRECTUS_AUTH_KEY = "teurgia_directus_auth";
     const modules = [
       ["dashboard", "Dashboard"],
@@ -187,21 +205,78 @@
       }
     }
 
+    function showLogin(message = "") {
+      document.getElementById("researchApp").classList.add("hidden");
+      document.getElementById("researchLogin").classList.remove("hidden");
+      const error = document.getElementById("researchLoginError");
+      error.textContent = message;
+      error.classList.toggle("hidden", !message);
+      setTimeout(() => document.getElementById("researchEmail").focus(), 50);
+    }
+
+    function showApp(user) {
+      document.getElementById("researchLogin").classList.add("hidden");
+      document.getElementById("researchApp").classList.remove("hidden");
+      document.getElementById("currentUser").textContent = user.email || user.nombre || "usuario";
+    }
+
+    function saveAuth(token, refreshToken, model) {
+      localStorage.setItem(DIRECTUS_AUTH_KEY, JSON.stringify({ token, refreshToken, model }));
+    }
+
+    async function loginInvestigacion(event) {
+      event.preventDefault();
+      const email = document.getElementById("researchEmail").value.trim();
+      const password = document.getElementById("researchPassword").value.trim();
+      const button = document.getElementById("researchLoginButton");
+      const error = document.getElementById("researchLoginError");
+      error.classList.add("hidden");
+      button.disabled = true;
+      button.textContent = "Ingresando...";
+      try {
+        const loginResponse = await fetch(`${DIRECTUS_URL}/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+        const loginBody = await loginResponse.json();
+        if (!loginResponse.ok) throw new Error(loginBody?.errors?.[0]?.message || "No se pudo iniciar sesion.");
+        const token = loginBody.data.access_token;
+        const refreshToken = loginBody.data.refresh_token;
+        const meResponse = await fetch(`${DIRECTUS_URL}/users/me?fields=id,email,first_name,last_name,role.id,role.name`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const meBody = await meResponse.json();
+        if (!meResponse.ok) throw new Error(meBody?.errors?.[0]?.message || "No se pudo cargar el usuario.");
+        const user = meBody.data || { email };
+        saveAuth(token, refreshToken, user);
+        showApp(user);
+        render();
+      } catch (err) {
+        error.textContent = err.message || "No se pudo ingresar. Revisa correo y contrasena.";
+        error.classList.remove("hidden");
+      } finally {
+        button.disabled = false;
+        button.textContent = "Entrar";
+      }
+    }
+
     function requireSession() {
       const auth = authData();
       if (!auth.token || tokenExpired(auth.token)) {
-        location.href = "../";
-        return null;
+        localStorage.removeItem(DIRECTUS_AUTH_KEY);
+        showLogin();
+        return false;
       }
       const user = auth.model || {};
-      document.getElementById("currentUser").textContent = user.email || user.nombre || "usuario";
+      showApp(user);
       // TODO: aplicar permisos Directus para administrador, coordinador de investigacion e investigadores autorizados.
-      return auth;
+      return true;
     }
 
     function logoutInvestigacion() {
       localStorage.removeItem(DIRECTUS_AUTH_KEY);
-      location.href = "../";
+      showLogin("Sesion cerrada.");
     }
 
     function badge(text) {
@@ -243,8 +318,7 @@
       renderList("notificationList", [["Documento espera revision", "Protocolo v0.3", "Pendiente"], ["Nueva reunion programada", "Comite metodologico", "En proceso"], ["Producto academico actualizado", "Informe tecnico", "Activo"]]);
     }
 
-    requireSession();
-    render();
+    if (requireSession()) render();
   </script>
 </body>
 </html>
