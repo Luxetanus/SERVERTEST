@@ -35,7 +35,7 @@ function setServerStatus(text,ok=false){document.querySelectorAll('.brand-status
 function markServerOk(){localStorage.removeItem('contabilidad_sync_error');setServerStatus('Servidor activo',true)}
 function markServerLocal(msg){if(msg)localStorage.setItem('contabilidad_sync_error',msg);setServerStatus('Modo local',false)}
 aplicarModoVisual();
-function authData(){try{return JSON.parse(localStorage.getItem(DIRECTUS_AUTH_KEY)||localStorage.getItem('pocketbase_auth')||'null')||{}}catch(e){return{}}}
+function authData(){try{return JSON.parse(localStorage.getItem(DIRECTUS_AUTH_KEY)||'null')||{}}catch(e){return{}}}
 function tokenExpired(t){try{let p=JSON.parse(atob(t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));return p.exp&&p.exp*1000<Date.now()}catch(e){return true}}
 function isLoginPage(){return location.pathname.includes('/contabilidad/login/')}
 function loginUrl(){let rel=(location.pathname.split('/contabilidad/')[1]||'');return rel===''||rel==='index.html'?'login/':'../login/'}
@@ -44,7 +44,7 @@ function isAuthenticated(){let a=authData();return !!(a.token&&!tokenExpired(a.t
 function requireAuth(){if(isLoginPage())return true;if(!isAuthenticated()){location.href=loginUrl();return false}return true}
 function userLabel(){let m=authData().model||{};return m.email||m.username||m.name||'Usuario'}
 function fadeTo(url){document.body.classList.add('page-leaving');setTimeout(()=>{location.href=url},180)}
-function logoutContabilidad(){localStorage.removeItem(DIRECTUS_AUTH_KEY);localStorage.removeItem('pocketbase_auth');localStorage.removeItem(SERVER_ID_KEY);fadeTo(homeUrl())}
+function logoutContabilidad(){localStorage.removeItem(DIRECTUS_AUTH_KEY);localStorage.removeItem(SERVER_ID_KEY);fadeTo(homeUrl())}
 requireAuth();
 function seed(){return{atenciones:[],usuarios:[],profesionales:[],aranceles:[{id:uid(),servicio:'Psicología',tramo:'General',valor:0,obs:'Completar valor'},{id:uid(),servicio:'Terapia Ocupacional',tramo:'General',valor:0,obs:'Completar valor'},{id:uid(),servicio:'Fonoaudiología',tramo:'General',valor:0,obs:'Completar valor'},{id:uid(),servicio:'Psicopedagogía',tramo:'General',valor:0,obs:'Completar valor'},{id:uid(),servicio:'ADOS-2 / ADI-R',tramo:'Evaluación',valor:0,obs:'Completar valor'}],egresos:[],cierres:[]}}
 function fixDb(db){db=db||seed();db.atenciones=db.atenciones||[];db.usuarios=db.usuarios||[];db.profesionales=db.profesionales||[];db.aranceles=db.aranceles||[];db.egresos=db.egresos||[];db.cierres=db.cierres||[];db.atenciones=db.atenciones.map(a=>({...a,liquidado:!!a.liquidado,boleta:a.boleta||'pendiente'}));return db}
