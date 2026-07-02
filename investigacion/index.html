@@ -9,13 +9,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root{--bg:#f4f6f8;--surface:#fff;--surface-soft:#f8fafc;--text:#172033;--muted:#64748b;--primary:#2563eb;--primary-dark:#1e3a8a;--primary-soft:#dbeafe;--accent:#0f766e;--accent-soft:#ccfbf1;--warning:#f59e0b;--danger:#dc2626;--border:#e2e8f0;--dark:#0f172a;--shadow:0 14px 40px rgba(15,23,42,.10);--shadow-soft:0 10px 24px rgba(15,23,42,.07);--radius:22px;--radius-md:16px;--ease:200ms ease}
+    body.research-dark{--bg:#0f172a;--surface:#172033;--surface-soft:#111b2d;--text:#f8fafc;--muted:#b6c2d6;--primary:#60a5fa;--primary-dark:#2563eb;--primary-soft:#1e3a8a;--accent:#2dd4bf;--accent-soft:#134e4a;--border:#2d3b51;--shadow:0 18px 44px rgba(0,0,0,.34);--shadow-soft:0 10px 24px rgba(0,0,0,.24)}
     *{box-sizing:border-box}body{margin:0;font-family:Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}button,input,select,textarea{font-family:inherit}button{border:0}a{color:inherit;text-decoration:none}.hidden{display:none!important}.muted{color:var(--muted)}
     .app-shell{min-height:100dvh;display:grid;grid-template-columns:300px minmax(0,1fr)}.sidebar{background:#081323;color:#dbeafe;padding:28px 22px;position:sticky;top:0;height:100dvh;overflow:auto}.brand{display:flex;align-items:center;gap:13px;margin-bottom:28px}.brand-mark{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,var(--primary-dark),var(--primary));color:#fff;font-weight:900;box-shadow:var(--shadow-soft)}.brand strong{display:block;color:#fff;font-size:18px;line-height:1.1}.brand small{display:block;color:#9fb5d3;font-size:13px;margin-top:3px}.nav{display:grid;gap:7px}.nav button{width:100%;justify-content:flex-start;text-align:left;background:transparent;color:#bfdbfe;box-shadow:none;border-radius:13px;padding:11px 12px;min-height:42px;font-size:14px;font-weight:800;cursor:pointer;transition:background var(--ease),color var(--ease),transform var(--ease)}.nav button:hover{background:rgba(37,99,235,.16);transform:translateX(2px)}.nav button.active{background:rgba(37,99,235,.26);color:#fff}.side-actions{display:grid;gap:8px;margin-top:24px;padding-top:20px;border-top:1px solid rgba(219,234,254,.14)}
     .content{min-width:0}.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.90);border-bottom:1px solid var(--border);backdrop-filter:blur(14px)}.topbar-inner{min-height:74px;padding:14px clamp(18px,4vw,42px);display:flex;align-items:center;justify-content:space-between;gap:16px}.topbar h1{margin:0;font-size:clamp(1.45rem,3vw,2rem);line-height:1.1;letter-spacing:-.04em;font-weight:900}.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.page{padding:32px clamp(18px,4vw,42px) 54px}.hero{background:radial-gradient(circle at top left,rgba(20,184,166,.22),transparent 34%),linear-gradient(135deg,var(--dark),var(--primary-dark));color:#fff;border-radius:var(--radius);padding:30px;box-shadow:var(--shadow);margin-bottom:20px}.hero h2{font-size:clamp(2rem,5vw,4rem);line-height:.98;letter-spacing:-.06em;margin:0;font-weight:900}.hero p{color:rgba(255,255,255,.78);max-width:800px;margin:18px 0 0;font-size:17px}.role-pill{display:inline-flex;align-items:center;padding:7px 11px;border-radius:999px;background:var(--accent-soft);color:#134e4a;font-weight:800;font-size:13px}
     button,.btn{border-radius:13px;padding:11px 16px;min-height:44px;cursor:pointer;font-size:14px;line-height:1;font-weight:800;background:var(--primary);color:#fff;transition:transform var(--ease),box-shadow var(--ease),opacity var(--ease),background-color var(--ease);box-shadow:0 8px 18px rgba(37,99,235,.18);display:inline-flex;align-items:center;justify-content:center;gap:8px}button:hover,.btn:hover{transform:translateY(-1px);opacity:.96}button.secondary,.btn.secondary{background:#64748b;box-shadow:none}button.outline,.btn.outline{background:transparent;color:var(--primary);border:1px solid color-mix(in srgb,var(--primary) 55%,transparent);box-shadow:none}button.danger{background:var(--danger);box-shadow:none}button.accent{background:var(--accent);box-shadow:0 8px 18px rgba(15,118,110,.18)}
-    .summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:20px}.stat,.panel,.module-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}.stat strong{display:block;font-size:34px;line-height:1;color:var(--primary);font-weight:900;letter-spacing:-.04em;margin-bottom:8px}.stat span{color:var(--muted);font-weight:600}.panel-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.panel h3,.module-card h3{font-size:21px;line-height:1.18;letter-spacing:-.03em;margin:0 0 14px;font-weight:900}.list{display:grid;gap:10px}.list-item{border:1px solid var(--border);background:var(--surface-soft);border-radius:16px;padding:14px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.list-item strong{display:block;line-height:1.25}.list-item small{display:block;color:var(--muted);margin-top:4px}.badge{display:inline-flex;align-items:center;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:900;background:var(--primary-soft);color:var(--primary-dark);white-space:nowrap}.badge.ok{background:#dcfce7;color:#166534}.badge.warn{background:#fef3c7;color:#92400e}.badge.danger{background:#fee2e2;color:#991b1b}.module-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}.module-card{box-shadow:var(--shadow-soft)}.module-card p{margin:0;color:var(--muted)}.table-wrap{width:100%;overflow:auto;border:1px solid var(--border);border-radius:18px;background:var(--surface)}table{width:100%;border-collapse:collapse;min-width:760px}th,td{padding:13px 14px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);background:var(--surface-soft)}td{font-size:14px}.progress{height:9px;border-radius:999px;background:#e2e8f0;overflow:hidden;min-width:90px}.progress span{display:block;height:100%;background:var(--accent)}
-    .module-view{display:none}.module-view.active{display:block;animation:fadeIn 180ms ease}.module-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}.module-header h2{font-size:clamp(1.65rem,3vw,2.2rem);line-height:1.15;letter-spacing:-.04em;margin:0;font-weight:900}.module-header p{margin:8px 0 0;color:var(--muted);max-width:760px}.privacy-note{border:1px solid #bbf7d0;background:#ecfdf5;color:#14532d;border-radius:16px;padding:14px;margin-bottom:16px;font-weight:700}.inline-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:16px}.inline-form label{display:grid;gap:7px;font-size:13px;font-weight:900;color:#334155;text-transform:uppercase;letter-spacing:.04em}.inline-form input,.inline-form select,.inline-form textarea{width:100%;border:1px solid var(--border);border-radius:14px;min-height:46px;padding:0 13px;background:#fff;color:var(--text);font-size:15px;outline:none}.inline-form textarea{grid-column:1/-1;min-height:92px;padding:12px 13px;resize:vertical}.inline-form button{align-self:end}.sync-note{border:1px solid #bfdbfe;background:#eff6ff;color:#1e3a8a;border-radius:16px;padding:12px 14px;margin-bottom:16px;font-weight:800}.file-list{display:grid;gap:10px}.file-card{border:1px solid var(--border);background:var(--surface-soft);border-radius:16px;padding:14px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.file-card small{display:block;color:var(--muted);margin-top:4px}.login-screen{min-height:100dvh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 18% 12%,rgba(37,99,235,.18),transparent 30%),linear-gradient(135deg,#081323,#102a4c 58%,#0f766e)}.login-card{width:min(460px,100%);background:rgba(255,255,255,.96);border:1px solid rgba(255,255,255,.38);border-radius:22px;box-shadow:0 24px 70px rgba(2,6,23,.28);padding:30px}.login-card h1{margin:0;font-size:clamp(2rem,6vw,3.2rem);line-height:.98;letter-spacing:-.05em;font-weight:900;color:var(--text)}.login-card p{margin:12px 0 22px;color:var(--muted);font-weight:600}.login-form{display:grid;gap:13px}.login-form label{display:grid;gap:7px;color:#334155;font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.04em}.login-form input{width:100%;border:1px solid var(--border);border-radius:14px;min-height:48px;padding:0 14px;font-size:16px;background:#fff;color:var(--text);outline:none;transition:border-color var(--ease),box-shadow var(--ease)}.login-form input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(37,99,235,.12)}.login-error{border:1px solid #fecaca;background:#fee2e2;color:#991b1b;border-radius:14px;padding:12px 14px;font-weight:800}.login-actions{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:6px}@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-    @media(max-width:980px){.app-shell{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.nav{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}.panel-grid{grid-template-columns:1fr}.topbar-inner{align-items:flex-start;flex-direction:column}.toolbar{width:100%;display:grid;grid-template-columns:1fr}.toolbar button,.toolbar .btn{width:100%}.hero{padding:24px}.list-item,.file-card{display:grid}.app-shell .sidebar .side-actions{grid-template-columns:1fr 1fr;display:grid}.inline-form{grid-template-columns:1fr}}@media(max-width:620px){.page{padding:22px 16px 42px}.summary-grid,.module-grid{grid-template-columns:1fr}.app-shell .sidebar .side-actions{grid-template-columns:1fr}}
+    .summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:20px}.stat,.panel,.module-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;transition:transform var(--ease),border-color var(--ease),box-shadow var(--ease)}.stat:hover,.module-card:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--primary) 35%,var(--border))}.stat strong{display:block;font-size:34px;line-height:1;color:var(--primary);font-weight:900;letter-spacing:-.04em;margin-bottom:8px}.stat span{color:var(--muted);font-weight:600}.panel-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.panel h3,.module-card h3{font-size:21px;line-height:1.18;letter-spacing:-.03em;margin:0 0 14px;font-weight:900}.list{display:grid;gap:10px}.list-item{border:1px solid var(--border);background:var(--surface-soft);border-radius:16px;padding:14px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.list-item strong{display:block;line-height:1.25}.list-item small{display:block;color:var(--muted);margin-top:4px}.badge{display:inline-flex;align-items:center;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:900;background:var(--primary-soft);color:var(--primary-dark);white-space:nowrap}.badge.ok{background:#dcfce7;color:#166534}.badge.warn{background:#fef3c7;color:#92400e}.badge.danger{background:#fee2e2;color:#991b1b}.badge.academic{background:#dbeafe;color:#1e40af}.badge.fund{background:#ccfbf1;color:#115e59}.module-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}.module-card{box-shadow:var(--shadow-soft)}.module-card p{margin:0;color:var(--muted)}.table-wrap{width:100%;overflow:auto;border:1px solid var(--border);border-radius:18px;background:var(--surface)}table{width:100%;border-collapse:collapse;min-width:900px}th,td{padding:13px 14px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);background:var(--surface-soft)}td{font-size:14px}.progress{height:9px;border-radius:999px;background:#e2e8f0;overflow:hidden;min-width:90px}.progress span{display:block;height:100%;background:var(--accent)}
+    .module-view{display:none}.module-view.active{display:block;animation:fadeIn 180ms ease}.module-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}.module-header h2{font-size:clamp(1.65rem,3vw,2.2rem);line-height:1.15;letter-spacing:-.04em;margin:0;font-weight:900}.module-header p{margin:8px 0 0;color:var(--muted);max-width:760px}.privacy-note{border:1px solid #bbf7d0;background:#ecfdf5;color:#14532d;border-radius:16px;padding:14px;margin-bottom:16px;font-weight:700}.filter-bar{display:grid;grid-template-columns:1.4fr repeat(3,minmax(140px,1fr));gap:12px;margin-bottom:16px}.filter-bar input,.filter-bar select,.modal-form input,.modal-form select,.modal-form textarea,.inline-form input,.inline-form select,.inline-form textarea{width:100%;border:1px solid var(--border);border-radius:14px;min-height:46px;padding:0 13px;background:var(--surface);color:var(--text);font-size:15px;outline:none;transition:border-color var(--ease),box-shadow var(--ease)}.filter-bar input:focus,.filter-bar select:focus,.modal-form input:focus,.modal-form select:focus,.modal-form textarea:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(37,99,235,.12)}.action-row{display:flex;gap:7px;flex-wrap:wrap}.action-row button{min-height:34px;padding:8px 10px;border-radius:10px;font-size:12px}.inline-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:16px}.inline-form label,.modal-form label{display:grid;gap:7px;font-size:13px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}.inline-form textarea,.modal-form textarea{grid-column:1/-1;min-height:92px;padding:12px 13px;resize:vertical}.inline-form button{align-self:end}.sync-note{border:1px solid #bfdbfe;background:#eff6ff;color:#1e3a8a;border-radius:16px;padding:12px 14px;margin-bottom:16px;font-weight:800}.file-list{display:grid;gap:10px}.file-card{border:1px solid var(--border);background:var(--surface-soft);border-radius:16px;padding:14px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.file-card small{display:block;color:var(--muted);margin-top:4px}.modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,.68);display:grid;place-items:center;padding:18px;z-index:80;opacity:0;pointer-events:none;transition:opacity 220ms ease}.modal-backdrop.open{opacity:1;pointer-events:auto}.research-modal{width:min(860px,100%);max-height:min(86dvh,780px);overflow:auto;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:22px;box-shadow:0 28px 90px rgba(0,0,0,.38);transform:translateY(10px);transition:transform 220ms ease}.modal-backdrop.open .research-modal{transform:none}.modal-head,.modal-foot{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:18px 20px;border-bottom:1px solid var(--border)}.modal-foot{border-top:1px solid var(--border);border-bottom:0;justify-content:flex-end}.modal-body{padding:20px}.modal-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.modal-form .full{grid-column:1/-1}.detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.detail-item{background:var(--surface-soft);border:1px solid var(--border);border-radius:14px;padding:12px}.detail-item.full{grid-column:1/-1}.detail-item strong{display:block;font-size:12px;text-transform:uppercase;color:var(--muted);letter-spacing:.04em}.toast{position:fixed;right:20px;bottom:20px;z-index:90;display:grid;gap:8px}.toast-item{background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);border-radius:14px;padding:12px 14px;font-weight:800;animation:fadeIn 180ms ease}.empty-state{border:1px dashed var(--border);border-radius:18px;padding:20px;background:var(--surface-soft);text-align:center;color:var(--muted)}.login-screen{min-height:100dvh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 18% 12%,rgba(37,99,235,.18),transparent 30%),linear-gradient(135deg,#081323,#102a4c 58%,#0f766e)}.login-card{width:min(460px,100%);background:rgba(255,255,255,.96);border:1px solid rgba(255,255,255,.38);border-radius:22px;box-shadow:0 24px 70px rgba(2,6,23,.28);padding:30px}.login-card h1{margin:0;font-size:clamp(2rem,6vw,3.2rem);line-height:.98;letter-spacing:-.05em;font-weight:900;color:var(--text)}.login-card p{margin:12px 0 22px;color:var(--muted);font-weight:600}.login-form{display:grid;gap:13px}.login-form label{display:grid;gap:7px;color:#334155;font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.04em}.login-form input{width:100%;border:1px solid var(--border);border-radius:14px;min-height:48px;padding:0 14px;font-size:16px;background:#fff;color:var(--text);outline:none;transition:border-color var(--ease),box-shadow var(--ease)}.login-form input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(37,99,235,.12)}.login-error{border:1px solid #fecaca;background:#fee2e2;color:#991b1b;border-radius:14px;padding:12px 14px;font-weight:800}.login-actions{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:6px}@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    @media(max-width:980px){.app-shell{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.nav{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}.panel-grid{grid-template-columns:1fr}.topbar-inner{align-items:flex-start;flex-direction:column}.toolbar{width:100%;display:grid;grid-template-columns:1fr}.toolbar button,.toolbar .btn{width:100%}.hero{padding:24px}.list-item,.file-card{display:grid}.app-shell .sidebar .side-actions{grid-template-columns:1fr 1fr;display:grid}.inline-form,.filter-bar,.modal-form,.detail-grid{grid-template-columns:1fr}}@media(max-width:620px){.page{padding:22px 16px 42px}.summary-grid,.module-grid{grid-template-columns:1fr}.app-shell .sidebar .side-actions{grid-template-columns:1fr}.action-row{display:grid}}
   </style>
 </head>
 <body>
@@ -58,7 +59,8 @@
           </div>
           <div class="toolbar">
             <span class="muted">Sesi&oacute;n: <strong id="currentUser">Usuario</strong></span>
-            <button class="accent" type="button" onclick="showModule('proyectos')">Nuevo proyecto</button>
+            <button class="outline" type="button" onclick="toggleResearchTheme()" aria-label="Alternar modo claro u oscuro">Modo visual</button>
+            <button class="accent" type="button" onclick="openProjectModal()">Nuevo proyecto</button>
           </div>
         </div>
       </header>
@@ -82,8 +84,14 @@
         </section>
 
         <section id="view-proyectos" class="module-view">
-          <div class="module-header"><div><h2>Proyectos de investigaci&oacute;n</h2><p>Seguimiento general de proyectos, l&iacute;neas, responsables, avance y estados.</p></div><button class="accent" onclick="createResearchItem('proyectos')">Crear proyecto</button></div>
-          <div class="table-wrap"><table><thead><tr><th>Nombre del proyecto</th><th>Estado</th><th>L&iacute;nea</th><th>Responsable</th><th>Inicio</th><th>T&eacute;rmino estimado</th><th>Avance</th><th>Acciones</th></tr></thead><tbody id="projectRows"></tbody></table></div>
+          <div class="module-header"><div><h2>Proyectos de investigaci&oacute;n</h2><p>Seguimiento de proyectos acad&eacute;micos y fondos p&uacute;blicos con acciones integradas.</p></div><button class="accent" onclick="openProjectModal()">Crear proyecto</button></div>
+          <div class="filter-bar">
+            <input id="projectSearch" placeholder="Buscar por nombre, responsable o l&iacute;nea" oninput="render()">
+            <select id="projectTypeFilter" onchange="render()"><option value="">Todos los tipos</option><option value="Investigaci&oacute;n acad&eacute;mica">Acad&eacute;micos</option><option value="Fondo p&uacute;blico">Fondos p&uacute;blicos</option></select>
+            <select id="projectStatusFilter" onchange="render()"><option value="">Todos los estados</option><option>Idea inicial</option><option>En formulaci&oacute;n</option><option>En ejecuci&oacute;n</option><option>En an&aacute;lisis</option><option>En redacci&oacute;n</option><option>En rendici&oacute;n</option><option>Con observaciones</option><option>Finalizado</option><option>Archivado</option></select>
+            <input id="projectOwnerFilter" placeholder="Responsable" oninput="render()">
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>Nombre</th><th>Tipo</th><th>Estado</th><th>L&iacute;nea / Fondo</th><th>Responsable</th><th>Inicio</th><th>Avance</th><th>Acciones</th></tr></thead><tbody id="projectRows"></tbody></table></div>
         </section>
 
         <section id="view-tareas" class="module-view">
@@ -158,6 +166,15 @@
     </section>
   </div>
 
+  <div class="modal-backdrop" id="researchModal" aria-hidden="true">
+    <section class="research-modal" role="dialog" aria-modal="true" aria-labelledby="researchModalTitle">
+      <div class="modal-head"><div><h2 id="researchModalTitle" style="margin:0;">Proyecto</h2><p class="muted" id="researchModalSubtitle" style="margin:4px 0 0;">Formulario integrado</p></div><button class="outline" type="button" onclick="closeResearchModal()">Cerrar</button></div>
+      <div class="modal-body" id="researchModalBody"></div>
+      <div class="modal-foot" id="researchModalFoot"></div>
+    </section>
+  </div>
+  <div class="toast" id="researchToast" aria-live="polite"></div>
+
   <script>
     const DIRECTUS_URL = "https://directus.agrupacionnothofagus.cl";
     const DIRECTUS_AUTH_KEY = "teurgia_directus_auth";
@@ -195,6 +212,33 @@
       archivos: ["investigacion_archivos", "Archivo"],
     };
     let researchData = {};
+    let activeProjectId = "";
+    const projectTypes = {
+      academic: {
+        label: "Investigaci&oacute;n acad&eacute;mica",
+        badge: "Acad&eacute;mico",
+        states: ["Idea inicial","En formulaci&oacute;n","En revisi&oacute;n bibliogr&aacute;fica","En dise&ntilde;o metodol&oacute;gico","En revisi&oacute;n &eacute;tica","En recolecci&oacute;n de datos","En an&aacute;lisis","En redacci&oacute;n","Enviado a revisi&oacute;n","Publicado","Finalizado","Archivado"],
+        fields: [
+          ["linea", "L&iacute;nea de investigaci&oacute;n"], ["pregunta", "Pregunta de investigaci&oacute;n"], ["objetivo_general", "Objetivo general"],
+          ["objetivos_especificos", "Objetivos espec&iacute;ficos"], ["metodologia", "Enfoque metodol&oacute;gico"], ["tipo_estudio", "Tipo de estudio"],
+          ["muestra", "Participantes o muestra"], ["instrumentos", "Instrumentos"], ["etica", "Estado de revisi&oacute;n &eacute;tica"],
+          ["recoleccion", "Estado de recolecci&oacute;n"], ["analisis", "Estado de an&aacute;lisis"], ["productos", "Productos esperados"], ["observaciones", "Observaciones"],
+        ],
+      },
+      fund: {
+        label: "Fondo p&uacute;blico",
+        badge: "Fondo p&uacute;blico",
+        states: ["En postulaci&oacute;n","Postulado","Adjudicado","En convenio","En ejecuci&oacute;n","En seguimiento","En rendici&oacute;n","Con observaciones","Cerrado t&eacute;cnicamente","Cerrado financieramente","Finalizado","Archivado"],
+        fields: [
+          ["convocatoria", "Fondo o convocatoria"], ["financiadora", "Instituci&oacute;n financiadora"], ["codigo", "C&oacute;digo del proyecto"],
+          ["responsable_institucional", "Responsable institucional"], ["equipo_ejecutor", "Equipo ejecutor"], ["monto_adjudicado", "Monto adjudicado"],
+          ["presupuesto_ejecutado", "Presupuesto ejecutado"], ["presupuesto_pendiente", "Presupuesto pendiente"], ["objetivo_general", "Objetivo general"],
+          ["objetivos_especificos", "Objetivos espec&iacute;ficos"], ["actividades", "Actividades comprometidas"], ["beneficiarios_directos", "Beneficiarios directos"],
+          ["beneficiarios_indirectos", "Beneficiarios indirectos"], ["indicadores", "Indicadores de cumplimiento"], ["medios", "Medios de verificaci&oacute;n"],
+          ["rendiciones", "Rendiciones"], ["informes", "Informes"], ["avance_financiero", "Avance financiero"], ["observaciones", "Observaciones"],
+        ],
+      },
+    };
 
     const summary = [
       ["4", "Proyectos activos"], ["12", "Tareas pendientes"], ["3", "Reuniones proximas"], ["7", "Documentos en revision"],
@@ -373,6 +417,56 @@
       return authData().model || {};
     }
 
+    function decodeHTML(value) {
+      const doc = new DOMParser().parseFromString(String(value || ""), "text/html");
+      return doc.documentElement.textContent || "";
+    }
+
+    function projectTypeKey(project = {}) {
+      const raw = String(project.datos?.tipo_proyecto || project.tipo_proyecto || project.categoria || "").toLowerCase();
+      return raw.includes("fondo") ? "fund" : "academic";
+    }
+
+    function projectTypeLabel(project = {}) {
+      return decodeHTML(projectTypes[projectTypeKey(project)].label);
+    }
+
+    function showToast(message, type = "ok") {
+      const host = document.getElementById("researchToast");
+      const item = document.createElement("div");
+      item.className = `toast-item ${type}`;
+      item.textContent = message;
+      host.appendChild(item);
+      setTimeout(() => item.remove(), 3600);
+    }
+
+    function modal(title, subtitle, body, foot) {
+      document.getElementById("researchModalTitle").textContent = title;
+      document.getElementById("researchModalSubtitle").textContent = subtitle || "";
+      document.getElementById("researchModalBody").innerHTML = body;
+      document.getElementById("researchModalFoot").innerHTML = foot || '<button type="button" onclick="closeResearchModal()">Cerrar</button>';
+      const backdrop = document.getElementById("researchModal");
+      backdrop.classList.add("open");
+      backdrop.setAttribute("aria-hidden", "false");
+      setTimeout(() => backdrop.querySelector("input,select,textarea,button")?.focus(), 60);
+    }
+
+    function closeResearchModal() {
+      const backdrop = document.getElementById("researchModal");
+      backdrop.classList.remove("open");
+      backdrop.setAttribute("aria-hidden", "true");
+      activeProjectId = "";
+    }
+
+    function toggleResearchTheme() {
+      document.body.classList.toggle("research-dark");
+      localStorage.setItem("research_theme", document.body.classList.contains("research-dark") ? "dark" : "light");
+    }
+
+    function loadResearchTheme() {
+      if (localStorage.getItem("research_theme") === "dark") document.body.classList.add("research-dark");
+    }
+
     function items(moduleId, fallback = []) {
       const rows = researchData[moduleId] || [];
       return rows.length ? rows : fallback.map((row, index) => ({
@@ -411,29 +505,165 @@
       render();
     }
 
-    async function createResearchItem(moduleId) {
+    function projectForm(project = {}) {
+      const typeKey = projectTypeKey(project);
+      const datos = project.datos || {};
+      const stateOptions = projectTypes[typeKey].states.map((state) => `<option ${String(project.estado || "") === state ? "selected" : ""}>${state}</option>`).join("");
+      const typeFields = projectTypes[typeKey].fields.map(([key, label]) => `<label class="full">${label}<textarea name="datos_${key}" rows="2">${esc(datos[key] || "")}</textarea></label>`).join("");
+      return `<form class="modal-form" id="projectForm" onsubmit="saveProject(event)">
+        <input type="hidden" name="id" value="${esc(project.id || "")}">
+        <label>Tipo de proyecto<select name="tipo" onchange="openProjectModal('${project.id ? "edit" : "new"}','${esc(project.id || "")}',this.value)"><option value="academic" ${typeKey === "academic" ? "selected" : ""}>Investigaci&oacute;n acad&eacute;mica</option><option value="fund" ${typeKey === "fund" ? "selected" : ""}>Fondo p&uacute;blico</option></select></label>
+        <label>T&iacute;tulo / nombre<input name="titulo" required value="${esc(project.titulo || "")}" placeholder="Nombre del proyecto"></label>
+        <label>Estado<select name="estado">${stateOptions}</select></label>
+        <label>Responsable<input name="responsable" value="${esc(project.responsable || "")}" placeholder="Responsable"></label>
+        <label>L&iacute;nea / fondo<input name="categoria_extra" value="${esc(datos.linea || datos.convocatoria || project.proyecto || "")}" placeholder="L&iacute;nea, convocatoria o fondo"></label>
+        <label>Fecha de inicio<input name="fecha_ref" type="date" value="${esc(project.fecha_ref || "")}"></label>
+        <label>T&eacute;rmino estimado<input name="termino" type="date" value="${esc(datos.termino || "")}"></label>
+        <label>Avance %<input name="progreso" type="number" min="0" max="100" value="${Number(project.progreso || 0)}"></label>
+        <label class="full">Descripci&oacute;n<textarea name="descripcion" rows="3">${esc(project.descripcion || "")}</textarea></label>
+        ${typeFields}
+      </form>`;
+    }
+
+    function openProjectModal(mode = "new", id = "", forcedType = "") {
+      const project = id ? (researchData.proyectos || []).find((item) => String(item.id) === String(id)) || {} : {};
+      if (forcedType) project.datos = { ...(project.datos || {}), tipo_proyecto: forcedType };
+      activeProjectId = id || "";
+      modal(mode === "edit" ? "Editar proyecto" : "Nuevo proyecto", "Completa los campos y guarda en Directus.", projectForm(project), `<button class="outline" type="button" onclick="closeResearchModal()">Cancelar</button><button class="accent" type="submit" form="projectForm">${mode === "edit" ? "Guardar cambios" : "Crear proyecto"}</button>`);
+    }
+
+    async function saveProject(event) {
+      event.preventDefault();
+      const form = new FormData(event.target);
+      const id = form.get("id");
+      const typeKey = form.get("tipo") || "academic";
+      const user = currentUser();
+      const datos = { tipo_proyecto: typeKey, termino: form.get("termino") || "", linea: "", convocatoria: "" };
+      projectTypes[typeKey].fields.forEach(([key]) => { datos[key] = form.get(`datos_${key}`) || ""; });
+      if (typeKey === "academic") datos.linea = form.get("categoria_extra") || "";
+      if (typeKey === "fund") datos.convocatoria = form.get("categoria_extra") || "";
+      const payload = {
+        titulo: String(form.get("titulo") || "").trim(),
+        descripcion: String(form.get("descripcion") || "").trim(),
+        estado: form.get("estado") || "Activo",
+        categoria: projectTypeLabel({ datos }),
+        proyecto: form.get("categoria_extra") || "",
+        responsable: form.get("responsable") || "",
+        fecha_ref: form.get("fecha_ref") || "",
+        progreso: Number(form.get("progreso") || 0),
+        creado_por: user.id || "",
+        creado_por_email: user.email || "",
+        datos,
+      };
+      if (!payload.titulo) {
+        showToast("El proyecto necesita un titulo.", "err");
+        return;
+      }
+      const path = id ? `/items/investigacion_proyectos/${id}` : "/items/investigacion_proyectos";
+      await directusJson(path, { method: id ? "PATCH" : "POST", body: JSON.stringify(payload) });
+      closeResearchModal();
+      await initResearch();
+      showModule("proyectos");
+      showToast(id ? "Cambios guardados." : "Proyecto creado correctamente.");
+    }
+
+    function createResearchItem(moduleId) {
+      if (moduleId === "proyectos") openProjectModal();
+      else openGenericModal(moduleId);
+    }
+
+    function openGenericModal(moduleId) {
       const config = collectionConfig[moduleId];
       if (!config) return;
-      const [collection, label] = config;
-      const titulo = prompt(`${label}: titulo`);
-      if (!titulo) return;
-      const descripcion = prompt(`${label}: descripcion o notas`, "") || "";
+      const [, label] = config;
+      modal(`Nuevo ${label.toLowerCase()}`, "Registro conectado con Directus.", `<form class="modal-form" id="genericForm" onsubmit="saveGenericItem(event,'${moduleId}')">
+        <label>T&iacute;tulo<input name="titulo" required></label>
+        <label>Estado<input name="estado" value="Activo"></label>
+        <label>Responsable<input name="responsable"></label>
+        <label>Fecha<input name="fecha_ref" type="date"></label>
+        <label class="full">Descripci&oacute;n<textarea name="descripcion"></textarea></label>
+      </form>`, `<button class="outline" type="button" onclick="closeResearchModal()">Cancelar</button><button class="accent" type="submit" form="genericForm">Guardar</button>`);
+    }
+
+    async function saveGenericItem(event, moduleId) {
+      event.preventDefault();
+      const [collection, label] = collectionConfig[moduleId];
+      const form = new FormData(event.target);
       const user = currentUser();
       await directusJson(`/items/${collection}`, {
         method: "POST",
         body: JSON.stringify({
-          titulo,
-          descripcion,
-          estado: "Activo",
+          titulo: form.get("titulo"),
+          descripcion: form.get("descripcion"),
+          estado: form.get("estado") || "Activo",
           categoria: label,
-          fecha_ref: new Date().toISOString().slice(0, 10),
+          responsable: form.get("responsable"),
+          fecha_ref: form.get("fecha_ref"),
           creado_por: user.id || "",
           creado_por_email: user.email || "",
           datos: { creado_desde: "area_investigacion" },
         }),
       });
+      closeResearchModal();
       await initResearch();
       showModule(moduleId);
+      showToast("Registro guardado.");
+    }
+
+    function openProjectDetail(id) {
+      const project = (researchData.proyectos || []).find((item) => String(item.id) === String(id));
+      if (!project) return;
+      const datos = project.datos || {};
+      const typeKey = projectTypeKey(project);
+      const relatedTasks = (researchData.tareas || []).filter((task) => task.proyecto === project.titulo).slice(0, 6);
+      const relatedFiles = (researchData.archivos || []).filter((file) => file.proyecto === project.titulo).slice(0, 6);
+      const relatedActs = (researchData.actas || []).filter((act) => act.proyecto === project.titulo).slice(0, 6);
+      const fieldDetails = projectTypes[typeKey].fields.map(([key, label]) => `<div class="detail-item"><strong>${label}</strong>${esc(datos[key] || "Sin registro")}</div>`).join("");
+      modal("Detalle del proyecto", project.titulo, `<div class="detail-grid">
+        <div class="detail-item"><strong>Nombre</strong>${esc(project.titulo)}</div>
+        <div class="detail-item"><strong>Tipo</strong>${typeBadge(project)}</div>
+        <div class="detail-item"><strong>Estado</strong>${badge(esc(project.estado || "Activo"))}</div>
+        <div class="detail-item"><strong>Responsable</strong>${esc(project.responsable || project.creado_por_email || "Sin responsable")}</div>
+        <div class="detail-item"><strong>L&iacute;nea / fondo</strong>${esc(datos.linea || datos.convocatoria || project.proyecto || "Sin registro")}</div>
+        <div class="detail-item"><strong>Inicio</strong>${esc(project.fecha_ref || "Sin fecha")}</div>
+        <div class="detail-item"><strong>T&eacute;rmino</strong>${esc(datos.termino || "Sin fecha")}</div>
+        <div class="detail-item"><strong>Avance</strong>${Number(project.progreso || 0)}%</div>
+        <div class="detail-item full"><strong>Descripci&oacute;n</strong>${esc(project.descripcion || "Sin descripcion")}</div>
+        ${fieldDetails}
+        <div class="detail-item full"><strong>Tareas asociadas</strong>${relatedTasks.length ? relatedTasks.map((t) => esc(t.titulo)).join("<br>") : "Sin tareas asociadas"}</div>
+        <div class="detail-item full"><strong>Documentos asociados</strong>${relatedFiles.length ? relatedFiles.map((f) => esc(f.titulo || f.file_name)).join("<br>") : "Sin documentos asociados"}</div>
+        <div class="detail-item full"><strong>Reuniones asociadas</strong>${relatedActs.length ? relatedActs.map((a) => esc(a.titulo)).join("<br>") : "Sin actas asociadas"}</div>
+      </div>`, `<button class="outline" onclick="openProjectModal('edit','${project.id}')">Editar</button><button class="outline" onclick="openGenericModal('tareas')">Agregar tarea</button><button class="outline" onclick="showModule('documentos');closeResearchModal()">Agregar documento</button><button class="outline" onclick="showToast('Historial preparado para auditoria Directus.')">Ver historial</button><button onclick="closeResearchModal()">Cerrar</button>`);
+    }
+
+    async function duplicateProject(id) {
+      const project = (researchData.proyectos || []).find((item) => String(item.id) === String(id));
+      if (!project) return;
+      const user = currentUser();
+      const copy = { ...project, titulo: `${project.titulo} (copia)`, creado_por: user.id || "", creado_por_email: user.email || "" };
+      delete copy.id;
+      await directusJson("/items/investigacion_proyectos", { method: "POST", body: JSON.stringify(copy) });
+      await initResearch();
+      showToast("Proyecto duplicado.");
+    }
+
+    async function archiveProject(id) {
+      await directusJson(`/items/investigacion_proyectos/${id}`, { method: "PATCH", body: JSON.stringify({ estado: "Archivado" }) });
+      await initResearch();
+      showToast("Proyecto archivado.");
+    }
+
+    function confirmDeleteProject(id) {
+      const project = (researchData.proyectos || []).find((item) => String(item.id) === String(id));
+      if (!project) return;
+      modal("Eliminar proyecto", "Confirmaci&oacute;n requerida", `<p>Esta acci&oacute;n eliminar&aacute; <strong>${esc(project.titulo)}</strong> de Directus.</p>`, `<button class="outline" onclick="closeResearchModal()">Cancelar</button><button class="danger" onclick="deleteProject('${id}')">Eliminar</button>`);
+    }
+
+    async function deleteProject(id) {
+      await directusJson(`/items/investigacion_proyectos/${id}`, { method: "DELETE" });
+      closeResearchModal();
+      await initResearch();
+      showToast("Proyecto eliminado.");
     }
 
     async function uploadResearchFile(event) {
@@ -480,7 +710,7 @@
         await initResearch();
         showModule("documentos");
       } catch (error) {
-        alert(error.message || "No se pudo subir el archivo.");
+        showToast(error.message || "No se pudo subir el archivo.", "err");
       } finally {
         button.disabled = false;
         button.textContent = "Subir a Directus";
@@ -497,14 +727,35 @@
       document.getElementById(id).innerHTML = items.map((item) => `<div class="list-item"><div><strong>${item[0]}</strong><small>${item[1]}</small></div>${item[2] ? badge(item[2]) : ""}</div>`).join("");
     }
 
+    function typeBadge(project) {
+      const type = projectTypeKey(project);
+      return `<span class="badge ${type === "fund" ? "fund" : "academic"}">${projectTypes[type].badge}</span>`;
+    }
+
+    function filteredProjects(projectItems) {
+      const q = normalizeRole(document.getElementById("projectSearch")?.value || "");
+      const type = document.getElementById("projectTypeFilter")?.value || "";
+      const status = document.getElementById("projectStatusFilter")?.value || "";
+      const owner = normalizeRole(document.getElementById("projectOwnerFilter")?.value || "");
+      return projectItems.filter((project) => {
+        const haystack = normalizeRole([project.titulo, project.responsable, project.proyecto, project.categoria, project.descripcion].join(" "));
+        if (q && !haystack.includes(q)) return false;
+        if (type && projectTypeLabel(project) !== decodeHTML(type)) return false;
+        if (status && String(project.estado || "") !== status) return false;
+        if (owner && !normalizeRole(project.responsable || project.creado_por_email || "").includes(owner)) return false;
+        return true;
+      });
+    }
+
     function render() {
       document.getElementById("sideNav").innerHTML = modules.map(([id, label]) => `<button type="button" data-module="${id}" class="${id === "dashboard" ? "active" : ""}" onclick="showModule('${id}')">${label}</button>`).join("");
       const projectItems = items("proyectos", projects);
+      const visibleProjects = filteredProjects(projectItems);
       const taskItems = items("tareas", tasks);
       const participantItems = items("participantes", participants);
       const teamItems = items("equipo", team);
       const fileItems = researchData.archivos || [];
-      const dynamicSummary = [[projectItems.length, "Proyectos"], [taskItems.length, "Tareas"], [items("actas").length, "Actas"], [fileItems.length, "Archivos"], [participantItems.length, "Participantes"], [teamItems.length, "Equipo"]];
+      const dynamicSummary = [[projectItems.filter((p) => String(p.estado || "").toLowerCase() !== "archivado").length, "Proyectos activos"], [projectItems.filter((p) => projectTypeKey(p) === "academic").length, "Proyectos academicos"], [projectItems.filter((p) => projectTypeKey(p) === "fund").length, "Fondos publicos"], [taskItems.length, "Tareas"], [fileItems.length, "Archivos"], [teamItems.length, "Equipo"]];
       document.getElementById("summaryGrid").innerHTML = dynamicSummary.map(([value, label]) => `<article class="stat"><strong>${value}</strong><span>${label}</span></article>`).join("");
       renderList("recentProjects", projectItems.slice(0, 4).map((p) => [p.titulo, `${p.categoria || p.proyecto || "Sin linea"} - ${p.responsable || p.creado_por_email || "Sin responsable"}`, p.estado]));
       renderList("dueTasks", taskItems.slice(0, 4).map((t) => [t.titulo, `${t.proyecto || "Sin proyecto"} - ${t.fecha_ref || "Sin fecha"}`, t.estado]));
@@ -512,7 +763,7 @@
       renderList("recentDocs", fileItems.slice(0, 4).map((f) => [f.titulo, `Subido por ${f.uploaded_by_email || f.creado_por_email || "usuario"} - ${f.file_name || ""}`, f.estado]));
       renderList("recentActivity", [["Directus conectado", "Datos sincronizados con colecciones investigacion_*", ""], [`${fileItems.length} archivos`, "Repositorio de documentos del area", "Activo"]]);
       renderList("alerts", [["Revision etica pendiente", "Trayectorias de bienestar escolar", "Pendiente"], ["Hito proximo", "Entrega informe preliminar", "En proceso"]]);
-      document.getElementById("projectRows").innerHTML = projectItems.map((p) => `<tr><td><strong>${esc(p.titulo)}</strong></td><td>${badge(esc(p.estado || "Activo"))}</td><td>${esc(p.categoria || "")}</td><td>${esc(p.responsable || p.creado_por_email || "")}</td><td>${esc(p.fecha_ref || "")}</td><td>${esc(p.datos?.termino || "")}</td><td><div class="progress"><span style="width:${Number(p.progreso || 0)}%"></span></div>${Number(p.progreso || 0)}%</td><td><button class="outline">Ver</button></td></tr>`).join("");
+      document.getElementById("projectRows").innerHTML = visibleProjects.length ? visibleProjects.map((p) => `<tr><td><strong>${esc(p.titulo)}</strong><small class="muted">${esc(p.descripcion || "")}</small></td><td>${typeBadge(p)}</td><td>${badge(esc(p.estado || "Activo"))}</td><td>${esc(p.datos?.linea || p.datos?.convocatoria || p.proyecto || "")}</td><td>${esc(p.responsable || p.creado_por_email || "")}</td><td>${esc(p.fecha_ref || "")}</td><td><div class="progress"><span style="width:${Number(p.progreso || 0)}%"></span></div>${Number(p.progreso || 0)}%</td><td><div class="action-row"><button class="outline" aria-label="Ver proyecto" onclick="openProjectDetail('${p.id}')">Ver</button><button class="outline" aria-label="Editar proyecto" onclick="openProjectModal('edit','${p.id}')">Editar</button><button class="outline" aria-label="Duplicar proyecto" onclick="duplicateProject('${p.id}')">Duplicar</button><button class="secondary" aria-label="Archivar proyecto" onclick="archiveProject('${p.id}')">Archivar</button><button class="danger" aria-label="Eliminar proyecto" onclick="confirmDeleteProject('${p.id}')">Eliminar</button></div></td></tr>`).join("") : '<tr><td colspan="8"><div class="empty-state">No hay proyectos con esos filtros. <button class="accent" onclick="openProjectModal()">Crear el primero</button></div></td></tr>';
       document.getElementById("taskRows").innerHTML = taskItems.map((t) => `<tr><td><strong>${esc(t.titulo)}</strong></td><td>${esc(t.proyecto || "")}</td><td>${esc(t.responsable || t.creado_por_email || "")}</td><td>${esc(t.prioridad || "")}</td><td>${esc(t.fecha_ref || "")}</td><td>${badge(esc(t.estado || "Activo"))}</td><td><button class="outline">Ver</button></td></tr>`).join("");
       document.getElementById("participantRows").innerHTML = participantItems.map((p) => `<tr><td><strong>${esc(p.titulo)}</strong></td><td>${esc(p.proyecto || "")}</td><td>${esc(p.estado || "")}</td><td>${esc(p.categoria || "")}</td><td>${esc(p.fecha_ref || "")}</td><td>${esc(p.descripcion || "")}</td><td>${esc(p.responsable || "")}</td></tr>`).join("");
       document.getElementById("teamRows").innerHTML = teamItems.map((p) => `<tr><td><strong>${esc(p.titulo)}</strong></td><td>${esc(p.categoria || "")}</td><td>${esc(p.proyecto || "")}</td><td>${esc(p.descripcion || "")}</td><td>${esc(p.responsable || p.creado_por_email || "")}</td><td>${badge(esc(p.estado || "Activo"))}</td></tr>`).join("");
@@ -527,6 +778,13 @@
       renderList("notificationList", items("notificaciones", [["Documento espera revision", "Protocolo v0.3", "Pendiente"], ["Nueva reunion programada", "Comite metodologico", "En proceso"]]).map((n) => [n.titulo, n.descripcion || n.fecha_ref || "", n.estado]));
     }
 
+    document.getElementById("researchModal").addEventListener("click", (event) => {
+      if (event.target.id === "researchModal") closeResearchModal();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeResearchModal();
+    });
+    loadResearchTheme();
     if (requireSession()) initResearch();
   </script>
 </body>
