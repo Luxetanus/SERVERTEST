@@ -59,6 +59,7 @@
     function normalizeRoleName(value) {
       const name = String(value || "").trim().toLowerCase();
       if (["administrator", "administrador", "administracion", "administracio"].includes(name)) return "administracion";
+      if (["investigacion", "investigación", "research", "investigator"].includes(name)) return "investigacion";
       if (["lectura", "read", "reader"].includes(name)) return "lectura";
       return name || "lectura";
     }
@@ -74,7 +75,7 @@
         username: email,
         estado: user.status === "suspended" ? "inactivo" : "activo",
         rol: role,
-        permisos: role === "administracion" ? ["ver_dashboard", "administrar_usuarios", "ver_contabilidad"] : ["ver_dashboard"],
+        permisos: role === "administracion" ? ["ver_dashboard", "administrar_usuarios", "ver_contabilidad", "ver_investigacion"] : role === "investigacion" ? ["ver_dashboard", "ver_investigacion"] : ["ver_dashboard"],
       };
     }
 
@@ -243,6 +244,6 @@
     });
     window.addEventListener("load", () => { if (pb.authStore.isValid) window.teurgiaUserAdmin?.load?.().catch(() => {}); });
   </script>
-  <script src="../assets/user-admin.js?v=20260701a"></script>
+  <script src="../assets/user-admin.js?v=20260701b"></script>
 </body>
 </html>

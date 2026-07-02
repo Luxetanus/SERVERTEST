@@ -3,15 +3,18 @@
   const BOOTSTRAP_ADMIN_EMAILS = ["luxetanus@teurgia.cl"];
   const ROLES = {
     administracion: "Administración",
+    investigacion: "Investigación",
     lectura: "Lectura",
   };
   const PERMISSIONS = {
     ver_dashboard: "Ver panel",
     ver_contabilidad: "Ver contabilidad",
+    ver_investigacion: "Ver investigación",
     administrar_usuarios: "Administrar usuarios",
   };
   const DEFAULT_PERMISSIONS = {
     administracion: Object.keys(PERMISSIONS),
+    investigacion: ["ver_dashboard", "ver_investigacion"],
     lectura: ["ver_dashboard"],
   };
 
@@ -22,6 +25,7 @@
   const normalizeRole = (value) => {
     const role = norm(value);
     if (role === "administrator" || role === "administrador" || role === "administracio" || role === "administracion") return "administracion";
+    if (role === "investigacion" || role === "investigación" || role === "research" || role === "investigator") return "investigacion";
     if (role === "lectura" || role === "read" || role === "reader") return "lectura";
     return "lectura";
   };
@@ -77,7 +81,7 @@
     const section = document.createElement("section");
     section.id = "userAdminSection";
     section.className = "card user-admin-section only-admin-hidden";
-    section.innerHTML = `<div class="user-admin-head"><div><h2>Administración</h2><p class="muted">Crea usuarios nuevos y asigna rol de Administración o Lectura.</p></div><button type="button" onclick="teurgiaUserAdmin.openCreate()">Añadir usuario</button></div><div id="userAdminMessage" class="user-admin-message hidden"></div><div class="user-admin-toolbar"><div><label for="uaSearch">Buscar</label><input id="uaSearch" placeholder="Nombre, correo o rol" oninput="teurgiaUserAdmin.render()"></div><div><label for="uaRoleFilter">Rol</label><select id="uaRoleFilter" onchange="teurgiaUserAdmin.render()"><option value="todos">Todos</option>${Object.entries(ROLES).map(([key, label]) => `<option value="${key}">${label}</option>`).join("")}</select></div><div><label for="uaStatusFilter">Estado</label><select id="uaStatusFilter" onchange="teurgiaUserAdmin.render()"><option value="todos">Todos</option><option value="activo">Activo</option><option value="inactivo">Inactivo</option></select></div><button type="button" class="secondary" onclick="teurgiaUserAdmin.load()">Actualizar</button></div><div class="user-admin-table-wrap"><table class="user-admin-table"><thead><tr><th>Usuario</th><th>Correo</th><th>Rol</th><th>Estado</th><th>Permisos</th><th>Acciones</th></tr></thead><tbody id="uaTable"><tr><td colspan="6">Cargando usuarios...</td></tr></tbody></table></div>`;
+    section.innerHTML = `<div class="user-admin-head"><div><h2>Administración</h2><p class="muted">Crea usuarios nuevos y asigna rol de Administración, Investigación o Lectura.</p></div><button type="button" onclick="teurgiaUserAdmin.openCreate()">Añadir usuario</button></div><div id="userAdminMessage" class="user-admin-message hidden"></div><div class="user-admin-toolbar"><div><label for="uaSearch">Buscar</label><input id="uaSearch" placeholder="Nombre, correo o rol" oninput="teurgiaUserAdmin.render()"></div><div><label for="uaRoleFilter">Rol</label><select id="uaRoleFilter" onchange="teurgiaUserAdmin.render()"><option value="todos">Todos</option>${Object.entries(ROLES).map(([key, label]) => `<option value="${key}">${label}</option>`).join("")}</select></div><div><label for="uaStatusFilter">Estado</label><select id="uaStatusFilter" onchange="teurgiaUserAdmin.render()"><option value="todos">Todos</option><option value="activo">Activo</option><option value="inactivo">Inactivo</option></select></div><button type="button" class="secondary" onclick="teurgiaUserAdmin.load()">Actualizar</button></div><div class="user-admin-table-wrap"><table class="user-admin-table"><thead><tr><th>Usuario</th><th>Correo</th><th>Rol</th><th>Estado</th><th>Permisos</th><th>Acciones</th></tr></thead><tbody id="uaTable"><tr><td colspan="6">Cargando usuarios...</td></tr></tbody></table></div>`;
     mount.appendChild(section);
 
     const modal = document.createElement("div");
