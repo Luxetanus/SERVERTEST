@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&Aacute;rea de Investigaci&oacute;n</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#f4f6f8;--surface:#fff;--surface-soft:#f8fafc;--text:#172033;--muted:#64748b;--primary:#2563eb;--primary-dark:#1e3a8a;--primary-soft:#dbeafe;--accent:#0f766e;--accent-soft:#ccfbf1;--warning:#f59e0b;--danger:#dc2626;--border:#e2e8f0;--dark:#0f172a;--shadow:0 14px 40px rgba(15,23,42,.10);--shadow-soft:0 10px 24px rgba(15,23,42,.07);--radius:22px;--radius-md:16px;--ease:200ms ease}
+    *{box-sizing:border-box}body{margin:0;font-family:Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}button,input,select,textarea{font-family:inherit}button{border:0}a{color:inherit;text-decoration:none}.hidden{display:none!important}.muted{color:var(--muted)}
+    .app-shell{min-height:100dvh;display:grid;grid-template-columns:300px minmax(0,1fr)}.sidebar{background:#081323;color:#dbeafe;padding:28px 22px;position:sticky;top:0;height:100dvh;overflow:auto}.brand{display:flex;align-items:center;gap:13px;margin-bottom:28px}.brand-mark{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,var(--primary-dark),var(--primary));color:#fff;font-weight:900;box-shadow:var(--shadow-soft)}.brand strong{display:block;color:#fff;font-size:18px;line-height:1.1}.brand small{display:block;color:#9fb5d3;font-size:13px;margin-top:3px}.nav{display:grid;gap:7px}.nav button{width:100%;justify-content:flex-start;text-align:left;background:transparent;color:#bfdbfe;box-shadow:none;border-radius:13px;padding:11px 12px;min-height:42px;font-size:14px;font-weight:800;cursor:pointer;transition:background var(--ease),color var(--ease),transform var(--ease)}.nav button:hover{background:rgba(37,99,235,.16);transform:translateX(2px)}.nav button.active{background:rgba(37,99,235,.26);color:#fff}.side-actions{display:grid;gap:8px;margin-top:24px;padding-top:20px;border-top:1px solid rgba(219,234,254,.14)}
+    .content{min-width:0}.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.90);border-bottom:1px solid var(--border);backdrop-filter:blur(14px)}.topbar-inner{min-height:74px;padding:14px clamp(18px,4vw,42px);display:flex;align-items:center;justify-content:space-between;gap:16px}.topbar h1{margin:0;font-size:clamp(1.45rem,3vw,2rem);line-height:1.1;letter-spacing:-.04em;font-weight:900}.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.page{padding:32px clamp(18px,4vw,42px) 54px}.hero{background:radial-gradient(circle at top left,rgba(20,184,166,.22),transparent 34%),linear-gradient(135deg,var(--dark),var(--primary-dark));color:#fff;border-radius:var(--radius);padding:30px;box-shadow:var(--shadow);margin-bottom:20px}.hero h2{font-size:clamp(2rem,5vw,4rem);line-height:.98;letter-spacing:-.06em;margin:0;font-weight:900}.hero p{color:rgba(255,255,255,.78);max-width:800px;margin:18px 0 0;font-size:17px}.role-pill{display:inline-flex;align-items:center;padding:7px 11px;border-radius:999px;background:var(--accent-soft);color:#134e4a;font-weight:800;font-size:13px}
+    button,.btn{border-radius:13px;padding:11px 16px;min-height:44px;cursor:pointer;font-size:14px;line-height:1;font-weight:800;background:var(--primary);color:#fff;transition:transform var(--ease),box-shadow var(--ease),opacity var(--ease),background-color var(--ease);box-shadow:0 8px 18px rgba(37,99,235,.18);display:inline-flex;align-items:center;justify-content:center;gap:8px}button:hover,.btn:hover{transform:translateY(-1px);opacity:.96}button.secondary,.btn.secondary{background:#64748b;box-shadow:none}button.outline,.btn.outline{background:transparent;color:var(--primary);border:1px solid color-mix(in srgb,var(--primary) 55%,transparent);box-shadow:none}button.danger{background:var(--danger);box-shadow:none}button.accent{background:var(--accent);box-shadow:0 8px 18px rgba(15,118,110,.18)}
+    .summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:20px}.stat,.panel,.module-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}.stat strong{display:block;font-size:34px;line-height:1;color:var(--primary);font-weight:900;letter-spacing:-.04em;margin-bottom:8px}.stat span{color:var(--muted);font-weight:600}.panel-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.panel h3,.module-card h3{font-size:21px;line-height:1.18;letter-spacing:-.03em;margin:0 0 14px;font-weight:900}.list{display:grid;gap:10px}.list-item{border:1px solid var(--border);background:var(--surface-soft);border-radius:16px;padding:14px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.list-item strong{display:block;line-height:1.25}.list-item small{display:block;color:var(--muted);margin-top:4px}.badge{display:inline-flex;align-items:center;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:900;background:var(--primary-soft);color:var(--primary-dark);white-space:nowrap}.badge.ok{background:#dcfce7;color:#166534}.badge.warn{background:#fef3c7;color:#92400e}.badge.danger{background:#fee2e2;color:#991b1b}.module-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}.module-card{box-shadow:var(--shadow-soft)}.module-card p{margin:0;color:var(--muted)}.table-wrap{width:100%;overflow:auto;border:1px solid var(--border);border-radius:18px;background:var(--surface)}table{width:100%;border-collapse:collapse;min-width:760px}th,td{padding:13px 14px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);background:var(--surface-soft)}td{font-size:14px}.progress{height:9px;border-radius:999px;background:#e2e8f0;overflow:hidden;min-width:90px}.progress span{display:block;height:100%;background:var(--accent)}
+    .module-view{display:none}.module-view.active{display:block;animation:fadeIn 180ms ease}.module-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}.module-header h2{font-size:clamp(1.65rem,3vw,2.2rem);line-height:1.15;letter-spacing:-.04em;margin:0;font-weight:900}.module-header p{margin:8px 0 0;color:var(--muted);max-width:760px}.privacy-note{border:1px solid #bbf7d0;background:#ecfdf5;color:#14532d;border-radius:16px;padding:14px;margin-bottom:16px;font-weight:700}@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    @media(max-width:980px){.app-shell{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.nav{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}.panel-grid{grid-template-columns:1fr}.topbar-inner{align-items:flex-start;flex-direction:column}.toolbar{width:100%;display:grid;grid-template-columns:1fr}.toolbar button,.toolbar .btn{width:100%}.hero{padding:24px}.list-item{display:grid}.app-shell .sidebar .side-actions{grid-template-columns:1fr 1fr;display:grid}}@media(max-width:620px){.page{padding:22px 16px 42px}.summary-grid,.module-grid{grid-template-columns:1fr}.app-shell .sidebar .side-actions{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="../">
+        <div class="brand-mark">T</div>
+        <div><strong>Gestor Teurgia</strong><small>&Aacute;rea de Investigaci&oacute;n</small></div>
+      </a>
+      <nav class="nav" id="sideNav" aria-label="Navegaci&oacute;n investigaci&oacute;n"></nav>
+      <div class="side-actions">
+        <a class="btn outline" href="../">Inicio</a>
+        <button class="danger" type="button" onclick="logoutInvestigacion()">Cerrar sesi&oacute;n</button>
+      </div>
+    </aside>
+
+    <section class="content">
+      <header class="topbar">
+        <div class="topbar-inner">
+          <div>
+            <h1>&Aacute;rea de Investigaci&oacute;n</h1>
+            <span class="role-pill">Uso interno</span>
+          </div>
+          <div class="toolbar">
+            <span class="muted">Sesi&oacute;n: <strong id="currentUser">Usuario</strong></span>
+            <button class="accent" type="button" onclick="showModule('proyectos')">Nuevo proyecto</button>
+          </div>
+        </div>
+      </header>
+
+      <main class="page">
+        <section class="hero">
+          <h2>&Aacute;rea de Investigaci&oacute;n</h2>
+          <p>Panel interno para coordinar proyectos, tareas, actas, documentos, participantes, datos, publicaciones y equipo investigador.</p>
+        </section>
+
+        <section id="view-dashboard" class="module-view active">
+          <div class="summary-grid" id="summaryGrid"></div>
+          <div class="panel-grid">
+            <article class="panel"><h3>Proyectos recientes</h3><div class="list" id="recentProjects"></div></article>
+            <article class="panel"><h3>Tareas pr&oacute;ximas a vencer</h3><div class="list" id="dueTasks"></div></article>
+            <article class="panel"><h3>&Uacute;ltimas actas registradas</h3><div class="list" id="lastMinutes"></div></article>
+            <article class="panel"><h3>Documentos modificados recientemente</h3><div class="list" id="recentDocs"></div></article>
+            <article class="panel"><h3>Actividad reciente del &aacute;rea</h3><div class="list" id="recentActivity"></div></article>
+            <article class="panel"><h3>Alertas y recordatorios</h3><div class="list" id="alerts"></div></article>
+          </div>
+        </section>
+
+        <section id="view-proyectos" class="module-view">
+          <div class="module-header"><div><h2>Proyectos de investigaci&oacute;n</h2><p>Seguimiento general de proyectos, l&iacute;neas, responsables, avance y estados.</p></div><button class="accent">Crear proyecto</button></div>
+          <div class="table-wrap"><table><thead><tr><th>Nombre del proyecto</th><th>Estado</th><th>L&iacute;nea</th><th>Responsable</th><th>Inicio</th><th>T&eacute;rmino estimado</th><th>Avance</th><th>Acciones</th></tr></thead><tbody id="projectRows"></tbody></table></div>
+        </section>
+
+        <section id="view-tareas" class="module-view">
+          <div class="module-header"><div><h2>Tareas y seguimiento</h2><p>Control operativo de responsabilidades, prioridades, fechas l&iacute;mite y estados.</p></div><button class="accent">Crear tarea</button></div>
+          <div class="table-wrap"><table><thead><tr><th>T&iacute;tulo</th><th>Proyecto asociado</th><th>Responsable</th><th>Prioridad</th><th>Fecha l&iacute;mite</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="taskRows"></tbody></table></div>
+        </section>
+
+        <section id="view-actas" class="module-view">
+          <div class="module-header"><div><h2>Reuniones y actas</h2><p>Registro de acuerdos, responsables, plazos y documentos de reuni&oacute;n.</p></div><button class="accent">Crear nueva acta</button></div>
+          <div class="module-grid">
+            <article class="module-card"><h3>Nueva acta</h3><p>Estructura para fecha, asistentes, tabla, acuerdos, responsables y plazos.</p></article>
+            <article class="module-card"><h3>Actas anteriores</h3><p>Listado hist&oacute;rico filtrable por proyecto, fecha y equipo.</p></article>
+            <article class="module-card"><h3>Acuerdos</h3><p>Asignaci&oacute;n de responsables, seguimiento y estado de cumplimiento.</p></article>
+            <article class="module-card"><h3>PDF</h3><p>Bot&oacute;n reservado para generaci&oacute;n futura de actas en PDF.</p></article>
+          </div>
+        </section>
+
+        <section id="view-calendario" class="module-view">
+          <div class="module-header"><div><h2>Calendario / Carta Gantt</h2><p>Vista base para hitos, plazos, reuniones, entregables y fases de investigaci&oacute;n.</p></div></div>
+          <div class="panel"><div class="list" id="timelineList"></div></div>
+        </section>
+
+        <section id="view-documentos" class="module-view">
+          <div class="module-header"><div><h2>Documentos</h2><p>Biblioteca interna por categor&iacute;as y estado de revisi&oacute;n.</p></div><button class="accent">Subir documento</button></div>
+          <div class="module-grid" id="documentCategories"></div>
+        </section>
+
+        <section id="view-participantes" class="module-view">
+          <div class="module-header"><div><h2>Participantes / muestra</h2><p>Registro reservado para seguimiento interno sin exponer datos personales visibles.</p></div></div>
+          <div class="privacy-note">Privacidad: usar c&oacute;digos internos en vez de nombres, RUT, correo o tel&eacute;fono.</div>
+          <div class="table-wrap"><table><thead><tr><th>C&oacute;digo</th><th>Proyecto</th><th>Estado participaci&oacute;n</th><th>Consentimiento</th><th>Ingreso</th><th>Observaciones</th><th>Proceso</th></tr></thead><tbody id="participantRows"></tbody></table></div>
+        </section>
+
+        <section id="view-protocolos" class="module-view">
+          <div class="module-header"><div><h2>Instrumentos y protocolos</h2><p>Versiones activas, responsables, protocolos, consentimientos e instrumentos.</p></div></div>
+          <div class="module-grid" id="protocolCards"></div>
+        </section>
+
+        <section id="view-datos" class="module-view">
+          <div class="module-header"><div><h2>Datos y an&aacute;lisis</h2><p>Bases, matrices, resultados preliminares, gr&aacute;ficos, versiones y responsables.</p></div></div>
+          <div class="table-wrap"><table><thead><tr><th>Recurso</th><th>Tipo</th><th>Estado</th><th>Responsable</th><th>Versi&oacute;n</th></tr></thead><tbody id="dataRows"></tbody></table></div>
+        </section>
+
+        <section id="view-publicaciones" class="module-view">
+          <div class="module-header"><div><h2>Publicaciones y productos</h2><p>Art&iacute;culos, ponencias, posters, informes, cap&iacute;tulos, tesis y materiales.</p></div></div>
+          <div class="module-grid" id="publicationCards"></div>
+        </section>
+
+        <section id="view-equipo" class="module-view">
+          <div class="module-header"><div><h2>Equipo investigador</h2><p>Integrantes, roles, asignaciones, responsabilidades, permisos y estado.</p></div><button class="accent">Agregar integrante</button></div>
+          <div class="table-wrap"><table><thead><tr><th>Integrante</th><th>Rol</th><th>Asignaci&oacute;n</th><th>Responsabilidad</th><th>Permisos</th><th>Estado</th></tr></thead><tbody id="teamRows"></tbody></table></div>
+        </section>
+
+        <section id="view-lineas" class="module-view"><div class="module-header"><div><h2>L&iacute;neas de investigaci&oacute;n</h2><p>Organizaci&oacute;n tem&aacute;tica de proyectos, productos y equipos.</p></div></div><div class="module-grid" id="lineCards"></div></section>
+        <section id="view-vinculacion" class="module-view"><div class="module-header"><div><h2>Vinculaci&oacute;n institucional</h2><p>Convenios, alianzas, comit&eacute;s, universidades y redes asociadas.</p></div></div><div class="module-grid" id="institutionCards"></div></section>
+        <section id="view-notificaciones" class="module-view"><div class="module-header"><div><h2>Notificaciones internas</h2><p>Avisos relevantes para tareas, documentos, reuniones y aprobaciones.</p></div></div><div class="panel"><div class="list" id="notificationList"></div></div></section>
+        <section id="view-configuracion" class="module-view"><div class="module-header"><div><h2>Configuraci&oacute;n del &aacute;rea</h2><p>Espacio preparado para permisos, roles, categor&iacute;as y par&aacute;metros de integraci&oacute;n.</p></div></div><div class="module-grid"><article class="module-card"><h3>Permisos</h3><p>Aplicar acceso para administrador, coordinador de investigaci&oacute;n e investigadores autorizados.</p></article><article class="module-card"><h3>Directus</h3><p>Colecciones sugeridas: investigacion_proyectos, investigacion_tareas, investigacion_actas, investigacion_documentos, investigacion_equipo.</p></article><article class="module-card"><h3>Privacidad</h3><p>Definir reglas para muestra, datos sensibles, documentos y exportaciones.</p></article></div></section>
+      </main>
+    </section>
+  </div>
+
+  <script>
+    const DIRECTUS_AUTH_KEY = "teurgia_directus_auth";
+    const modules = [
+      ["dashboard", "Dashboard"],
+      ["proyectos", "Proyectos"],
+      ["tareas", "Tareas"],
+      ["actas", "Reuniones y actas"],
+      ["calendario", "Calendario / Gantt"],
+      ["documentos", "Documentos"],
+      ["participantes", "Participantes"],
+      ["protocolos", "Instrumentos"],
+      ["datos", "Datos y analisis"],
+      ["publicaciones", "Publicaciones"],
+      ["equipo", "Equipo investigador"],
+      ["lineas", "Lineas"],
+      ["vinculacion", "Vinculacion"],
+      ["notificaciones", "Notificaciones"],
+      ["configuracion", "Configuracion"],
+    ];
+
+    const summary = [
+      ["4", "Proyectos activos"], ["12", "Tareas pendientes"], ["3", "Reuniones proximas"], ["7", "Documentos en revision"],
+      ["5", "Hitos proximos"], ["36", "Participantes registrados"], ["6", "Productos academicos en desarrollo"],
+    ];
+    const projects = [
+      ["Cartografia de necesidades comunitarias", "En ejecucion", "Salud comunitaria", "Coordinacion Investigacion", "2026-07-01", "2026-12-15", 42],
+      ["Trayectorias de bienestar escolar", "En revision", "Educacion y cuidado", "Investigador principal", "2026-06-10", "2027-01-30", 18],
+      ["Archivo de experiencias territoriales", "En analisis", "Memoria institucional", "Encargado de datos", "2026-05-05", "2026-10-20", 65],
+    ];
+    const tasks = [
+      ["Revisar matriz de categorias", "Archivo de experiencias territoriales", "Encargado de datos", "Alta", "2026-07-05", "En proceso"],
+      ["Enviar protocolo a revision interna", "Trayectorias de bienestar escolar", "Coordinacion Investigacion", "Media", "2026-07-08", "Pendiente"],
+      ["Consolidar consentimiento informado", "Cartografia de necesidades comunitarias", "Encargado documentos", "Alta", "2026-07-10", "En revision"],
+    ];
+    const participants = [
+      ["PART-001", "Cartografia", "Activo", "Firmado", "2026-07-01", "Seguimiento regular", "Entrevista agendada"],
+      ["PART-002", "Cartografia", "Pendiente", "Por confirmar", "2026-07-02", "Contacto institucional", "Ingreso inicial"],
+      ["PART-003", "Bienestar escolar", "Activo", "Firmado", "2026-07-03", "Sin datos personales visibles", "Aplicacion instrumento"],
+    ];
+    const team = [
+      ["Coordinacion general", "Coordinador de investigacion", "Todos los proyectos", "Planificacion y seguimiento", "Administrador", "Activo"],
+      ["Investigador principal", "Investigador principal", "Bienestar escolar", "Diseno metodologico", "Editor", "Activo"],
+      ["Encargado documentos", "Encargado de documentos", "Protocolos", "Control de versiones", "Lectura y carga", "Activo"],
+    ];
+
+    function authData() {
+      try { return JSON.parse(localStorage.getItem(DIRECTUS_AUTH_KEY) || "null") || {}; }
+      catch (_) { return {}; }
+    }
+
+    function tokenExpired(token) {
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
+        return Boolean(payload.exp && payload.exp * 1000 < Date.now());
+      } catch (_) {
+        return true;
+      }
+    }
+
+    function requireSession() {
+      const auth = authData();
+      if (!auth.token || tokenExpired(auth.token)) {
+        location.href = "../";
+        return null;
+      }
+      const user = auth.model || {};
+      document.getElementById("currentUser").textContent = user.email || user.nombre || "usuario";
+      // TODO: aplicar permisos Directus para administrador, coordinador de investigacion e investigadores autorizados.
+      return auth;
+    }
+
+    function logoutInvestigacion() {
+      localStorage.removeItem(DIRECTUS_AUTH_KEY);
+      location.href = "../";
+    }
+
+    function badge(text) {
+      const value = String(text).toLowerCase();
+      const cls = value.includes("atras") ? "danger" : value.includes("revision") || value.includes("pendiente") ? "warn" : "ok";
+      return `<span class="badge ${cls}">${text}</span>`;
+    }
+
+    function showModule(id) {
+      document.querySelectorAll(".module-view").forEach((view) => view.classList.toggle("active", view.id === `view-${id}`));
+      document.querySelectorAll("#sideNav button").forEach((button) => button.classList.toggle("active", button.dataset.module === id));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderList(id, items) {
+      document.getElementById(id).innerHTML = items.map((item) => `<div class="list-item"><div><strong>${item[0]}</strong><small>${item[1]}</small></div>${item[2] ? badge(item[2]) : ""}</div>`).join("");
+    }
+
+    function render() {
+      document.getElementById("sideNav").innerHTML = modules.map(([id, label]) => `<button type="button" data-module="${id}" class="${id === "dashboard" ? "active" : ""}" onclick="showModule('${id}')">${label}</button>`).join("");
+      document.getElementById("summaryGrid").innerHTML = summary.map(([value, label]) => `<article class="stat"><strong>${value}</strong><span>${label}</span></article>`).join("");
+      renderList("recentProjects", projects.map((p) => [p[0], `${p[2]} · ${p[3]}`, p[1]]));
+      renderList("dueTasks", tasks.map((t) => [t[0], `${t[1]} · ${t[4]}`, t[5]]));
+      renderList("lastMinutes", [["Comite metodologico", "Acuerdos: version de protocolo", "En revision"], ["Mesa de datos", "Responsable asignado", "Completada"], ["Revision documental", "Pendiente cierre", "Pendiente"]]);
+      renderList("recentDocs", [["Protocolo v0.3", "Modificado hoy", "En revision"], ["Consentimiento base", "Actualizado ayer", "Pendiente"], ["Matriz cualitativa", "Version 1.2", "Activo"]]);
+      renderList("recentActivity", [["Nueva tarea creada", "Matriz de categorias", ""], ["Documento actualizado", "Consentimiento informado", ""], ["Participante ingresado", "PART-003", ""]]);
+      renderList("alerts", [["Revision etica pendiente", "Trayectorias de bienestar escolar", "Pendiente"], ["Hito proximo", "Entrega informe preliminar", "En proceso"]]);
+      document.getElementById("projectRows").innerHTML = projects.map((p) => `<tr><td><strong>${p[0]}</strong></td><td>${badge(p[1])}</td><td>${p[2]}</td><td>${p[3]}</td><td>${p[4]}</td><td>${p[5]}</td><td><div class="progress"><span style="width:${p[6]}%"></span></div>${p[6]}%</td><td><button class="outline">Ver</button></td></tr>`).join("");
+      document.getElementById("taskRows").innerHTML = tasks.map((t) => `<tr><td><strong>${t[0]}</strong></td><td>${t[1]}</td><td>${t[2]}</td><td>${t[3]}</td><td>${t[4]}</td><td>${badge(t[5])}</td><td><button class="outline">Ver</button></td></tr>`).join("");
+      document.getElementById("participantRows").innerHTML = participants.map((p) => `<tr><td><strong>${p[0]}</strong></td><td>${p[1]}</td><td>${p[2]}</td><td>${p[3]}</td><td>${p[4]}</td><td>${p[5]}</td><td>${p[6]}</td></tr>`).join("");
+      document.getElementById("teamRows").innerHTML = team.map((p) => `<tr><td><strong>${p[0]}</strong></td><td>${p[1]}</td><td>${p[2]}</td><td>${p[3]}</td><td>${p[4]}</td><td>${badge(p[5])}</td></tr>`).join("");
+      renderList("timelineList", [["Entrega protocolo", "2026-07-08 · revision interna", "Pendiente"], ["Aplicacion instrumentos", "2026-07-20 · fase campo", "En proceso"], ["Informe preliminar", "2026-08-15 · hito mensual", "Pendiente"]]);
+      document.getElementById("documentCategories").innerHTML = ["Protocolos","Consentimientos","Instrumentos","Informes","Plantillas","Bases de datos","Publicaciones","Actas","Anexos"].map((name) => `<article class="module-card"><h3>${name}</h3><p>Biblioteca interna y control de versiones para ${name.toLowerCase()}.</p></article>`).join("");
+      document.getElementById("protocolCards").innerHTML = ["Protocolo general","Guia de entrevista","Consentimiento informado","Pauta de observacion","Manual de codificacion"].map((name) => `<article class="module-card"><h3>${name}</h3><p>Version activa, responsable, estado de revision y documentos asociados.</p></article>`).join("");
+      document.getElementById("dataRows").innerHTML = [["Matriz entrevistas","Cualitativa","En analisis","Encargado de datos","v1.2"],["Base participantes","Datos internos","Activa","Coordinacion","v0.9"],["Graficos preliminares","Resultados","Borrador","Investigador principal","v0.4"]].map((r) => `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${badge(r[2])}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`).join("");
+      document.getElementById("publicationCards").innerHTML = ["Articulos","Ponencias","Posters","Informes tecnicos","Capitulos","Tesis asociadas","Material psicoeducativo","Productos en preparacion"].map((name) => `<article class="module-card"><h3>${name}</h3><p>Seguimiento de productos, autores, estado editorial y fechas comprometidas.</p></article>`).join("");
+      document.getElementById("lineCards").innerHTML = ["Salud comunitaria","Educacion y cuidado","Memoria institucional","Vinculacion territorial"].map((name) => `<article class="module-card"><h3>${name}</h3><p>Linea activa con proyectos, equipo responsable y productos vinculados.</p></article>`).join("");
+      document.getElementById("institutionCards").innerHTML = ["Convenios","Comites","Universidades","Redes asociadas"].map((name) => `<article class="module-card"><h3>${name}</h3><p>Registro de vinculacion, responsables, documentos y estado institucional.</p></article>`).join("");
+      renderList("notificationList", [["Documento espera revision", "Protocolo v0.3", "Pendiente"], ["Nueva reunion programada", "Comite metodologico", "En proceso"], ["Producto academico actualizado", "Informe tecnico", "Activo"]]);
+    }
+
+    requireSession();
+    render();
+  </script>
+</body>
+</html>
