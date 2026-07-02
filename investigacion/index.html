@@ -101,17 +101,12 @@
 
         <section id="view-actas" class="module-view">
           <div class="module-header"><div><h2>Reuniones y actas</h2><p>Registro de acuerdos, responsables, plazos y documentos de reuni&oacute;n.</p></div><button class="accent" onclick="createResearchItem('actas')">Crear nueva acta</button></div>
-          <div class="module-grid">
-            <article class="module-card"><h3>Nueva acta</h3><p>Estructura para fecha, asistentes, tabla, acuerdos, responsables y plazos.</p></article>
-            <article class="module-card"><h3>Actas anteriores</h3><p>Listado hist&oacute;rico filtrable por proyecto, fecha y equipo.</p></article>
-            <article class="module-card"><h3>Acuerdos</h3><p>Asignaci&oacute;n de responsables, seguimiento y estado de cumplimiento.</p></article>
-            <article class="module-card"><h3>PDF</h3><p>Bot&oacute;n reservado para generaci&oacute;n futura de actas en PDF.</p></article>
-          </div>
+          <div class="table-wrap"><table><thead><tr><th>Acta</th><th>Proyecto</th><th>Responsable</th><th>Fecha</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="actRows"></tbody></table></div>
         </section>
 
         <section id="view-calendario" class="module-view">
-          <div class="module-header"><div><h2>Calendario / Carta Gantt</h2><p>Vista base para hitos, plazos, reuniones, entregables y fases de investigaci&oacute;n.</p></div></div>
-          <div class="panel"><div class="list" id="timelineList"></div></div>
+          <div class="module-header"><div><h2>Calendario / Carta Gantt</h2><p>Hitos, plazos, reuniones, entregables y fases de investigaci&oacute;n.</p></div><button class="accent" onclick="createResearchItem('calendario')">Crear hito</button></div>
+          <div class="table-wrap"><table><thead><tr><th>Hito</th><th>Proyecto</th><th>Fecha</th><th>Responsable</th><th>Avance</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="timelineRows"></tbody></table></div>
         </section>
 
         <section id="view-documentos" class="module-view">
@@ -129,38 +124,41 @@
             </form>
             <div class="file-list" id="researchFiles"></div>
           </article>
-          <div class="module-grid" id="documentCategories"></div>
+          <article class="panel">
+            <div class="module-header"><div><h3>Registros documentales</h3><p>Control de categor&iacute;as, versiones y responsables guardado en Directus.</p></div><button class="accent" onclick="createResearchItem('documentos')">Crear registro</button></div>
+            <div class="table-wrap"><table><thead><tr><th>Documento</th><th>Categor&iacute;a</th><th>Proyecto</th><th>Responsable</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="documentRows"></tbody></table></div>
+          </article>
         </section>
 
         <section id="view-participantes" class="module-view">
-          <div class="module-header"><div><h2>Participantes / muestra</h2><p>Registro reservado para seguimiento interno sin exponer datos personales visibles.</p></div></div>
+          <div class="module-header"><div><h2>Participantes / muestra</h2><p>Registro reservado para seguimiento interno sin exponer datos personales visibles.</p></div><button class="accent" onclick="createResearchItem('participantes')">Agregar participante</button></div>
           <div class="privacy-note">Privacidad: usar c&oacute;digos internos en vez de nombres, RUT, correo o tel&eacute;fono.</div>
-          <div class="table-wrap"><table><thead><tr><th>C&oacute;digo</th><th>Proyecto</th><th>Estado participaci&oacute;n</th><th>Consentimiento</th><th>Ingreso</th><th>Observaciones</th><th>Proceso</th></tr></thead><tbody id="participantRows"></tbody></table></div>
+          <div class="table-wrap"><table><thead><tr><th>C&oacute;digo</th><th>Proyecto</th><th>Estado participaci&oacute;n</th><th>Consentimiento</th><th>Ingreso</th><th>Proceso</th><th>Acciones</th></tr></thead><tbody id="participantRows"></tbody></table></div>
         </section>
 
         <section id="view-protocolos" class="module-view">
-          <div class="module-header"><div><h2>Instrumentos y protocolos</h2><p>Versiones activas, responsables, protocolos, consentimientos e instrumentos.</p></div></div>
-          <div class="module-grid" id="protocolCards"></div>
+          <div class="module-header"><div><h2>Instrumentos y protocolos</h2><p>Versiones activas, responsables, protocolos, consentimientos e instrumentos.</p></div><button class="accent" onclick="createResearchItem('protocolos')">Crear instrumento</button></div>
+          <div class="table-wrap"><table><thead><tr><th>Instrumento</th><th>Tipo</th><th>Proyecto</th><th>Responsable</th><th>Versi&oacute;n</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="protocolRows"></tbody></table></div>
         </section>
 
         <section id="view-datos" class="module-view">
-          <div class="module-header"><div><h2>Datos y an&aacute;lisis</h2><p>Bases, matrices, resultados preliminares, gr&aacute;ficos, versiones y responsables.</p></div></div>
-          <div class="table-wrap"><table><thead><tr><th>Recurso</th><th>Tipo</th><th>Estado</th><th>Responsable</th><th>Versi&oacute;n</th></tr></thead><tbody id="dataRows"></tbody></table></div>
+          <div class="module-header"><div><h2>Datos y an&aacute;lisis</h2><p>Bases, matrices, resultados preliminares, gr&aacute;ficos, versiones y responsables.</p></div><button class="accent" onclick="createResearchItem('datos')">Crear recurso</button></div>
+          <div class="table-wrap"><table><thead><tr><th>Recurso</th><th>Tipo</th><th>Proyecto</th><th>Responsable</th><th>Versi&oacute;n</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="dataRows"></tbody></table></div>
         </section>
 
         <section id="view-publicaciones" class="module-view">
-          <div class="module-header"><div><h2>Publicaciones y productos</h2><p>Art&iacute;culos, ponencias, posters, informes, cap&iacute;tulos, tesis y materiales.</p></div></div>
-          <div class="module-grid" id="publicationCards"></div>
+          <div class="module-header"><div><h2>Publicaciones y productos</h2><p>Art&iacute;culos, ponencias, posters, informes, cap&iacute;tulos, tesis y materiales.</p></div><button class="accent" onclick="createResearchItem('publicaciones')">Crear producto</button></div>
+          <div class="table-wrap"><table><thead><tr><th>Producto</th><th>Tipo</th><th>Proyecto</th><th>Responsable</th><th>Etapa</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="publicationRows"></tbody></table></div>
         </section>
 
         <section id="view-equipo" class="module-view">
           <div class="module-header"><div><h2>Equipo investigador</h2><p>Integrantes, roles, asignaciones, responsabilidades, permisos y estado.</p></div><button class="accent" onclick="createResearchItem('equipo')">Agregar integrante</button></div>
-          <div class="table-wrap"><table><thead><tr><th>Integrante</th><th>Rol</th><th>Asignaci&oacute;n</th><th>Responsabilidad</th><th>Permisos</th><th>Estado</th></tr></thead><tbody id="teamRows"></tbody></table></div>
+          <div class="table-wrap"><table><thead><tr><th>Integrante</th><th>Rol</th><th>Asignaci&oacute;n</th><th>Responsabilidad</th><th>Permisos</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="teamRows"></tbody></table></div>
         </section>
 
-        <section id="view-lineas" class="module-view"><div class="module-header"><div><h2>L&iacute;neas de investigaci&oacute;n</h2><p>Organizaci&oacute;n tem&aacute;tica de proyectos, productos y equipos.</p></div></div><div class="module-grid" id="lineCards"></div></section>
-        <section id="view-vinculacion" class="module-view"><div class="module-header"><div><h2>Vinculaci&oacute;n institucional</h2><p>Convenios, alianzas, comit&eacute;s, universidades y redes asociadas.</p></div></div><div class="module-grid" id="institutionCards"></div></section>
-        <section id="view-notificaciones" class="module-view"><div class="module-header"><div><h2>Notificaciones internas</h2><p>Avisos relevantes para tareas, documentos, reuniones y aprobaciones.</p></div></div><div class="panel"><div class="list" id="notificationList"></div></div></section>
+        <section id="view-lineas" class="module-view"><div class="module-header"><div><h2>L&iacute;neas de investigaci&oacute;n</h2><p>Organizaci&oacute;n tem&aacute;tica de proyectos, productos y equipos.</p></div><button class="accent" onclick="createResearchItem('lineas')">Crear l&iacute;nea</button></div><div class="table-wrap"><table><thead><tr><th>L&iacute;nea</th><th>&Aacute;rea</th><th>Responsable</th><th>Proyecto relacionado</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="lineRows"></tbody></table></div></section>
+        <section id="view-vinculacion" class="module-view"><div class="module-header"><div><h2>Vinculaci&oacute;n institucional</h2><p>Convenios, alianzas, comit&eacute;s, universidades y redes asociadas.</p></div><button class="accent" onclick="createResearchItem('vinculacion')">Crear v&iacute;nculo</button></div><div class="table-wrap"><table><thead><tr><th>V&iacute;nculo</th><th>Tipo</th><th>Instituci&oacute;n / red</th><th>Responsable</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="institutionRows"></tbody></table></div></section>
+        <section id="view-notificaciones" class="module-view"><div class="module-header"><div><h2>Notificaciones internas</h2><p>Avisos relevantes para tareas, documentos, reuniones y aprobaciones.</p></div><button class="accent" onclick="createResearchItem('notificaciones')">Crear aviso</button></div><div class="table-wrap"><table><thead><tr><th>Aviso</th><th>&Aacute;rea</th><th>Prioridad</th><th>Fecha</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="notificationRows"></tbody></table></div></section>
         <section id="view-configuracion" class="module-view"><div class="module-header"><div><h2>Configuraci&oacute;n del &aacute;rea</h2><p>Espacio preparado para permisos, roles, categor&iacute;as y par&aacute;metros de integraci&oacute;n.</p></div></div><div class="module-grid"><article class="module-card"><h3>Permisos</h3><p>Aplicar acceso para administrador, coordinador de investigaci&oacute;n e investigadores autorizados.</p></article><article class="module-card"><h3>Directus</h3><p>Colecciones sugeridas: investigacion_proyectos, investigacion_tareas, investigacion_actas, investigacion_documentos, investigacion_equipo.</p></article><article class="module-card"><h3>Privacidad</h3><p>Definir reglas para muestra, datos sensibles, documentos y exportaciones.</p></article></div></section>
       </main>
     </section>
@@ -240,30 +238,20 @@
       },
     };
 
-    const summary = [
-      ["4", "Proyectos activos"], ["12", "Tareas pendientes"], ["3", "Reuniones proximas"], ["7", "Documentos en revision"],
-      ["5", "Hitos proximos"], ["36", "Participantes registrados"], ["6", "Productos academicos en desarrollo"],
-    ];
-    const projects = [
-      ["Cartografia de necesidades comunitarias", "En ejecucion", "Salud comunitaria", "Coordinacion Investigacion", "2026-07-01", "2026-12-15", 42],
-      ["Trayectorias de bienestar escolar", "En revision", "Educacion y cuidado", "Investigador principal", "2026-06-10", "2027-01-30", 18],
-      ["Archivo de experiencias territoriales", "En analisis", "Memoria institucional", "Encargado de datos", "2026-05-05", "2026-10-20", 65],
-    ];
-    const tasks = [
-      ["Revisar matriz de categorias", "Archivo de experiencias territoriales", "Encargado de datos", "Alta", "2026-07-05", "En proceso"],
-      ["Enviar protocolo a revision interna", "Trayectorias de bienestar escolar", "Coordinacion Investigacion", "Media", "2026-07-08", "Pendiente"],
-      ["Consolidar consentimiento informado", "Cartografia de necesidades comunitarias", "Encargado documentos", "Alta", "2026-07-10", "En revision"],
-    ];
-    const participants = [
-      ["PART-001", "Cartografia", "Activo", "Firmado", "2026-07-01", "Seguimiento regular", "Entrevista agendada"],
-      ["PART-002", "Cartografia", "Pendiente", "Por confirmar", "2026-07-02", "Contacto institucional", "Ingreso inicial"],
-      ["PART-003", "Bienestar escolar", "Activo", "Firmado", "2026-07-03", "Sin datos personales visibles", "Aplicacion instrumento"],
-    ];
-    const team = [
-      ["Coordinacion general", "Coordinador de investigacion", "Todos los proyectos", "Planificacion y seguimiento", "Administrador", "Activo"],
-      ["Investigador principal", "Investigador principal", "Bienestar escolar", "Diseno metodologico", "Editor", "Activo"],
-      ["Encargado documentos", "Encargado de documentos", "Protocolos", "Control de versiones", "Lectura y carga", "Activo"],
-    ];
+    const genericFields = {
+      tareas: [["proyecto", "Proyecto asociado"], ["prioridad", "Prioridad"], ["progreso", "Avance %", "number"]],
+      actas: [["proyecto", "Proyecto asociado"], ["categoria", "Tipo de reuni&oacute;n"], ["prioridad", "Cumplimiento de acuerdos"]],
+      calendario: [["proyecto", "Proyecto asociado"], ["categoria", "Tipo de hito"], ["prioridad", "Prioridad"], ["progreso", "Avance %", "number"]],
+      documentos: [["proyecto", "Proyecto asociado"], ["categoria", "Categor&iacute;a"], ["prioridad", "Versi&oacute;n"]],
+      participantes: [["proyecto", "Proyecto"], ["categoria", "Consentimiento"], ["prioridad", "Proceso"]],
+      protocolos: [["proyecto", "Proyecto asociado"], ["categoria", "Tipo de instrumento"], ["prioridad", "Versi&oacute;n"]],
+      datos: [["proyecto", "Proyecto asociado"], ["categoria", "Tipo de dato"], ["prioridad", "Versi&oacute;n"]],
+      publicaciones: [["proyecto", "Proyecto asociado"], ["categoria", "Tipo de producto"], ["prioridad", "Etapa editorial"]],
+      equipo: [["categoria", "Rol"], ["proyecto", "Asignaci&oacute;n"], ["prioridad", "Permisos"]],
+      lineas: [["categoria", "&Aacute;rea tem&aacute;tica"], ["proyecto", "Proyecto relacionado"], ["prioridad", "Prioridad"]],
+      vinculacion: [["categoria", "Tipo de v&iacute;nculo"], ["proyecto", "Instituci&oacute;n / red"], ["prioridad", "Nivel de acuerdo"]],
+      notificaciones: [["proyecto", "&Aacute;rea relacionada"], ["categoria", "Tipo de aviso"], ["prioridad", "Prioridad"]],
+    };
 
     function authData() {
       try { return JSON.parse(localStorage.getItem(DIRECTUS_AUTH_KEY) || "null") || {}; }
@@ -467,21 +455,9 @@
       if (localStorage.getItem("research_theme") === "dark") document.body.classList.add("research-dark");
     }
 
-    function items(moduleId, fallback = []) {
+    function items(moduleId) {
       const rows = researchData[moduleId] || [];
-      return rows.length ? rows : fallback.map((row, index) => ({
-        id: `fallback-${moduleId}-${index}`,
-        titulo: row[0],
-        estado: row[1] || row[2] || "Activo",
-        categoria: row[2] || row[1] || "",
-        responsable: row[3] || "",
-        fecha_ref: row[4] || "",
-        proyecto: row[1] || "",
-        prioridad: row[3] || "",
-        progreso: row[6] || 0,
-        descripcion: row.slice(1).join(" | "),
-        datos: { fallback: row },
-      }));
+      return Array.isArray(rows) ? rows : [];
     }
 
     async function loadResearchData() {
@@ -572,17 +548,28 @@
       else openGenericModal(moduleId);
     }
 
-    function openGenericModal(moduleId) {
+    function genericFieldInputs(moduleId, item = {}) {
+      return (genericFields[moduleId] || []).map(([name, label, type = "text"]) => {
+        const value = name === "progreso" ? Number(item[name] || 0) : esc(item[name] || "");
+        return `<label>${label}<input name="${name}" type="${type}" value="${value}"></label>`;
+      }).join("");
+    }
+
+    function openGenericModal(moduleId, id = "") {
       const config = collectionConfig[moduleId];
       if (!config) return;
       const [, label] = config;
-      modal(`Nuevo ${label.toLowerCase()}`, "Registro conectado con Directus.", `<form class="modal-form" id="genericForm" onsubmit="saveGenericItem(event,'${moduleId}')">
-        <label>T&iacute;tulo<input name="titulo" required></label>
-        <label>Estado<input name="estado" value="Activo"></label>
-        <label>Responsable<input name="responsable"></label>
-        <label>Fecha<input name="fecha_ref" type="date"></label>
+      const item = id ? (researchData[moduleId] || []).find((row) => String(row.id) === String(id)) || {} : {};
+      modal(id ? `Editar ${label.toLowerCase()}` : `Nuevo ${label.toLowerCase()}`, "Registro conectado con Directus.", `<form class="modal-form" id="genericForm" onsubmit="saveGenericItem(event,'${moduleId}')">
+        <input type="hidden" name="id" value="${esc(item.id || "")}">
+        <label>T&iacute;tulo<input name="titulo" required value="${esc(item.titulo || "")}"></label>
+        <label>Estado<input name="estado" value="${esc(item.estado || "Activo")}"></label>
+        <label>Responsable<input name="responsable" value="${esc(item.responsable || "")}"></label>
+        <label>Fecha<input name="fecha_ref" type="date" value="${esc(item.fecha_ref || "")}"></label>
+        ${genericFieldInputs(moduleId, item)}
         <label class="full">Descripci&oacute;n<textarea name="descripcion"></textarea></label>
       </form>`, `<button class="outline" type="button" onclick="closeResearchModal()">Cancelar</button><button class="accent" type="submit" form="genericForm">Guardar</button>`);
+      document.querySelector("#genericForm textarea[name='descripcion']").value = item.descripcion || "";
     }
 
     async function saveGenericItem(event, moduleId) {
@@ -590,24 +577,89 @@
       const [collection, label] = collectionConfig[moduleId];
       const form = new FormData(event.target);
       const user = currentUser();
-      await directusJson(`/items/${collection}`, {
-        method: "POST",
-        body: JSON.stringify({
-          titulo: form.get("titulo"),
-          descripcion: form.get("descripcion"),
-          estado: form.get("estado") || "Activo",
-          categoria: label,
-          responsable: form.get("responsable"),
-          fecha_ref: form.get("fecha_ref"),
-          creado_por: user.id || "",
-          creado_por_email: user.email || "",
-          datos: { creado_desde: "area_investigacion" },
-        }),
+      const id = form.get("id");
+      const payload = {
+        titulo: String(form.get("titulo") || "").trim(),
+        descripcion: String(form.get("descripcion") || "").trim(),
+        estado: form.get("estado") || "Activo",
+        categoria: form.get("categoria") || label,
+        proyecto: form.get("proyecto") || "",
+        responsable: form.get("responsable") || "",
+        fecha_ref: form.get("fecha_ref") || "",
+        prioridad: form.get("prioridad") || "",
+        progreso: Number(form.get("progreso") || 0),
+        creado_por: user.id || "",
+        creado_por_email: user.email || "",
+        datos: { creado_desde: "area_investigacion", modulo: moduleId },
+      };
+      if (!payload.titulo) {
+        showToast("El registro necesita un titulo.", "err");
+        return;
+      }
+      await directusJson(id ? `/items/${collection}/${id}` : `/items/${collection}`, {
+        method: id ? "PATCH" : "POST",
+        body: JSON.stringify(payload),
       });
       closeResearchModal();
       await initResearch();
       showModule(moduleId);
-      showToast("Registro guardado.");
+      showToast(id ? "Cambios guardados." : "Registro guardado.");
+    }
+
+    function openGenericDetail(moduleId, id) {
+      const config = collectionConfig[moduleId];
+      const item = (researchData[moduleId] || []).find((row) => String(row.id) === String(id));
+      if (!config || !item) return;
+      const details = [
+        ["T&iacute;tulo", item.titulo],
+        ["Estado", item.estado],
+        ["Proyecto", item.proyecto],
+        ["Responsable", item.responsable || item.creado_por_email],
+        ["Fecha", item.fecha_ref],
+        ["Categor&iacute;a", item.categoria],
+        ["Prioridad / versi&oacute;n", item.prioridad],
+        ["Avance", item.progreso ? `${item.progreso}%` : ""],
+        ["Descripci&oacute;n", item.descripcion],
+      ].map(([label, value]) => `<div class="detail-item ${label === "Descripci&oacute;n" ? "full" : ""}"><strong>${label}</strong>${esc(value || "Sin registro")}</div>`).join("");
+      modal(`Detalle: ${config[1]}`, item.titulo || "Registro", `<div class="detail-grid">${details}</div>`, `<button class="outline" onclick="openGenericModal('${moduleId}','${id}')">Editar</button><button class="outline" onclick="duplicateGenericItem('${moduleId}','${id}')">Duplicar</button><button class="danger" onclick="confirmDeleteGenericItem('${moduleId}','${id}')">Eliminar</button><button onclick="closeResearchModal()">Cerrar</button>`);
+    }
+
+    async function duplicateGenericItem(moduleId, id) {
+      const [collection] = collectionConfig[moduleId] || [];
+      const item = (researchData[moduleId] || []).find((row) => String(row.id) === String(id));
+      if (!collection || !item) return;
+      const user = currentUser();
+      const copy = { ...item, titulo: `${item.titulo} (copia)`, creado_por: user.id || "", creado_por_email: user.email || "" };
+      delete copy.id;
+      await directusJson(`/items/${collection}`, { method: "POST", body: JSON.stringify(copy) });
+      await initResearch();
+      showModule(moduleId);
+      showToast("Registro duplicado.");
+    }
+
+    async function archiveGenericItem(moduleId, id) {
+      const [collection] = collectionConfig[moduleId] || [];
+      if (!collection) return;
+      await directusJson(`/items/${collection}/${id}`, { method: "PATCH", body: JSON.stringify({ estado: "Archivado" }) });
+      await initResearch();
+      showModule(moduleId);
+      showToast("Registro archivado.");
+    }
+
+    function confirmDeleteGenericItem(moduleId, id) {
+      const item = (researchData[moduleId] || []).find((row) => String(row.id) === String(id));
+      if (!item) return;
+      modal("Eliminar registro", "Confirmaci&oacute;n requerida", `<p>Esta acci&oacute;n eliminar&aacute; <strong>${esc(item.titulo)}</strong> de Directus.</p>`, `<button class="outline" onclick="closeResearchModal()">Cancelar</button><button class="danger" onclick="deleteGenericItem('${moduleId}','${id}')">Eliminar</button>`);
+    }
+
+    async function deleteGenericItem(moduleId, id) {
+      const [collection] = collectionConfig[moduleId] || [];
+      if (!collection) return;
+      await directusJson(`/items/${collection}/${id}`, { method: "DELETE" });
+      closeResearchModal();
+      await initResearch();
+      showModule(moduleId);
+      showToast("Registro eliminado.");
     }
 
     function openProjectDetail(id) {
@@ -724,7 +776,28 @@
     }
 
     function renderList(id, items) {
-      document.getElementById(id).innerHTML = items.map((item) => `<div class="list-item"><div><strong>${item[0]}</strong><small>${item[1]}</small></div>${item[2] ? badge(item[2]) : ""}</div>`).join("");
+      const target = document.getElementById(id);
+      if (!target) return;
+      target.innerHTML = items.length ? items.map((item) => `<div class="list-item"><div><strong>${item[0]}</strong><small>${item[1]}</small></div>${item[2] ? badge(item[2]) : ""}</div>`).join("") : '<div class="empty-state">No hay registros guardados todavia.</div>';
+    }
+
+    function emptyRow(colspan, moduleId, label = "Crear registro") {
+      return `<tr><td colspan="${colspan}"><div class="empty-state">No hay registros guardados en Directus. <button class="accent" onclick="createResearchItem('${moduleId}')">${label}</button></div></td></tr>`;
+    }
+
+    function progressCell(value) {
+      const progress = Number(value || 0);
+      return `<div class="progress"><span style="width:${progress}%"></span></div>${progress}%`;
+    }
+
+    function actionMenu(moduleId, id) {
+      return `<div class="action-menu" data-action-menu><button class="action-trigger" type="button" aria-label="Abrir acciones" aria-expanded="false" onclick="toggleProjectActions(event)">&#9776;</button><div class="action-dropdown" role="menu"><button type="button" role="menuitem" onclick="openGenericDetail('${moduleId}','${id}'); closeProjectActionMenus()">Ver detalle</button><button type="button" role="menuitem" onclick="openGenericModal('${moduleId}','${id}'); closeProjectActionMenus()">Editar</button><button type="button" role="menuitem" onclick="duplicateGenericItem('${moduleId}','${id}'); closeProjectActionMenus()">Duplicar</button><button type="button" role="menuitem" onclick="archiveGenericItem('${moduleId}','${id}'); closeProjectActionMenus()">Archivar</button><button class="danger" type="button" role="menuitem" onclick="confirmDeleteGenericItem('${moduleId}','${id}'); closeProjectActionMenus()">Eliminar</button></div></div>`;
+    }
+
+    function renderRows(targetId, moduleId, rows, renderRow, colspan, label) {
+      const target = document.getElementById(targetId);
+      if (!target) return;
+      target.innerHTML = rows.length ? rows.map(renderRow).join("") : emptyRow(colspan, moduleId, label);
     }
 
     function typeBadge(project) {
@@ -749,33 +822,43 @@
 
     function render() {
       document.getElementById("sideNav").innerHTML = modules.map(([id, label]) => `<button type="button" data-module="${id}" class="${id === "dashboard" ? "active" : ""}" onclick="showModule('${id}')">${label}</button>`).join("");
-      const projectItems = items("proyectos", projects);
+      const projectItems = items("proyectos");
       const visibleProjects = filteredProjects(projectItems);
-      const taskItems = items("tareas", tasks);
-      const participantItems = items("participantes", participants);
-      const teamItems = items("equipo", team);
+      const taskItems = items("tareas");
+      const actItems = items("actas");
+      const calendarItems = items("calendario");
+      const documentItems = items("documentos");
+      const participantItems = items("participantes");
+      const protocolItems = items("protocolos");
+      const dataItems = items("datos");
+      const publicationItems = items("publicaciones");
+      const teamItems = items("equipo");
+      const lineItems = items("lineas");
+      const institutionItems = items("vinculacion");
+      const notificationItems = items("notificaciones");
       const fileItems = researchData.archivos || [];
-      const dynamicSummary = [[projectItems.filter((p) => String(p.estado || "").toLowerCase() !== "archivado").length, "Proyectos activos"], [projectItems.filter((p) => projectTypeKey(p) === "academic").length, "Proyectos academicos"], [projectItems.filter((p) => projectTypeKey(p) === "fund").length, "Fondos publicos"], [taskItems.length, "Tareas"], [fileItems.length, "Archivos"], [teamItems.length, "Equipo"]];
+      const dynamicSummary = [[projectItems.filter((p) => String(p.estado || "").toLowerCase() !== "archivado").length, "Proyectos activos"], [projectItems.filter((p) => projectTypeKey(p) === "academic").length, "Proyectos academicos"], [projectItems.filter((p) => projectTypeKey(p) === "fund").length, "Fondos publicos"], [taskItems.length, "Tareas"], [calendarItems.length, "Hitos"], [fileItems.length + documentItems.length, "Documentos"], [participantItems.length, "Participantes"], [publicationItems.length, "Productos"]];
       document.getElementById("summaryGrid").innerHTML = dynamicSummary.map(([value, label]) => `<article class="stat"><strong>${value}</strong><span>${label}</span></article>`).join("");
       renderList("recentProjects", projectItems.slice(0, 4).map((p) => [p.titulo, `${p.categoria || p.proyecto || "Sin linea"} - ${p.responsable || p.creado_por_email || "Sin responsable"}`, p.estado]));
       renderList("dueTasks", taskItems.slice(0, 4).map((t) => [t.titulo, `${t.proyecto || "Sin proyecto"} - ${t.fecha_ref || "Sin fecha"}`, t.estado]));
-      renderList("lastMinutes", items("actas", [["Comite metodologico", "Acuerdos: version de protocolo", "En revision"], ["Mesa de datos", "Responsable asignado", "Completada"]]).slice(0, 4).map((a) => [a.titulo, a.descripcion || a.responsable || "Acta registrada", a.estado]));
+      renderList("lastMinutes", actItems.slice(0, 4).map((a) => [a.titulo, a.descripcion || a.responsable || "Acta registrada", a.estado]));
       renderList("recentDocs", fileItems.slice(0, 4).map((f) => [f.titulo, `Subido por ${f.uploaded_by_email || f.creado_por_email || "usuario"} - ${f.file_name || ""}`, f.estado]));
-      renderList("recentActivity", [["Directus conectado", "Datos sincronizados con colecciones investigacion_*", ""], [`${fileItems.length} archivos`, "Repositorio de documentos del area", "Activo"]]);
-      renderList("alerts", [["Revision etica pendiente", "Trayectorias de bienestar escolar", "Pendiente"], ["Hito proximo", "Entrega informe preliminar", "En proceso"]]);
+      renderList("recentActivity", [[`${projectItems.length} proyectos`, "Registros cargados desde Directus", "Activo"], [`${fileItems.length} archivos`, "Repositorio de documentos del area", "Activo"], [`${teamItems.length} integrantes`, "Equipo investigador registrado", "Activo"]]);
+      renderList("alerts", notificationItems.slice(0, 4).map((n) => [n.titulo, n.descripcion || n.fecha_ref || "", n.estado]));
       document.getElementById("projectRows").innerHTML = visibleProjects.length ? visibleProjects.map((p) => `<tr><td><strong>${esc(p.titulo)}</strong><small class="muted">${esc(p.descripcion || "")}</small></td><td>${typeBadge(p)}</td><td>${badge(esc(p.estado || "Activo"))}</td><td>${esc(p.datos?.linea || p.datos?.convocatoria || p.proyecto || "")}</td><td>${esc(p.responsable || p.creado_por_email || "")}</td><td>${esc(p.fecha_ref || "")}</td><td><div class="progress"><span style="width:${Number(p.progreso || 0)}%"></span></div>${Number(p.progreso || 0)}%</td><td><div class="action-menu" data-action-menu><button class="action-trigger" type="button" aria-label="Abrir acciones de proyecto" aria-expanded="false" onclick="toggleProjectActions(event)">&#9776;</button><div class="action-dropdown" role="menu"><button type="button" role="menuitem" onclick="openProjectDetail('${p.id}'); closeProjectActionMenus()">Ver detalle</button><button type="button" role="menuitem" onclick="openProjectModal('edit','${p.id}'); closeProjectActionMenus()">Editar</button><button type="button" role="menuitem" onclick="duplicateProject('${p.id}'); closeProjectActionMenus()">Duplicar</button><button type="button" role="menuitem" onclick="archiveProject('${p.id}'); closeProjectActionMenus()">Archivar</button><button class="danger" type="button" role="menuitem" onclick="confirmDeleteProject('${p.id}'); closeProjectActionMenus()">Eliminar</button></div></div></td></tr>`).join("") : '<tr><td colspan="8"><div class="empty-state">No hay proyectos con esos filtros. <button class="accent" onclick="openProjectModal()">Crear el primero</button></div></td></tr>';
-      document.getElementById("taskRows").innerHTML = taskItems.map((t) => `<tr><td><strong>${esc(t.titulo)}</strong></td><td>${esc(t.proyecto || "")}</td><td>${esc(t.responsable || t.creado_por_email || "")}</td><td>${esc(t.prioridad || "")}</td><td>${esc(t.fecha_ref || "")}</td><td>${badge(esc(t.estado || "Activo"))}</td><td><button class="outline">Ver</button></td></tr>`).join("");
-      document.getElementById("participantRows").innerHTML = participantItems.map((p) => `<tr><td><strong>${esc(p.titulo)}</strong></td><td>${esc(p.proyecto || "")}</td><td>${esc(p.estado || "")}</td><td>${esc(p.categoria || "")}</td><td>${esc(p.fecha_ref || "")}</td><td>${esc(p.descripcion || "")}</td><td>${esc(p.responsable || "")}</td></tr>`).join("");
-      document.getElementById("teamRows").innerHTML = teamItems.map((p) => `<tr><td><strong>${esc(p.titulo)}</strong></td><td>${esc(p.categoria || "")}</td><td>${esc(p.proyecto || "")}</td><td>${esc(p.descripcion || "")}</td><td>${esc(p.responsable || p.creado_por_email || "")}</td><td>${badge(esc(p.estado || "Activo"))}</td></tr>`).join("");
-      renderList("timelineList", items("calendario", [["Entrega protocolo", "2026-07-08 - revision interna", "Pendiente"], ["Aplicacion instrumentos", "2026-07-20 - fase campo", "En proceso"]]).map((h) => [h.titulo, `${h.fecha_ref || ""} - ${h.descripcion || ""}`, h.estado]));
+      renderRows("taskRows", "tareas", taskItems, (t) => `<tr><td><strong>${esc(t.titulo)}</strong><small>${esc(t.descripcion || "")}</small></td><td>${esc(t.proyecto || "")}</td><td>${esc(t.responsable || t.creado_por_email || "")}</td><td>${esc(t.prioridad || "")}</td><td>${esc(t.fecha_ref || "")}</td><td>${badge(esc(t.estado || "Activo"))}</td><td>${actionMenu("tareas", t.id)}</td></tr>`, 7, "Crear tarea");
+      renderRows("actRows", "actas", actItems, (a) => `<tr><td><strong>${esc(a.titulo)}</strong><small>${esc(a.descripcion || "")}</small></td><td>${esc(a.proyecto || "")}</td><td>${esc(a.responsable || a.creado_por_email || "")}</td><td>${esc(a.fecha_ref || "")}</td><td>${badge(esc(a.estado || "Activo"))}</td><td>${actionMenu("actas", a.id)}</td></tr>`, 6, "Crear acta");
+      renderRows("timelineRows", "calendario", calendarItems, (h) => `<tr><td><strong>${esc(h.titulo)}</strong><small>${esc(h.descripcion || "")}</small></td><td>${esc(h.proyecto || "")}</td><td>${esc(h.fecha_ref || "")}</td><td>${esc(h.responsable || h.creado_por_email || "")}</td><td>${progressCell(h.progreso)}</td><td>${badge(esc(h.estado || "Activo"))}</td><td>${actionMenu("calendario", h.id)}</td></tr>`, 7, "Crear hito");
       document.getElementById("researchFiles").innerHTML = fileItems.length ? fileItems.map((file) => `<article class="file-card"><div><strong>${esc(file.titulo || file.file_name || "Archivo")}</strong><small>${esc(file.categoria || "Sin categoria")} - Subido por ${esc(file.uploaded_by_email || file.creado_por_email || "usuario")} - ${esc(file.fecha_subida || "")}</small><small>${esc(file.descripcion || "")}</small></div>${file.file_id ? `<a class="btn outline" href="${DIRECTUS_URL}/assets/${file.file_id}?download" target="_blank" rel="noopener">Descargar</a>` : ""}</article>`).join("") : '<p class="muted">No hay archivos subidos todavia.</p>';
-      document.getElementById("documentCategories").innerHTML = items("documentos", [["Protocolos"], ["Consentimientos"], ["Instrumentos"], ["Informes"], ["Plantillas"], ["Bases de datos"]]).map((doc) => `<article class="module-card"><h3>${esc(doc.titulo)}</h3><p>${esc(doc.descripcion || "Biblioteca interna conectada a Directus.")}</p></article>`).join("");
-      document.getElementById("protocolCards").innerHTML = items("protocolos", [["Protocolo general"], ["Guia de entrevista"], ["Consentimiento informado"], ["Pauta de observacion"]]).map((item) => `<article class="module-card"><h3>${esc(item.titulo)}</h3><p>${esc(item.descripcion || "Version activa, responsable y estado de revision.")}</p></article>`).join("");
-      document.getElementById("dataRows").innerHTML = items("datos", [["Matriz entrevistas", "Cualitativa", "En analisis", "Encargado de datos", "v1.2"]]).map((r) => `<tr><td><strong>${esc(r.titulo)}</strong></td><td>${esc(r.categoria || "")}</td><td>${badge(esc(r.estado || "Activo"))}</td><td>${esc(r.responsable || r.creado_por_email || "")}</td><td>${esc(r.datos?.version || "")}</td></tr>`).join("");
-      document.getElementById("publicationCards").innerHTML = items("publicaciones", [["Articulos"], ["Ponencias"], ["Posters"], ["Informes tecnicos"]]).map((item) => `<article class="module-card"><h3>${esc(item.titulo)}</h3><p>${esc(item.descripcion || "Seguimiento de productos, autores, estado editorial y fechas.")}</p></article>`).join("");
-      document.getElementById("lineCards").innerHTML = items("lineas", [["Salud comunitaria"], ["Educacion y cuidado"], ["Memoria institucional"], ["Vinculacion territorial"]]).map((item) => `<article class="module-card"><h3>${esc(item.titulo)}</h3><p>${esc(item.descripcion || "Linea activa con proyectos y equipo responsable.")}</p></article>`).join("");
-      document.getElementById("institutionCards").innerHTML = items("vinculacion", [["Convenios"], ["Comites"], ["Universidades"], ["Redes asociadas"]]).map((item) => `<article class="module-card"><h3>${esc(item.titulo)}</h3><p>${esc(item.descripcion || "Registro de vinculacion institucional.")}</p></article>`).join("");
-      renderList("notificationList", items("notificaciones", [["Documento espera revision", "Protocolo v0.3", "Pendiente"], ["Nueva reunion programada", "Comite metodologico", "En proceso"]]).map((n) => [n.titulo, n.descripcion || n.fecha_ref || "", n.estado]));
+      renderRows("documentRows", "documentos", documentItems, (d) => `<tr><td><strong>${esc(d.titulo)}</strong><small>${esc(d.descripcion || "")}</small></td><td>${esc(d.categoria || "")}</td><td>${esc(d.proyecto || "")}</td><td>${esc(d.responsable || d.creado_por_email || "")}</td><td>${badge(esc(d.estado || "Activo"))}</td><td>${actionMenu("documentos", d.id)}</td></tr>`, 6, "Crear documento");
+      renderRows("participantRows", "participantes", participantItems, (p) => `<tr><td><strong>${esc(p.titulo)}</strong><small>${esc(p.descripcion || "")}</small></td><td>${esc(p.proyecto || "")}</td><td>${badge(esc(p.estado || "Activo"))}</td><td>${esc(p.categoria || "")}</td><td>${esc(p.fecha_ref || "")}</td><td>${esc(p.prioridad || p.responsable || "")}</td><td>${actionMenu("participantes", p.id)}</td></tr>`, 7, "Agregar participante");
+      renderRows("protocolRows", "protocolos", protocolItems, (p) => `<tr><td><strong>${esc(p.titulo)}</strong><small>${esc(p.descripcion || "")}</small></td><td>${esc(p.categoria || "")}</td><td>${esc(p.proyecto || "")}</td><td>${esc(p.responsable || p.creado_por_email || "")}</td><td>${esc(p.prioridad || "")}</td><td>${badge(esc(p.estado || "Activo"))}</td><td>${actionMenu("protocolos", p.id)}</td></tr>`, 7, "Crear instrumento");
+      renderRows("dataRows", "datos", dataItems, (r) => `<tr><td><strong>${esc(r.titulo)}</strong><small>${esc(r.descripcion || "")}</small></td><td>${esc(r.categoria || "")}</td><td>${esc(r.proyecto || "")}</td><td>${esc(r.responsable || r.creado_por_email || "")}</td><td>${esc(r.prioridad || "")}</td><td>${badge(esc(r.estado || "Activo"))}</td><td>${actionMenu("datos", r.id)}</td></tr>`, 7, "Crear recurso");
+      renderRows("publicationRows", "publicaciones", publicationItems, (p) => `<tr><td><strong>${esc(p.titulo)}</strong><small>${esc(p.descripcion || "")}</small></td><td>${esc(p.categoria || "")}</td><td>${esc(p.proyecto || "")}</td><td>${esc(p.responsable || p.creado_por_email || "")}</td><td>${esc(p.prioridad || "")}</td><td>${badge(esc(p.estado || "Activo"))}</td><td>${actionMenu("publicaciones", p.id)}</td></tr>`, 7, "Crear producto");
+      renderRows("teamRows", "equipo", teamItems, (p) => `<tr><td><strong>${esc(p.titulo)}</strong><small>${esc(p.descripcion || "")}</small></td><td>${esc(p.categoria || "")}</td><td>${esc(p.proyecto || "")}</td><td>${esc(p.responsable || p.creado_por_email || "")}</td><td>${esc(p.prioridad || "")}</td><td>${badge(esc(p.estado || "Activo"))}</td><td>${actionMenu("equipo", p.id)}</td></tr>`, 7, "Agregar integrante");
+      renderRows("lineRows", "lineas", lineItems, (l) => `<tr><td><strong>${esc(l.titulo)}</strong><small>${esc(l.descripcion || "")}</small></td><td>${esc(l.categoria || "")}</td><td>${esc(l.responsable || l.creado_por_email || "")}</td><td>${esc(l.proyecto || "")}</td><td>${badge(esc(l.estado || "Activo"))}</td><td>${actionMenu("lineas", l.id)}</td></tr>`, 6, "Crear linea");
+      renderRows("institutionRows", "vinculacion", institutionItems, (i) => `<tr><td><strong>${esc(i.titulo)}</strong><small>${esc(i.descripcion || "")}</small></td><td>${esc(i.categoria || "")}</td><td>${esc(i.proyecto || "")}</td><td>${esc(i.responsable || i.creado_por_email || "")}</td><td>${badge(esc(i.estado || "Activo"))}</td><td>${actionMenu("vinculacion", i.id)}</td></tr>`, 6, "Crear vinculo");
+      renderRows("notificationRows", "notificaciones", notificationItems, (n) => `<tr><td><strong>${esc(n.titulo)}</strong><small>${esc(n.descripcion || "")}</small></td><td>${esc(n.proyecto || n.categoria || "")}</td><td>${esc(n.prioridad || "")}</td><td>${esc(n.fecha_ref || "")}</td><td>${badge(esc(n.estado || "Activo"))}</td><td>${actionMenu("notificaciones", n.id)}</td></tr>`, 6, "Crear aviso");
     }
 
     function closeProjectActionMenus() {
