@@ -1,9 +1,24 @@
 const DIRECTUS = "http://127.0.0.1:8055";
-const TOKEN = process.env.DIRECTUS_ADMIN_TOKEN;
+let TOKEN = process.env.DIRECTUS_ADMIN_TOKEN;
 
-if (!TOKEN) {
-  console.error("DIRECTUS_ADMIN_TOKEN is required");
-  process.exit(1);
+async function ensureToken() {
+  if (TOKEN) return;
+  const email = process.env.ADMIN_EMAIL;
+  const password = process.env.ADMIN_PASSWORD;
+  if (!email || !password) {
+    console.error("DIRECTUS_ADMIN_TOKEN or ADMIN_EMAIL/ADMIN_PASSWORD is required");
+    process.exit(1);
+  }
+  const response = await fetch(`${DIRECTUS}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+  const body = await response.json();
+  if (!response.ok) {
+    throw new Error(`Directus admin login failed: ${JSON.stringify(body)}`);
+  }
+  TOKEN = body.data.access_token;
 }
 
 const researchCollections = {
@@ -17,6 +32,15 @@ const researchCollections = {
   investigacion_protocolos: { label: "Instrumentos y protocolos", icon: "fact_check" },
   investigacion_datos: { label: "Datos y analisis", icon: "analytics" },
   investigacion_publicaciones: { label: "Publicaciones y productos", icon: "article" },
+  investigacion_revisiones_sistematicas: { label: "Revisiones sistematicas", icon: "manage_search" },
+  investigacion_revision_bases: { label: "Bases importadas de revisiones", icon: "dataset" },
+  investigacion_revision_registros: { label: "Registros de cribado", icon: "library_books" },
+  investigacion_revision_etapas: { label: "Etapas de revision sistematica", icon: "timeline" },
+  investigacion_revision_equipo: { label: "Equipo de revision sistematica", icon: "group_work" },
+  investigacion_revision_actividad: { label: "Actividad de revisiones sistematicas", icon: "history" },
+  investigacion_revision_exportaciones: { label: "Exportaciones de revisiones", icon: "download" },
+  investigacion_revision_extraccion: { label: "Extraccion de datos", icon: "table_chart" },
+  investigacion_revision_calidad: { label: "Calidad y riesgo de sesgo", icon: "verified" },
   investigacion_equipo: { label: "Equipo investigador", icon: "badge" },
   investigacion_lineas: { label: "Lineas de investigacion", icon: "account_tree" },
   investigacion_vinculacion: { label: "Vinculacion institucional", icon: "hub" },
@@ -24,6 +48,7 @@ const researchCollections = {
 };
 
 async function request(path, options = {}) {
+  await ensureToken();
   const response = await fetch(`${DIRECTUS}${path}`, {
     ...options,
     headers: {
