@@ -6,20 +6,44 @@
   <title>Acceso contabilidad</title>
   <link rel="stylesheet" href="../assets/style.css?v=20260625h">
   <link rel="stylesheet" href="../assets/teurgia-visual-polish.css?v=20260625p">
+  <style>
+    body{margin:0;background:radial-gradient(circle at 18% 12%,rgba(245,158,11,.22),transparent 30%),linear-gradient(135deg,#081323,#102a4c 58%,#0f766e);min-height:100dvh}
+    .login-screen{min-height:100dvh;display:grid;place-items:center;padding:24px}
+    .login-card{width:min(460px,100%);background:rgba(255,255,255,.96);border:1px solid rgba(255,255,255,.38);border-radius:22px;box-shadow:0 24px 70px rgba(2,6,23,.28);padding:30px}
+    .login-brand{display:flex;align-items:center;gap:13px;margin-bottom:18px}
+    .login-brand .logo{margin:0;width:48px;height:48px;border-radius:15px;box-shadow:0 10px 24px rgba(15,23,42,.18)}
+    .login-brand strong{display:block;color:#172033;font-size:18px;line-height:1.1}
+    .login-brand small{display:block;color:#64748b;font-size:13px;margin-top:3px}
+    .login-card h1{margin:0;font-size:clamp(2rem,6vw,3.2rem);line-height:.98;letter-spacing:-.05em;font-weight:900;color:#172033}
+    .login-card p{margin:12px 0 22px;color:#64748b;font-weight:600}
+    .login-form{display:grid;gap:13px}
+    .login-form label{display:grid;gap:7px;color:#334155;font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;margin:0}
+    .login-form input{width:100%;border:1px solid #e2e8f0;border-radius:14px;min-height:48px;padding:0 14px;font-size:16px;background:#fff;color:#172033;outline:none}
+    .login-form input:focus{border-color:#f59e0b;box-shadow:0 0 0 4px rgba(245,158,11,.16)}
+    .login-actions{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:6px}
+    .login-actions a,.login-actions button{min-height:44px;border-radius:13px;font-weight:800}
+    .login-actions a{display:inline-flex;align-items:center;justify-content:center;padding:11px 16px;color:#f59e0b;border:1px solid rgba(245,158,11,.55);text-decoration:none}
+    #msg:not(:empty){border:1px solid #fecaca;background:#fee2e2;color:#991b1b;border-radius:14px;padding:12px 14px;font-weight:800;margin:0}
+    #estado{margin:0 0 16px}
+    @media(max-width:620px){.login-card{padding:22px;border-radius:18px}.login-actions{display:grid;grid-template-columns:1fr}.login-actions a,.login-actions button{width:100%}}
+  </style>
 </head>
 <body>
-  <main style="max-width:560px;padding-top:56px">
-    <section class="card">
-      <div class="logo">$</div>
-      <h1 style="color:#082f75">Acceso contabilidad</h1>
-      <p class="muted">Ingresa con el usuario o correo y contrasena registrados en Directus.</p>
+  <main class="login-screen">
+    <section class="login-card">
+      <div class="login-brand"><div class="logo">$</div><div><strong>Gestor Teurgia</strong><small>Panel contable</small></div></div>
+      <h1>Login Contabilidad</h1>
+      <p>Ingresa con credenciales de Directus para acceder al panel de contabilidad.</p>
       <div id="estado" class="alert">Comprobando conexion...</div>
-      <label>Usuario o correo</label>
-      <input id="identity" autocomplete="username" placeholder="usuario@correo.cl">
-      <label>Contrasena</label>
-      <input id="password" type="password" autocomplete="current-password" placeholder="Contrasena">
-      <button onclick="loginContable()">Ingresar al panel</button>
-      <p id="msg" class="muted"></p>
+      <div class="login-form">
+        <label>Correo<input id="identity" autocomplete="username" placeholder="usuario@correo.cl"></label>
+        <label>Contrase&ntilde;a<input id="password" type="password" autocomplete="current-password" placeholder="Contrasena"></label>
+        <p id="msg" class="muted"></p>
+        <div class="login-actions">
+          <a href="../../">Volver al inicio</a>
+          <button onclick="loginContable()">Entrar</button>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -86,6 +110,7 @@
         const fullName = [user.first_name, user.last_name].filter(Boolean).join(" ").trim();
         localStorage.setItem(DIRECTUS_AUTH_KEY, JSON.stringify({
           token,
+          refreshToken: login.data.refresh_token || "",
           model: {
             ...user,
             email: user.email,

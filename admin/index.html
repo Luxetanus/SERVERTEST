@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acceso Admin | Gestor Teurgia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/user-admin.css?v=20260701a">
+  <style>
+    :root{--bg:#f4f6f8;--surface:#fff;--surface-soft:#f8fafc;--text:#172033;--muted:#64748b;--primary:#2563eb;--primary-dark:#1e3a8a;--primary-soft:#dbeafe;--danger:#dc2626;--border:#e2e8f0;--dark:#0f172a;--shadow:0 14px 40px rgba(15,23,42,.10);--ease:200ms ease}
+    *{box-sizing:border-box}body{margin:0;font-family:Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}button,input{font-family:inherit}.hidden{display:none!important}.muted{color:var(--muted)}a{color:inherit;text-decoration:none}
+    button,.btn{border:0;border-radius:13px;padding:11px 16px;min-height:44px;cursor:pointer;font-size:14px;line-height:1;font-weight:800;background:var(--primary);color:#fff;transition:transform var(--ease),opacity var(--ease),box-shadow var(--ease);box-shadow:0 8px 18px rgba(37,99,235,.18);display:inline-flex;align-items:center;justify-content:center;gap:8px}button:hover,.btn:hover{transform:translateY(-1px);opacity:.96}button.outline,.btn.outline{background:transparent;color:var(--primary);border:1px solid color-mix(in srgb,var(--primary) 55%,transparent);box-shadow:none}button.secondary{background:#64748b;box-shadow:none}button.danger{background:var(--danger);box-shadow:none}
+    .brand{display:flex;align-items:center;gap:13px;font-weight:800}.brand-mark{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,var(--primary-dark),var(--primary));color:#fff;font-weight:900;box-shadow:0 10px 24px rgba(15,23,42,.18)}.brand strong{display:block;font-size:18px;line-height:1.1}.brand small{display:block;color:var(--muted);font-size:13px;margin-top:3px}
+    .login-screen{min-height:100dvh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 18% 12%,rgba(37,99,235,.20),transparent 30%),linear-gradient(135deg,#081323,#102a4c 58%,#1e3a8a)}.login-card{width:min(460px,100%);background:rgba(255,255,255,.96);border:1px solid rgba(255,255,255,.38);border-radius:22px;box-shadow:0 24px 70px rgba(2,6,23,.28);padding:30px}.login-card h1{margin:18px 0 0;font-size:clamp(2rem,6vw,3.2rem);line-height:.98;letter-spacing:-.05em;font-weight:900}.login-card p{margin:12px 0 22px;color:var(--muted);font-weight:600}.login-form{display:grid;gap:13px}.login-form label{display:grid;gap:7px;color:#334155;font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.04em}.login-form input{width:100%;border:1px solid var(--border);border-radius:14px;min-height:48px;padding:0 14px;font-size:16px;background:#fff;color:var(--text);outline:none}.login-form input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(37,99,235,.12)}.login-error{border:1px solid #fecaca;background:#fee2e2;color:#991b1b;border-radius:14px;padding:12px 14px;font-weight:800}.login-actions{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:6px}
+    .topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.90);border-bottom:1px solid var(--border);backdrop-filter:blur(14px)}.topbar-inner{width:min(1180px,92%);min-height:74px;margin:0 auto;padding:14px 0;display:flex;align-items:center;justify-content:space-between;gap:16px}.dashboard{width:min(1180px,92%);margin:0 auto;padding:38px 0 64px}.dashboard-header,.stat{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:var(--shadow)}.dashboard-header{display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap;margin-bottom:20px}.dashboard-header h1{font-size:clamp(1.8rem,4vw,2.5rem);line-height:1.12;letter-spacing:-.04em;margin:0 0 8px;font-weight:900}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.role-pill{display:inline-flex;padding:7px 11px;border-radius:999px;background:var(--primary-soft);color:var(--primary-dark);font-weight:800;font-size:13px}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:20px}.stat strong{display:block;font-size:36px;line-height:1;color:var(--primary);font-weight:900;letter-spacing:-.04em;margin-bottom:8px}.stat span{color:var(--muted);font-weight:600}.error-box{background:rgba(220,38,38,.12);color:var(--danger);border:1px solid color-mix(in srgb,var(--danger) 60%,transparent);padding:13px;border-radius:13px;margin-top:12px;white-space:pre-wrap;font-size:14px}
+    @media(max-width:760px){.topbar-inner{align-items:flex-start;flex-direction:column}.toolbar,.login-actions{display:grid;grid-template-columns:1fr;width:100%}.toolbar button,.toolbar .btn,.login-actions button,.login-actions .btn{width:100%}.dashboard{padding:28px 0 48px}.dashboard-header,.stat,.login-card{padding:20px;border-radius:18px}.stats{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <section class="login-screen hidden" id="adminLogin">
+    <form class="login-card" onsubmit="loginAdmin(event)">
+      <div class="brand"><div class="brand-mark">T</div><div><strong>Gestor Teurgia</strong><small>Panel Administrador</small></div></div>
+      <h1>Login Admin</h1>
+      <p>Ingresa con credenciales de Directus y rol de Administracion para gestionar usuarios y accesos.</p>
+      <div class="login-form">
+        <label>Correo<input id="adminEmail" type="email" autocomplete="username" required></label>
+        <label>Contrase&ntilde;a<input id="adminPassword" type="password" autocomplete="current-password" required></label>
+        <div class="login-error hidden" id="adminLoginError"></div>
+        <div class="login-actions">
+          <a class="btn outline" href="../">Volver al inicio</a>
+          <button id="adminLoginButton" type="submit">Entrar</button>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  <section class="hidden" id="adminApp">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="../"><div class="brand-mark">T</div><div><strong>Gestor Teurgia</strong><small>Administracion</small></div></a>
+        <div class="toolbar"><a class="btn outline" href="../">Inicio</a><button class="danger" onclick="logoutAdmin()">Cerrar sesion</button></div>
+      </div>
+    </header>
+    <main id="dashboardView" class="dashboard">
+      <div class="dashboard-header"><div><h1>Panel Administrador</h1><span class="role-pill">Area: Administracion</span><p class="muted" style="margin-bottom:0;">Sesion iniciada como: <strong id="currentUser">Usuario</strong></p></div><div class="toolbar"><button onclick="window.teurgiaUserAdmin && window.teurgiaUserAdmin.load()">Actualizar usuarios</button><a class="btn secondary" href="../academia/">Academia Teurgia</a></div></div>
+      <div id="errorBox" class="error-box hidden"></div>
+      <div class="stats"><div class="stat"><strong id="contadorUsuarios">0</strong><span>Usuarios</span></div><div class="stat"><strong id="contadorAdministracion">0</strong><span>Administracion</span></div><div class="stat"><strong id="contadorLectura">0</strong><span>Lectura</span></div></div>
+      <section id="adminUsersMount"></section>
+    </main>
+  </section>
+
+  <script>
+    const DIRECTUS_URL = "https://directus.agrupacionnothofagus.cl";
+    const DIRECTUS_AUTH_KEY = "teurgia_directus_auth";
+    let directusRoleCache = null;
+
+    function normalizeRoleName(value) {
+      const name = String(value || "").trim().toLowerCase();
+      if (["administrator", "administrador", "administracion", "administracio"].includes(name)) return "administracion";
+      if (["lectura", "read", "reader"].includes(name)) return "lectura";
+      return name || "lectura";
+    }
+
+    function normalizeUser(user = {}) {
+      const fullName = [user.first_name, user.last_name].filter(Boolean).join(" ").trim();
+      const email = String(user.email || "").toLowerCase();
+      const role = normalizeRoleName(user.role?.name || user.role || "");
+      return {
+        ...user,
+        nombre: fullName || email,
+        email,
+        username: email,
+        estado: user.status === "suspended" ? "inactivo" : "activo",
+        rol: role,
+        permisos: role === "administracion" ? ["ver_dashboard", "administrar_usuarios", "ver_contabilidad"] : ["ver_dashboard"],
+      };
+    }
+
+    function crearDirectusAdapter() {
+      const saved = localStorage.getItem(DIRECTUS_AUTH_KEY);
+      const state = saved ? JSON.parse(saved) : { token: "", refreshToken: "", model: null };
+      const save = () => localStorage.setItem(DIRECTUS_AUTH_KEY, JSON.stringify(state));
+      const clear = () => { state.token = ""; state.refreshToken = ""; state.model = null; localStorage.removeItem(DIRECTUS_AUTH_KEY); };
+
+      function tokenExpired(token) {
+        try {
+          const payload = JSON.parse(atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
+          return Boolean(payload.exp && payload.exp * 1000 < Date.now() + 15000);
+        } catch (_) { return true; }
+      }
+
+      async function refreshAccessToken() {
+        if (!state.refreshToken) return false;
+        const response = await fetch(`${DIRECTUS_URL}/auth/refresh`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ refresh_token: state.refreshToken, mode: "json" }) });
+        if (!response.ok) { clear(); return false; }
+        const body = await response.json();
+        state.token = body.data.access_token;
+        state.refreshToken = body.data.refresh_token || state.refreshToken;
+        save();
+        return true;
+      }
+
+      async function api(path, options = {}, retry = true) {
+        if (state.token && tokenExpired(state.token)) await refreshAccessToken();
+        const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
+        if (state.token) headers.Authorization = `Bearer ${state.token}`;
+        const response = await fetch(`${DIRECTUS_URL}${path}`, { ...options, headers });
+        const text = await response.text();
+        let body = null;
+        try { body = text ? JSON.parse(text) : null; } catch (_) { body = text; }
+        if (response.status === 401 && retry && await refreshAccessToken()) return api(path, options, false);
+        if (!response.ok) {
+          const message = body?.errors?.[0]?.message || body?.message || response.statusText || "Error Directus";
+          const err = new Error(message);
+          err.status = response.status;
+          throw err;
+        }
+        return body;
+      }
+
+      async function roleMap() {
+        if (directusRoleCache) return directusRoleCache;
+        const result = await api("/roles?limit=-1&fields=id,name");
+        directusRoleCache = {};
+        (result.data || []).forEach((role) => { directusRoleCache[normalizeRoleName(role.name)] = role.id; });
+        return directusRoleCache;
+      }
+
+      async function resolveRoleId(role) {
+        const roles = await roleMap();
+        return roles[normalizeRoleName(role)] || roles.lectura || null;
+      }
+
+      return {
+        api,
+        collection(name) {
+          if (name !== "users") throw new Error(`Coleccion Directus no soportada: ${name}`);
+          return {
+            async authWithPassword(email, password) {
+              const login = await api("/auth/login", { method: "POST", body: JSON.stringify({ email, password }) });
+              state.token = login.data.access_token;
+              state.refreshToken = login.data.refresh_token || "";
+              const me = await api("/users/me?fields=id,email,first_name,last_name,status,role.id,role.name");
+              state.model = normalizeUser(me.data);
+              save();
+              return state.model;
+            },
+            async getFullList() {
+              const result = await api("/users?limit=-1&sort=email&fields=id,email,first_name,last_name,status,role.id,role.name");
+              return (result.data || []).map(normalizeUser);
+            },
+            async create(payload) {
+              const parts = String(payload.nombre || payload.email || "").trim().split(/\s+/);
+              const first_name = parts.shift() || payload.email;
+              const roleId = await resolveRoleId(payload.rol);
+              const body = { email: payload.email, password: payload.password, first_name, last_name: parts.join(" "), status: payload.estado === "inactivo" ? "suspended" : "active" };
+              if (roleId) body.role = roleId;
+              const result = await api("/users", { method: "POST", body: JSON.stringify(body) });
+              return normalizeUser(result.data);
+            },
+            async update(id, payload) {
+              const body = {};
+              if (payload.email) body.email = payload.email;
+              if (payload.nombre) {
+                const parts = String(payload.nombre).trim().split(/\s+/);
+                body.first_name = parts.shift() || payload.email;
+                body.last_name = parts.join(" ");
+              }
+              if (payload.password) body.password = payload.password;
+              if (payload.estado) body.status = payload.estado === "inactivo" ? "suspended" : "active";
+              if (payload.rol) {
+                const roleId = await resolveRoleId(payload.rol);
+                if (roleId) body.role = roleId;
+              }
+              const result = await api(`/users/${id}`, { method: "PATCH", body: JSON.stringify(body) });
+              return normalizeUser(result.data);
+            },
+            async delete(id) { return api(`/users/${id}`, { method: "DELETE" }); },
+          };
+        },
+        authStore: {
+          get isValid() { return Boolean(state.token && state.model && (!tokenExpired(state.token) || state.refreshToken)); },
+          get model() { return state.model; },
+          clear,
+        },
+      };
+    }
+
+    const pb = crearDirectusAdapter();
+    window.pb = pb;
+
+    function showLogin(message = "") {
+      document.getElementById("adminApp").classList.add("hidden");
+      document.getElementById("adminLogin").classList.remove("hidden");
+      const error = document.getElementById("adminLoginError");
+      error.textContent = message;
+      error.classList.toggle("hidden", !message);
+      setTimeout(() => document.getElementById("adminEmail").focus(), 50);
+    }
+
+    function showDashboard(user) {
+      document.getElementById("adminLogin").classList.add("hidden");
+      document.getElementById("adminApp").classList.remove("hidden");
+      document.getElementById("currentUser").textContent = user.email || user.username || "Usuario";
+      setTimeout(() => window.teurgiaUserAdmin?.load?.().catch(() => {}), 120);
+    }
+
+    async function loginAdmin(event) {
+      event.preventDefault();
+      const email = document.getElementById("adminEmail").value.trim();
+      const password = document.getElementById("adminPassword").value;
+      const button = document.getElementById("adminLoginButton");
+      const error = document.getElementById("adminLoginError");
+      error.classList.add("hidden");
+      button.disabled = true;
+      button.textContent = "Ingresando...";
+      try {
+        const user = await pb.collection("users").authWithPassword(email, password);
+        if (normalizeRoleName(user.rol) !== "administracion") {
+          pb.authStore.clear();
+          throw new Error("Acceso restringido: este login requiere rol de Administracion.");
+        }
+        showDashboard(user);
+      } catch (err) {
+        error.textContent = err.message || "No se pudo ingresar. Revisa correo, contrasena o permisos.";
+        error.classList.remove("hidden");
+      } finally {
+        button.disabled = false;
+        button.textContent = "Entrar";
+      }
+    }
+
+    function logoutAdmin() {
+      pb.authStore.clear();
+      showLogin("Sesion cerrada.");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if (pb.authStore.isValid && normalizeRoleName(pb.authStore.model?.rol) === "administracion") showDashboard(pb.authStore.model);
+      else showLogin();
+    });
+    window.addEventListener("load", () => { if (pb.authStore.isValid) window.teurgiaUserAdmin?.load?.().catch(() => {}); });
+  </script>
+  <script src="../assets/user-admin.js?v=20260701a"></script>
+</body>
+</html>
