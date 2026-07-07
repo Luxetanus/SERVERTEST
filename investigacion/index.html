@@ -126,9 +126,24 @@
               <div class="toolbar">
                 <button class="accent" type="button" onclick="openReviewModal()">Nueva revisi&oacute;n</button>
                 <button class="outline" type="button" onclick="openReviewImportModal()">Importar registros</button>
+                <button class="outline" type="button" onclick="openASReviewLab()">Abrir ASReview</button>
                 <button class="outline" type="button" onclick="openReviewExportModal()">Exportar</button>
               </div>
             </div>
+            <article class="panel">
+              <div class="module-header">
+                <div>
+                  <h3>ASReview LAB</h3>
+                  <p>Cribado asistido por IA en un servicio separado. Exporta registros desde Directus, imp&oacute;rtalos en ASReview y conserva la trazabilidad metodol&oacute;gica en este m&oacute;dulo.</p>
+                </div>
+                <div class="toolbar">
+                  <a class="btn accent" id="asreviewLaunchLink" href="#" target="_blank" rel="noopener">Abrir ASReview</a>
+                  <button class="outline" type="button" onclick="downloadASReviewCSV()">Descargar CSV para ASReview</button>
+                  <button class="outline" type="button" onclick="openASReviewGuide()">Gu&iacute;a de uso</button>
+                </div>
+              </div>
+              <div class="review-note" id="asreviewStatus">ASReview se ejecuta como servicio Docker en el puerto 5555. Para uso p&uacute;blico, configura Cloudflare Zero Trust hacia asreview.agrupacionnothofagus.cl.</div>
+            </article>
             <div class="review-kpis" id="reviewKpis"></div>
             <nav class="review-tabs" id="reviewTabs" aria-label="Secciones de revisiones sistem&aacute;ticas">
               <button class="active" type="button" data-review-panel="resumen" onclick="showReviewPanel('resumen')">Resumen</button>
@@ -287,6 +302,7 @@
   <script>
     const DIRECTUS_URL = "https://directus.agrupacionnothofagus.cl";
     const DIRECTUS_AUTH_KEY = "teurgia_directus_auth";
+    const ASREVIEW_URL = location.hostname.includes("agrupacionnothofagus.cl") ? "https://asreview.agrupacionnothofagus.cl" : `${location.protocol}//${location.hostname || "localhost"}:5555`;
     const modules = [
       ["dashboard", "Dashboard"],
       ["proyectos", "Proyectos"],
@@ -1059,6 +1075,61 @@
       document.querySelectorAll("#reviewTabs button").forEach((button) => button.classList.toggle("active", button.dataset.reviewPanel === id));
     }
 
+    function openASReviewLab() {
+      window.open(ASREVIEW_URL, "_blank", "noopener");
+      showToast("ASReview se abri&oacute; en una nueva pesta&ntilde;a.");
+    }
+
+    function openASReviewGuide() {
+      modal("Trabajar con ASReview", "Flujo recomendado entre Directus y ASReview.", `<div class="detail-grid">
+        <div class="detail-item full"><strong>1. Prepara la revisi&oacute;n</strong>Define pregunta, criterios de inclusi&oacute;n/exclusi&oacute;n, bases y equipo revisor en esta p&aacute;gina.</div>
+        <div class="detail-item full"><strong>2. Exporta registros</strong>Usa Descargar CSV para ASReview. El archivo incluye t&iacute;tulo, autores, a&ntilde;o, DOI, resumen y base de origen.</div>
+        <div class="detail-item full"><strong>3. Abre ASReview</strong>Importa el CSV en ASReview LAB y realiza el cribado asistido por IA.</div>
+        <div class="detail-item full"><strong>4. Registra trazabilidad</strong>Guarda decisiones, conflictos, PRISMA, extracciones y exportaciones en este m&oacute;dulo para mantener control interno en Directus.</div>
+        <div class="detail-item full"><strong>Subdominio futuro</strong>Cuando Cloudflare Zero Trust est&eacute; configurado, este bot&oacute;n abrir&aacute; asreview.agrupacionnothofagus.cl.</div>
+      </div>`, `<button onclick="closeResearchModal()">Cerrar</button><button class="accent" onclick="openASReviewLab()">Abrir ASReview</button>`);
+    }
+
+    function csvCell(value) {
+      return `"${String(value ?? "").replaceAll('"', '""')}"`;
+    }
+
+    function downloadASReviewCSV() {
+      const records = items("revision_registros");
+      if (!records.length) {
+        showToast("No hay registros de cribado para exportar. Importa o crea art&iacute;culos primero.", "err");
+        return;
+      }
+      const headers = ["record_id","title","authors","year","journal","doi","abstract","keywords","url","source","decision","notes"];
+      const rows = records.map((record) => {
+        const data = record.datos || {};
+        return [
+          record.id,
+          record.titulo,
+          data.autores,
+          data.anio,
+          data.revista,
+          data.doi,
+          record.descripcion || data.resumen,
+          data.palabras_clave || "",
+          data.url || "",
+          data.base_origen || record.categoria || "",
+          data.decision || record.categoria || "Pendiente",
+          data.notas || "",
+        ].map(csvCell).join(",");
+      });
+      const blob = new Blob([[headers.join(","), ...rows].join("\n")], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `asreview-registros-${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      showToast("CSV generado para importar en ASReview.");
+    }
+
     function reviewActionMenu(moduleId, id) {
       return `<div class="action-menu" data-action-menu><button class="action-trigger" type="button" aria-label="Abrir acciones" aria-expanded="false" onclick="toggleProjectActions(event)">&#9776;</button><div class="action-dropdown" role="menu"><button type="button" role="menuitem" onclick="openReviewEntityDetail('${moduleId}','${id}'); closeProjectActionMenus()">Ver detalle</button><button type="button" role="menuitem" onclick="openReviewEntityModal('${moduleId}','${id}'); closeProjectActionMenus()">Editar</button><button type="button" role="menuitem" onclick="archiveReviewEntity('${moduleId}','${id}'); closeProjectActionMenus()">Archivar</button><button class="danger" type="button" role="menuitem" onclick="confirmReviewDelete('${moduleId}','${id}'); closeProjectActionMenus()">Eliminar</button></div></div>`;
     }
@@ -1402,6 +1473,8 @@
     }
 
     function renderSystematicReviews() {
+      const launchLink = document.getElementById("asreviewLaunchLink");
+      if (launchLink) launchLink.href = ASREVIEW_URL;
       const reviews = items("revisiones");
       const bases = items("revision_bases");
       const records = items("revision_registros");
