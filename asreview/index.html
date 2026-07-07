@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ASReview LAB - Revisiones sistem&aacute;ticas asistidas por IA</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <meta property="og:title" content="ASReview LAB" />
+    <meta property="og:description" content="Software inteligente para revisiones sistem&aacute;ticas" />
+    <meta property="og:image" content="/social-preview.png" />
+    <meta property="og:url" content="" />
+    <meta name="theme-color" content="#7a6958" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#a69c8b" media="(prefers-color-scheme: dark)" />
+    <link rel="manifest" href="/app.webmanifest" />
+    <script type="text/javascript">
+      window.api_url = "{{ api_url }}";
+      window.asreviewVersion = "{{ asreview_version }}";
+      window.authentication = "{{ authentication }}" !== "false";
+      window.loginInfo = "{{ login_info }}";
+      window.allowAccountCreation = {{ allow_account_creation }};
+      window.emailVerification = {{ email_verification }};
+      window.oAuthData = {{ oauth | safe }};
+      window.postLogoutUrl = "{{ post_logout_url }}";
+      window.termsOfAgreement = "%REACT_APP_TERMS_OF_AGREEMENT%" === "true";
+      window.termsText = "%REACT_APP_TERMS_TEXT%";
+    </script>
+    <script defer="defer" src="/static/js/main.dad2f1b0.js"></script>
+    <link href="/static/css/main.4bf1134b.css" rel="stylesheet" />
+  </head>
+  <body>
+    <noscript>Necesitas activar JavaScript para usar esta aplicaci&oacute;n.</noscript>
+    <div id="root"></div>
+    <script>
+      (() => {
+        const translations = new Map(Object.entries({
+          "ASReview LAB": "ASReview LAB",
+          "AI-assisted systematic reviews": "Revisiones sistem&aacute;ticas asistidas por IA",
+          "Smart software for systematic reviews": "Software inteligente para revisiones sistem&aacute;ticas",
+          "Projects": "Proyectos",
+          "Project": "Proyecto",
+          "New project": "Nuevo proyecto",
+          "Create project": "Crear proyecto",
+          "Open project": "Abrir proyecto",
+          "Delete project": "Eliminar proyecto",
+          "Import project": "Importar proyecto",
+          "Export project": "Exportar proyecto",
+          "Start": "Comenzar",
+          "Continue": "Continuar",
+          "Review": "Revisar",
+          "Reviewing": "Revisi&oacute;n",
+          "Dashboard": "Panel",
+          "Settings": "Configuraci&oacute;n",
+          "Analytics": "Anal&iacute;tica",
+          "Statistics": "Estad&iacute;sticas",
+          "Search": "Buscar",
+          "Filter": "Filtrar",
+          "Save": "Guardar",
+          "Cancel": "Cancelar",
+          "Close": "Cerrar",
+          "Back": "Volver",
+          "Next": "Siguiente",
+          "Previous": "Anterior",
+          "Finish": "Finalizar",
+          "Done": "Listo",
+          "Upload": "Subir",
+          "Download": "Descargar",
+          "File": "Archivo",
+          "Files": "Archivos",
+          "Title": "T&iacute;tulo",
+          "Abstract": "Resumen",
+          "Authors": "Autores",
+          "Year": "A&ntilde;o",
+          "DOI": "DOI",
+          "Keywords": "Palabras clave",
+          "Included": "Incluido",
+          "Excluded": "Excluido",
+          "Relevant": "Relevante",
+          "Irrelevant": "No relevante",
+          "Not relevant": "No relevante",
+          "Maybe": "Tal vez",
+          "Label": "Etiqueta",
+          "Labels": "Etiquetas",
+          "Decision": "Decisi&oacute;n",
+          "Decisions": "Decisiones",
+          "Records": "Registros",
+          "Record": "Registro",
+          "Upload dataset": "Subir conjunto de datos",
+          "Dataset": "Conjunto de datos",
+          "Prior knowledge": "Conocimiento previo",
+          "Model": "Modelo",
+          "Classifier": "Clasificador",
+          "Feature extraction": "Extracci&oacute;n de caracter&iacute;sticas",
+          "Query strategy": "Estrategia de consulta",
+          "Balance strategy": "Estrategia de balance",
+          "Simulation": "Simulaci&oacute;n",
+          "Explore": "Explorar",
+          "Screen": "Cribar",
+          "Screening": "Cribado",
+          "Resolve": "Resolver",
+          "Resolve conflicts": "Resolver conflictos",
+          "Login": "Iniciar sesi&oacute;n",
+          "Log in": "Iniciar sesi&oacute;n",
+          "Logout": "Cerrar sesi&oacute;n",
+          "Log out": "Cerrar sesi&oacute;n",
+          "Username": "Usuario",
+          "Password": "Contrase&ntilde;a",
+          "Email": "Correo",
+          "Name": "Nombre",
+          "Account": "Cuenta",
+          "Create account": "Crear cuenta",
+          "Forgot password": "Olvid&eacute; mi contrase&ntilde;a",
+          "Error": "Error",
+          "Warning": "Advertencia",
+          "Success": "&Eacute;xito",
+          "Loading": "Cargando",
+          "Loading...": "Cargando...",
+          "No projects": "No hay proyectos",
+          "No records": "No hay registros",
+          "Welcome": "Bienvenida/o",
+          "Help": "Ayuda",
+          "About": "Acerca de",
+          "Version": "Versi&oacute;n"
+        }));
+
+        const translateText = (value) => {
+          const trimmed = value.trim();
+          if (!trimmed) return value;
+          if (translations.has(trimmed)) {
+            return value.replace(trimmed, translations.get(trimmed));
+          }
+          let translated = value;
+          translations.forEach((spanish, english) => {
+            translated = translated.replaceAll(english, spanish);
+          });
+          return translated;
+        };
+
+        const translateNode = (node) => {
+          if (node.nodeType === Node.TEXT_NODE) {
+            const translated = translateText(node.nodeValue);
+            if (translated !== node.nodeValue) node.nodeValue = translated;
+            return;
+          }
+          if (node.nodeType !== Node.ELEMENT_NODE) return;
+          ["placeholder", "aria-label", "title", "alt"].forEach((attribute) => {
+            const value = node.getAttribute(attribute);
+            if (!value) return;
+            const translated = translateText(value);
+            if (translated !== value) node.setAttribute(attribute, translated);
+          });
+          node.childNodes.forEach(translateNode);
+        };
+
+        const translatePage = () => translateNode(document.body);
+
+        document.documentElement.lang = "es";
+        window.addEventListener("load", translatePage);
+        new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach(translateNode);
+            if (mutation.type === "characterData") translateNode(mutation.target);
+          });
+        }).observe(document.documentElement, {
+          childList: true,
+          subtree: true,
+          characterData: true
+        });
+      })();
+    </script>
+  </body>
+</html>

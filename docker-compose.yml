@@ -16,4 +16,5 @@ services:
       - "5555:5000"
     volumes:
       - /opt/webapps/asreview/data:/project_folder
+      - ./asreview/index.html:/root/.local/lib/python3.11/site-packages/asreview/webapp/build/index.html:ro
     restart: unless-stopped
