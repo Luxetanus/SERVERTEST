@@ -302,7 +302,11 @@
   <script>
     const DIRECTUS_URL = "https://directus.agrupacionnothofagus.cl";
     const DIRECTUS_AUTH_KEY = "teurgia_directus_auth";
-    const ASREVIEW_URL = location.hostname.includes("agrupacionnothofagus.cl") ? "https://asreview.agrupacionnothofagus.cl" : `${location.protocol}//${location.hostname || "localhost"}:5555`;
+    const ASREVIEW_URL = location.hostname.includes("agrupacionnothofagus.cl")
+      ? "https://asreview.agrupacionnothofagus.cl"
+      : ["localhost", "127.0.0.1", ""].includes(location.hostname)
+        ? "http://192.168.1.50:5555"
+        : `${location.protocol}//${location.hostname}:5555`;
     const modules = [
       ["dashboard", "Dashboard"],
       ["proyectos", "Proyectos"],
